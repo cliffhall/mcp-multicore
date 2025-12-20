@@ -1,12 +1,9 @@
-/**
- * StartupCommand - Initializes the Gateway Core
- */
-
 import {
   SimpleCommand,
   INotification,
 } from "@puremvc/puremvc-typescript-multicore-framework";
-import { GatewayConfig } from "../../common/interfaces.js";
+import { GatewayConfig } from "../../../common/interfaces.js";
+import { GatewayJunctionMediator } from "../../view/gateway-junction-mediator.js";
 
 export class StartupGatewayCommand extends SimpleCommand {
   public execute(notification: INotification): void {
@@ -14,13 +11,12 @@ export class StartupGatewayCommand extends SimpleCommand {
 
     console.log("Starting Gateway Core with config:", config);
 
-    // Register Model proxies
+    // Register Proxies
     // this.facade.registerProxy(new ClientRegistryProxy());
     // this.facade.registerProxy(new ServerRegistryProxy());
 
-    // Register View mediators
-    // this.facade.registerMediator(new ClientMediator());
-    // this.facade.registerMediator(new GatewayJunctionMediator());
+    // Register Mediators
+    this.facade.registerMediator(new GatewayJunctionMediator());
 
     console.log("Gateway Core started successfully");
   }

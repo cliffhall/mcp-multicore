@@ -6,7 +6,7 @@
 import { Facade } from "@puremvc/puremvc-typescript-multicore-framework";
 import { GatewayNotifications } from "../common/constants.js";
 import { GatewayConfig } from "../common/interfaces.js";
-import { StartupGatewayCommand } from "./controller/startup-gateway-command.js";
+import { StartupGatewayCommand } from "./controller/startup/startup-gateway-command.js";
 
 export class GatewayFacade extends Facade {
   /**
