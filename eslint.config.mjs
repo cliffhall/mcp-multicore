@@ -14,7 +14,16 @@ export default [
     },
     rules: {
       ...plugin.configs.recommended.rules,
-        "no-unused-vars": ["error", { "argsIgnorePattern": "^_" }]
+        '@typescript-eslint/no-unused-vars': [
+            'error', // or 'warn'
+            {
+                vars: 'all',
+                args: 'after-used',
+                ignoreRestSiblings: true,
+                varsIgnorePattern: '^_',
+                argsIgnorePattern: '^_'
+            }
+        ]
     },
     ignores: ["dist/**"],
   },
