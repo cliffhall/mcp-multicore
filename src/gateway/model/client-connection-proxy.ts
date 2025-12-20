@@ -3,94 +3,102 @@
  */
 
 import { Proxy } from "@puremvc/puremvc-typescript-multicore-framework";
-import { ClientInfo } from "../../common/value-objects.js";
-import { MCPMessage } from "../../common/mcp-types.js";
+import { ServerRegistryProxy } from "./server-registry-proxy";
+import { McpServer } from "@modelcontextprotocol/sdk/server/mcp";
+
+interface DiscoverResult {
+  serverId: string;
+  toolsRegistered?: boolean;
+  count: number;
+}
 
 export class ClientConnectionProxy extends Proxy {
-  public static readonly NAME = "ClientConnectionProxy";
+  private clientServers: Map<string, McpServer> = new Map();
+  private clientToolMappings: Map<string, Map<string, string>> = new Map();
+  private pendingRequests: Map<string, Promise<unknown>> = new Map();
 
-  constructor() {
-    super(ClientConnectionProxy.NAME, new Map<string, ClientInfo>());
-  }
+  async handleDiscoverTools(
+    clientId: string,
+    serverId: string,
+    options?: { aliasPrefix?: string },
+  ): Promise<DiscoverResult> {
+    // No deduplication - each client request is independent
+    // Just read from ServerRegistryProxy cache
+    const registry = this.facade.retrieveProxy(
+      "ServerRegistryProxy",
+    ) as ServerRegistryProxy;
+    const tools = registry.getServerTools(serverId);
 
-  /**
-   * Get the map of connected clients
-   */
-  public getClients(): Map<string, ClientInfo> {
-    return this.data;
-  }
+    if (!tools || tools.length === 0) {
+      throw new Error(`Server ${serverId} not found or has no tools`);
+    }
 
-  /**
-   * Register a new client connection
-   */
-  public registerClient(
-    sessionId: string,
-    metadata?: Record<string, unknown>,
-  ): ClientInfo {
-    const clientInfo: ClientInfo = {
-      id: sessionId,
-      connectedAt: new Date(),
-      metadata,
+    const clientServer = this.clientServers.get(clientId)!;
+    const prefix = options?.aliasPrefix || serverId;
+    const registered: string[] = [];
+
+    // Register each tool on THIS client's McpServer instance
+    for (const tool of tools) {
+      const toolName = `${prefix}:${tool.name}`;
+
+      clientServer.tool(toolName, tool.inputSchema, async (args: any) => {
+        // Route to appropriate Server Core
+        return await this.invokeRemoteTool(serverId, tool.name, args);
+      });
+
+      // Track mapping
+      this.clientToolMappings.get(clientId)!.set(toolName, serverId);
+      registered.push(toolName);
+    }
+
+    return {
+      serverId,
+      toolsRegistered: registered,
+      count: tools.length,
     };
-
-    this.data.set(sessionId, clientInfo);
-    return clientInfo;
   }
 
-  /**
-   * Unregister a client connection
-   */
-  public unregisterClient(sessionId: string): boolean {
-    return this.data.delete(sessionId);
+  private async invokeRemoteTool(
+    serverId: string,
+    toolName: string,
+    args: any,
+  ): Promise<any> {
+    // Send request through pipes to Server Core
+    const requestId = `${serverId}-${Date.now()}-${Math.random()}`;
+
+    return new Promise((resolve, reject) => {
+      // Register response handler
+      this.pendingRequests.set(requestId, { resolve, reject });
+
+      // Send pipe message to Server Core
+      this.sendNotification(INVOKE_TOOL_REQUEST, {
+        requestId,
+        serverId,
+        toolName,
+        arguments: args,
+      });
+
+      // Timeout after 30 seconds
+      setTimeout(() => {
+        if (this.pendingRequests.has(requestId)) {
+          this.pendingRequests.delete(requestId);
+          reject(new Error("Tool invocation timeout"));
+        }
+      }, 30000);
+    });
   }
 
-  /**
-   * Get info about a specific client
-   */
-  public getClient(sessionId: string): ClientInfo | undefined {
-    return this.data.get(sessionId);
-  }
+  handleToolResult(data: any) {
+    const { requestId, result, error } = data;
+    const pending = this.pendingRequests.get(requestId);
 
-  /**
-   * Check if a client is connected
-   */
-  public hasClient(sessionId: string): boolean {
-    return this.data.has(sessionId);
-  }
-
-  /**
-   * Get the total number of connected clients
-   */
-  public getClientCount(): number {
-    return this.data.size;
-  }
-
-  /**
-   * Send a message to a specific client
-   * This should be overridden to implement actual transport logic
-   */
-  public async sendToClient(
-    sessionId: string,
-    message: MCPMessage,
-  ): Promise<void> {
-    if (!this.hasClient(sessionId)) {
-      throw new Error(`Client ${sessionId} not found`);
+    if (pending) {
+      this.pendingRequests.delete(requestId);
+      if (error) {
+        pending.reject(new Error(error));
+      } else {
+        pending.resolve(result);
+      }
     }
-
-    // TODO: Implement actual WebSocket/HTTP sending logic
-    console.log(`Sending to client ${sessionId}:`, message);
-  }
-
-  /**
-   * Broadcast a message to all connected clients
-   */
-  public async broadcastToClients(message: MCPMessage): Promise<void> {
-    const promises: Promise<void>[] = [];
-
-    for (const sessionId of this.data.keys()) {
-      promises.push(this.sendToClient(sessionId, message));
-    }
-
-    await Promise.all(promises);
   }
 }

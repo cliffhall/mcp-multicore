@@ -30,6 +30,7 @@ export class ServerNotifications {
   static readonly INITIALIZE = "server/initialize";
   static readonly INITIALIZED = "server/initialized";
   static readonly ERROR = "server/error";
+  static readonly CACHE_UPDATE = "server/cache/update";
 }
 
 // Pipe messages (inter-core communication)
