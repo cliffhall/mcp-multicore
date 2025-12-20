@@ -8,7 +8,7 @@ import {
 } from "@puremvc/puremvc-typescript-multicore-framework";
 import { GatewayNotifications } from "../../common/constants.js";
 import { RoutableRequest } from "../../common/value-objects.js";
-import {JSONRPCRequest, MCPMessage} from "../../common/mcp-types.js";
+import { JSONRPCRequest, MCPMessage } from "../../common/mcp-types.js";
 
 export class ClientRequestMediator extends Mediator {
   public static readonly NAME = "ClientRequestMediator";

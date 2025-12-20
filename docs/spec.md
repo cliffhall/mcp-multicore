@@ -47,7 +47,7 @@ Client Response ← Gateway Core ← Pipes ← Server Core ← MCP Server
 
 Since you're learning TypeScript, here are some patterns you'll want to use:
 
-- **Strong typing for MCP protocol messages** (define interfaces for all message types)
+- **Strong typing for MCP protocol messages** (define interfaces for all message types and avoid using `any`)
 - **Generic Proxy classes** for type-safe data handling
 - **Async/await** for all network operations (PureMVC commands work well with promises)
 - **Union types** for message discrimination

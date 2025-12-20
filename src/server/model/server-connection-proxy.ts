@@ -4,10 +4,7 @@
 
 import { Proxy } from "@puremvc/puremvc-typescript-multicore-framework";
 import { ServerConfig } from "../../common/value-objects.js";
-import {
-  MCPMessage,
-  JSONRPCRequest,
-} from "../../common/mcp-types.js";
+import { MCPMessage, JSONRPCRequest } from "../../common/mcp-types.js";
 import { ServerNotifications } from "../../common/constants.js";
 import { ChildProcess } from "node:child_process";
 
