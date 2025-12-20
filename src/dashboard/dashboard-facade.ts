@@ -6,17 +6,17 @@
 import { Facade } from "@puremvc/puremvc-typescript-multicore-framework";
 import { GatewayNotifications } from "../common/constants.js";
 import { GatewayConfig } from "../common/interfaces.js";
-import { StartupGatewayCommand } from "./controller/startup-gateway-command.js";
+import { StartupDashboardCommand } from "./controller/startup-dashboard-command.js";
 
-export class GatewayFacade extends Facade {
+export class DashboardFacade extends Facade {
   /**
    * Get or create the singleton instance
    */
-  public static getInstance(multitonKey: string): GatewayFacade {
+  public static getInstance(multitonKey: string): DashboardFacade {
     return Facade.getInstance(
       multitonKey,
-      (k) => new GatewayFacade(k),
-    ) as GatewayFacade;
+      (k) => new DashboardFacade(k),
+    ) as DashboardFacade;
   }
 
   /**
@@ -27,7 +27,7 @@ export class GatewayFacade extends Facade {
 
     this.registerCommand(
       GatewayNotifications.STARTUP,
-      () => new StartupGatewayCommand(),
+      () => new StartupDashboardCommand(),
     );
   }
 

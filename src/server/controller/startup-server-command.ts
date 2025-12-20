@@ -6,9 +6,9 @@ import {
   SimpleCommand,
   INotification,
 } from "@puremvc/puremvc-typescript-multicore-framework";
-import { ServerConfig } from "../../common/value-objects.js";
+import { ServerConfig } from "../../common/interfaces.js";
 
-export class StartupCommand extends SimpleCommand {
+export class StartupServerCommand extends SimpleCommand {
   public execute(notification: INotification): void {
     const config = notification.body as ServerConfig;
     console.log(

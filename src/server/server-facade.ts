@@ -5,8 +5,8 @@
 
 import { Facade } from "@puremvc/puremvc-typescript-multicore-framework";
 import { ServerNotifications } from "../common/constants.js";
-import { ServerConfig } from "../common/value-objects.js";
-import { StartupCommand } from "./controller/startup-command.js";
+import { ServerConfig } from "../common/interfaces.js";
+import { StartupServerCommand } from "./controller/startup-server-command.js";
 
 export class ServerFacade extends Facade {
   protected static nextId: number = 0;
@@ -39,7 +39,7 @@ export class ServerFacade extends Facade {
     super.initializeController();
     this.registerCommand(
       ServerNotifications.STARTUP,
-      () => new StartupCommand(),
+      () => new StartupServerCommand(),
     );
   }
 
@@ -48,20 +48,6 @@ export class ServerFacade extends Facade {
    */
   public startup(config: ServerConfig): void {
     this.sendNotification(ServerNotifications.STARTUP, config);
-  }
-
-  /**
-   * Connect to the MCP server
-   */
-  public connect(): void {
-    this.sendNotification(ServerNotifications.CONNECT);
-  }
-
-  /**
-   * Disconnect from the MCP server
-   */
-  public disconnect(): void {
-    this.sendNotification(ServerNotifications.DISCONNECT);
   }
 
   /**

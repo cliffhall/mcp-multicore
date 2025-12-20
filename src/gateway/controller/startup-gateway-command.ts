@@ -6,9 +6,9 @@ import {
   SimpleCommand,
   INotification,
 } from "@puremvc/puremvc-typescript-multicore-framework";
-import { GatewayConfig } from "../../common/value-objects.js";
+import { GatewayConfig } from "../../common/interfaces.js";
 
-export class StartupCommand extends SimpleCommand {
+export class StartupGatewayCommand extends SimpleCommand {
   public execute(notification: INotification): void {
     const config = notification.body as GatewayConfig;
 
