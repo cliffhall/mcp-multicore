@@ -4,11 +4,12 @@
  */
 
 import { Facade } from "@puremvc/puremvc-typescript-multicore-framework";
+import { LoggingFacade } from "../common/actors/logging-facade.js";
 import { ServerNotifications } from "../common/constants.js";
-import { ServerConfig } from "../common/interfaces.js";
 import { StartupServerCommand } from "./controller/startup-server-command.js";
+import { ServerConfig } from "../common/interfaces.js";
 
-export class ServerFacade extends Facade {
+export class ServerFacade extends LoggingFacade {
   protected static nextId: number = 0;
 
   /**
@@ -47,13 +48,7 @@ export class ServerFacade extends Facade {
    * Start this server core with the given configuration
    */
   public startup(config: ServerConfig): void {
+    this.log("🔱 ServerFacade - Preparing a Server Core");
     this.sendNotification(ServerNotifications.STARTUP, config);
-  }
-
-  /**
-   * Shutdown this server core
-   */
-  public shutdown(): void {
-    this.sendNotification(ServerNotifications.SHUTDOWN);
   }
 }

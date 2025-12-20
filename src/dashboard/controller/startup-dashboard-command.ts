@@ -6,14 +6,18 @@ import {
   SimpleCommand,
   INotification,
 } from "@puremvc/puremvc-typescript-multicore-framework";
-import { GatewayConfig } from "../../common/interfaces.js";
+import { GatewayConfig, type ILoggingFacade } from "../../common/interfaces.js";
 import { DashboardJunctionMediator } from "../view/dashboard-junction-mediator.js";
 
 export class StartupDashboardCommand extends SimpleCommand {
   public execute(notification: INotification): void {
     const config = notification.body as GatewayConfig;
+    const f = this.facade as ILoggingFacade;
 
-    console.log("Starting Dashboard Core with config:", config);
+    f.log(
+      `👉 StartupDashboardCommand - Starting Dashboard Core with config: ${JSON.stringify(config)}`,
+      1,
+    );
 
     // Register Proxies
     // this.facade.registerProxy(new LoggingProxy());
@@ -23,6 +27,6 @@ export class StartupDashboardCommand extends SimpleCommand {
     // this.facade.registerMediator(new DashboardClientMediator());
     this.facade.registerMediator(new DashboardJunctionMediator());
 
-    console.log("Dashboard Core started successfully");
+    f.log("✅ Dashboard Core started successfully", 2);
   }
 }

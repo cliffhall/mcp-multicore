@@ -1,9 +1,14 @@
 /**
  * Value objects for passing data between components
  */
+import type { IFacade } from "@puremvc/puremvc-typescript-multicore-framework";
+
+export interface ILoggingFacade extends IFacade {
+  log: (message: string, indent?: number) => void;
+}
 
 /**
- * Configuration for the gateway
+ * Configuration for the gateway core
  */
 export interface GatewayConfig {
   port: number;
@@ -13,7 +18,15 @@ export interface GatewayConfig {
 }
 
 /**
- * Configuration for an MCP server connection
+ * Configuration for the dasbhoard core
+ */
+export interface DashboardConfig {
+  port: number;
+  host: string;
+}
+
+/**
+ * Configuration for the server core
  */
 export interface ServerConfig {
   id: string;

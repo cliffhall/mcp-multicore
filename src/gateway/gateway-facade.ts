@@ -5,10 +5,11 @@
 
 import { Facade } from "@puremvc/puremvc-typescript-multicore-framework";
 import { GatewayNotifications } from "../common/constants.js";
-import { GatewayConfig } from "../common/interfaces.js";
 import { StartupGatewayCommand } from "./controller/startup/startup-gateway-command.js";
+import { GatewayConfig } from "../common/interfaces.js";
+import { LoggingFacade } from "../common/actors/logging-facade.js";
 
-export class GatewayFacade extends Facade {
+export class GatewayFacade extends LoggingFacade {
   /**
    * Get or create the singleton instance
    */
@@ -35,13 +36,7 @@ export class GatewayFacade extends Facade {
    * Start the gateway with the given configuration
    */
   public startup(config: GatewayConfig): void {
+    this.log("🔱 GatewayFacade - Preparing the Gateway Core");
     this.sendNotification(GatewayNotifications.STARTUP, config);
-  }
-
-  /**
-   * Shutdown the gateway
-   */
-  public shutdown(): void {
-    this.sendNotification(GatewayNotifications.SHUTDOWN);
   }
 }

@@ -4,11 +4,12 @@
  */
 
 import { Facade } from "@puremvc/puremvc-typescript-multicore-framework";
-import { GatewayNotifications } from "../common/constants.js";
-import { GatewayConfig } from "../common/interfaces.js";
+import { LoggingFacade } from "../common/actors/logging-facade.js";
+import { DashboardNotifications } from "../common/constants.js";
 import { StartupDashboardCommand } from "./controller/startup-dashboard-command.js";
+import { type DashboardConfig } from "../common/interfaces.js";
 
-export class DashboardFacade extends Facade {
+export class DashboardFacade extends LoggingFacade {
   /**
    * Get or create the singleton instance
    */
@@ -26,22 +27,16 @@ export class DashboardFacade extends Facade {
     super.initializeController();
 
     this.registerCommand(
-      GatewayNotifications.STARTUP,
+      DashboardNotifications.STARTUP,
       () => new StartupDashboardCommand(),
     );
   }
 
   /**
-   * Start the gateway with the given configuration
+   * Start the dashboard with the given configuration
    */
-  public startup(config: GatewayConfig): void {
-    this.sendNotification(GatewayNotifications.STARTUP, config);
-  }
-
-  /**
-   * Shutdown the gateway
-   */
-  public shutdown(): void {
-    this.sendNotification(GatewayNotifications.SHUTDOWN);
+  public startup(config: DashboardConfig): void {
+    this.log("🔱 Dashboard Facade - Preparing the Dashboard Core");
+    this.sendNotification(DashboardNotifications.STARTUP, config);
   }
 }
