@@ -1,29 +1,29 @@
 {
   "compilerOptions": {
-	"target": "ES2017",
-	"moduleResolution": "node",
-	"strict": true,
 	"declaration": true,
 	"declarationDir": "dist/types",
 	"esModuleInterop": true,
-	"skipLibCheck": true,
-	"module": "esnext",
-	"sourceMap": false,
-	"jsx": "preserve",
-	"resolveJsonModule": true,
-	"isolatedModules": true,
 	"forceConsistentCasingInFileNames": true,
-	"noUnusedLocals": true,
-	"noUnusedParameters": true,
+	"isolatedModules": true,
+	"jsx": "preserve",
+	"module": "esnext",
+	"moduleResolution": "node",
 	"noImplicitAny": false,
 	"noImplicitReturns": true,
+	"noUnusedLocals": true,
+	"noUnusedParameters": true,
+	"outDir": "dist",
+	"resolveJsonModule": true,
+	"rootDir": "src",
+	"skipLibCheck": true,
+	"sourceMap": false,
+	"strict": true,
+	"target": "ES2017",
 	"types": [
 	  "node",
 	  "jest",
 	  "@puremvc/puremvc-typescript-multicore-framework"
-	],
-	"outDir": "dist",
-	"rootDir": "src"
+	]
   },
   "include": [
 	"src/index.ts",
