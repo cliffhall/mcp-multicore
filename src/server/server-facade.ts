@@ -6,16 +6,22 @@
 import { Facade } from "@puremvc/puremvc-typescript-multicore-framework";
 import { ServerNotifications } from "../common/constants.js";
 import { ServerConfig } from "../common/value-objects.js";
-/*
-import { StartupCommand } from './controller/StartupCommand.js';
-import { ShutdownCommand } from './controller/ShutdownCommand.js';
-import { ConnectCommand } from './controller/ConnectCommand.js';
-import { DisconnectCommand } from './controller/DisconnectCommand.js';
-import { SendMessageCommand } from './controller/SendMessageCommand.js';
-import { InitializeCommand } from './controller/InitializeCommand.js';
-*/
+import { StartupCommand } from "./controller/startup-command.js";
 
 export class ServerFacade extends Facade {
+  protected static nextId: number = 0;
+
+  /**
+   * Generates and returns a new unique multiton key.
+   *
+   * The key is generated using a predefined format that includes a unique incrementing identifier.
+   *
+   * @return {string} A newly generated multiton key in the format "server-{id}".
+   */
+  public static getNewMultitonKey(): string {
+    return `server-${ServerFacade.nextId++}`;
+  }
+
   /**
    * Get or create the singleton instance
    */
@@ -25,20 +31,16 @@ export class ServerFacade extends Facade {
       (k) => new ServerFacade(k),
     ) as ServerFacade;
   }
+
   /**
    * Initialize the Controller by registering Commands
    */
   protected initializeController(): void {
     super.initializeController();
-
-    /*
-        this.registerCommand(ServerNotifications.STARTUP, () => new StartupCommand());
-        this.registerCommand(ServerNotifications.SHUTDOWN, () => new ShutdownCommand());
-        this.registerCommand(ServerNotifications.CONNECT, () => new ConnectCommand());
-        this.registerCommand(ServerNotifications.DISCONNECT, () => new DisconnectCommand());
-        this.registerCommand(ServerNotifications.SEND_MESSAGE, () => new SendMessageCommand());
-        this.registerCommand(ServerNotifications.INITIALIZE, () => new InitializeCommand());
-*/
+    this.registerCommand(
+      ServerNotifications.STARTUP,
+      () => new StartupCommand(),
+    );
   }
 
   /**

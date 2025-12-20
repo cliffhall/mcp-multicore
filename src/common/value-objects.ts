@@ -70,8 +70,8 @@ export interface ServerConfig {
   transport: "stdio" | "sse" | "streamable-http" | "websocket";
   command?: string; // For stdio transport
   args?: string[]; // For stdio transport
+  env?: Record<string, string>; // For stdio transport
   url?: string; // For http transports
-  env?: Record<string, string>;
   autoConnect?: boolean;
 }
 

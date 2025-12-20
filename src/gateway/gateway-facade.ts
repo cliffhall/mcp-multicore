@@ -7,10 +7,6 @@ import { Facade } from "@puremvc/puremvc-typescript-multicore-framework";
 import { GatewayNotifications } from "../common/constants.js";
 import { GatewayConfig } from "../common/value-objects.js";
 import { StartupCommand } from "./controller/startup-command.js";
-import { ShutdownCommand } from "./controller/shutdown-command.js";
-import { RegisterServerCommand } from "./controller/register-server-command.js";
-import { RouteRequestCommand } from "./controller/route-request-command.js";
-import { HandleClientConnectionCommand } from "./controller/handle-client-connection-command.js";
 
 export class GatewayFacade extends Facade {
   /**
@@ -32,22 +28,6 @@ export class GatewayFacade extends Facade {
     this.registerCommand(
       GatewayNotifications.STARTUP,
       () => new StartupCommand(),
-    );
-    this.registerCommand(
-      GatewayNotifications.SHUTDOWN,
-      () => new ShutdownCommand(),
-    );
-    this.registerCommand(
-      GatewayNotifications.SERVER_REGISTERED,
-      () => new RegisterServerCommand(),
-    );
-    this.registerCommand(
-      GatewayNotifications.ROUTE_REQUEST,
-      () => new RouteRequestCommand(),
-    );
-    this.registerCommand(
-      GatewayNotifications.CLIENT_CONNECTED,
-      () => new HandleClientConnectionCommand(),
     );
   }
 
