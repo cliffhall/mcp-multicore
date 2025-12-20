@@ -1,0 +1,102 @@
+{
+  "name": "mcp-multicore",
+  "version": "1.0.0",
+  "description": "PureMVC MultiCore-based MCP (Model Context Protocol) Gateway",
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.js",
+  "exports": {
+    "./*": {
+      "import": {
+        "types": "./dist/types/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/types/index.d.ts",
+        "default": "./dist/cjs/index.js"
+      }
+    }
+  },
+  "types": "./dist/types/index.d.ts",
+  "files": [
+    "dist/**/*.*",
+    "LICENSE",
+    "VERSION",
+    "README.md",
+    "package.json"
+  ],
+  "scripts": {
+    "build": "npm run clean && npm run build:esm && npm run build:cjs",
+    "test": "jest $npm_package_directories_test --coverage",
+    "lint": "eslint ./src",
+    "lint:fix": "eslint ./src --fix",
+    "format": "prettier --write ./src",
+	"start:streamable-http": "node dist/esm/index.js streamable-http",
+    "npm:publish:dry-run": "npm publish --dry-run",
+    "npm:publish": "npm publish --access public",
+    "typecheck": "tsc --noEmit -p tsconfig.json --composite false",
+    "build:dist": "npm run build:esm && npm run build:cjs",
+    "build:esm": "tsc --module esnext --outDir dist/esm && echo '{\"type\": \"module\"}' > dist/esm/package.json",
+    "build:cjs": "tsc --module commonjs --outDir dist/cjs && echo '{\"type\": \"commonjs\"}' > dist/cjs/package.json",
+    "clean": "rm -rf dist"
+    
+  },
+  "nyc": {
+    "extension": [
+      ".ts"
+    ],
+    "include": [
+      "src/**/*.ts"
+    ],
+    "reporter": [
+      "text",
+      "lcov"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cliffhall/mcp-multicore.git"
+  },
+  "homepage": "https://futurescale.com",
+  "bugs": {
+    "url": "https://github.com/cliffhall/mcp-multicore/issues"
+  },
+  "keywords": [
+    "puremvc",
+    "typescript",
+    "mvc",
+    "pipes"
+  ],
+  "author": "Cliff Hall cliff@futurescale.com",
+  "license": "BSD-3-Clause",
+  "directories": {
+    "doc": "docs",
+    "test": "src/test",
+    "dist": "dist"
+  },
+  "dependencies": {
+    "@puremvc/puremvc-typescript-multicore-framework": "^2.2.0",
+	"@puremvc/puremvc-typescript-util-async-command": "^1.0.8",
+	"@puremvc/puremvc-typescript-util-state-machine": "^1.0.5",
+	"@puremvc/puremvc-typescript-util-pipes": "^1.0.3",
+	"@modelcontextprotocol/sdk": "^1.24.3",
+    "typescript": "^5.7.3",
+	"dotenv": "^16.5.0"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.14",
+    "@types/mocha": "^10.0.10",
+    "@typescript-eslint/eslint-plugin": "^8.24.0",
+    "@typescript-eslint/parser": "^8.24.0",
+    "esbuild": "^0.25.0",
+    "eslint": "^9.20.1",
+    "jest": "^29.7.0",
+    "jest-config": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
+    "nyc": "^17.1.0",
+    "prettier": "^3.5.1",
+    "ts-jest": "^29.2.5",
+    "typedoc": "^0.27.8",
+    "typescript-eslint": "^8.25.0",
+    "zod": "^3.24.2"
+  }
+}
