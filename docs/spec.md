@@ -51,35 +51,6 @@ The MCP Gateway acts as an intelligent proxy and aggregator for multiple MCP (Mo
 
 The gateway uses PureMVC Multicore pattern with the following cores:
 
-```mermaid
-graph TB
-    subgraph "Gateway Process"
-        GC[Gateway Core]
-        SC1[Server Core 1]
-        SC2[Server Core 2]
-        SCN[Server Core N]
-        MC[Monitoring Core]
-            MT((Tee Merge))
-        SC1 -.->|Tee| MT
-        SC2 -.->|Tee| MT
-        SCN -.->|Tee| MT
-        GC  -.->|Tee| MT
-        MT  -.->|Monitor Feed| MC
-    end
-    
-    C1[Client 1] --> GC
-    C2[Client 2] --> GC
-    C3[Client N] --> GC
-    
-    GC -.Pipe.-> SC1
-    GC -.Pipe.-> SC2
-    GC -.Pipe.-> SCN
-        
-    SC1 --> S1[MCP Server 1]
-    SC2 --> S2[MCP Server 2]
-    SCN --> SN[MCP Server N]
-```
-
 **Gateway Core**:
 - Single instance
 - Manages client connections
