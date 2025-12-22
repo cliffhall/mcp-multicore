@@ -107,16 +107,16 @@ graph LR
     GW_OUT --> TEE_GW_SC2
     TEE_GW_SC1 --> SC1_IN
     TEE_GW_SC2 --> SC2_IN
-    TEE_GW_SC1 -.->|Tee| TEE_MON
-    TEE_GW_SC2 -.->|Tee| TEE_MON
+    TEE_GW_SC1 -.-> TEE_MON
+    TEE_GW_SC2 -.-> TEE_MON
     
     %% Connect server outs through branching tees to gateway in and monitor
     SC1_OUT --> TEE_SC1_OUT
     SC2_OUT --> TEE_SC2_OUT
     TEE_SC1_OUT --> GW_IN
     TEE_SC2_OUT --> GW_IN
-    TEE_SC1_OUT -.->|Tee| TEE_MON
-    TEE_SC2_OUT -.->|Tee| TEE_MON
+    TEE_SC1_OUT -.-> TEE_MON
+    TEE_SC2_OUT -.-> TEE_MON
     
     %% Tee Merge to monitoring core input
     TEE_MON --> MON_IN
