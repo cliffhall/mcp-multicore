@@ -69,10 +69,12 @@ graph TB
     GC -.Pipe.-> SC2
     GC -.Pipe.-> SCN
     
-    SC1 -.Tee Pipe.-> MC
-    SC2 -.Tee Pipe.-> MC
-    SCN -.Tee Pipe.-> MC
-    GC -.Tee Pipe.-> MC
+    MT((Merging Tee))
+    SC1 -.->|Tee| MT
+    SC2 -.->|Tee| MT
+    SCN -.->|Tee| MT
+    GC  -.->|Tee| MT
+    MT  -.->|Monitor Feed| MC
     
     SC1 --> S1[MCP Server 1]
     SC2 --> S2[MCP Server 2]
@@ -120,15 +122,34 @@ graph LR
         MON_IN[Monitor In]
     end
     
-    GW_OUT -->|Messages| SC1_IN
-    GW_OUT -->|Messages| SC2_IN
-    SC1_OUT -->|Messages| GW_IN
-    SC2_OUT -->|Messages| GW_IN
+    %% Branching tees on the outbound and inbound paths
+    %% One tee per link to avoid implying broadcast
+    TEE_GW_SC1((Tee))
+    TEE_GW_SC2((Tee))
+    TEE_SC1_OUT((Tee))
+    TEE_SC2_OUT((Tee))
     
-    GW_OUT -.->|Tee| MON_IN
-    GW_IN -.->|Tee| MON_IN
-    SC1_OUT -.->|Tee| MON_IN
-    SC2_OUT -.->|Tee| MON_IN
+    %% Merging tee feeding the monitoring core
+    TEE_MON((Merging Tee))
+    
+    %% Connect gateway outbound through branching tee to servers and monitor
+    GW_OUT --> TEE_GW_SC1
+    GW_OUT --> TEE_GW_SC2
+    TEE_GW_SC1 --> SC1_IN
+    TEE_GW_SC2 --> SC2_IN
+    TEE_GW_SC1 -.->|Tee| TEE_MON
+    TEE_GW_SC2 -.->|Tee| TEE_MON
+    
+    %% Connect server outs through branching tees to gateway in and monitor
+    SC1_OUT --> TEE_SC1_OUT
+    SC2_OUT --> TEE_SC2_OUT
+    TEE_SC1_OUT --> GW_IN
+    TEE_SC2_OUT --> GW_IN
+    TEE_SC1_OUT -.->|Tee| TEE_MON
+    TEE_SC2_OUT -.->|Tee| TEE_MON
+    
+    %% Merging tee to monitoring core input
+    TEE_MON --> MON_IN
 ```
 
 **Pipe Characteristics**:
@@ -2553,5 +2574,3 @@ All errors returned to clients follow MCP JSON-RPC error format:
 - Quota management
 
 ---
-
-**End of Specification**
