@@ -59,6 +59,12 @@ graph TB
         SC2[Server Core 2]
         SCN[Server Core N]
         MC[Monitoring Core]
+            MT((Merging Tee))
+        SC1 -.->|Tee| MT
+        SC2 -.->|Tee| MT
+        SCN -.->|Tee| MT
+        GC  -.->|Tee| MT
+        MT  -.->|Monitor Feed| MC
     end
     
     C1[Client 1] --> GC
@@ -68,14 +74,7 @@ graph TB
     GC -.Pipe.-> SC1
     GC -.Pipe.-> SC2
     GC -.Pipe.-> SCN
-    
-    MT((Merging Tee))
-    SC1 -.->|Tee| MT
-    SC2 -.->|Tee| MT
-    SCN -.->|Tee| MT
-    GC  -.->|Tee| MT
-    MT  -.->|Monitor Feed| MC
-    
+        
     SC1 --> S1[MCP Server 1]
     SC2 --> S2[MCP Server 2]
     SCN --> SN[MCP Server N]
