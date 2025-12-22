@@ -59,7 +59,7 @@ graph TB
         SC2[Server Core 2]
         SCN[Server Core N]
         MC[Monitoring Core]
-            MT((Merging Tee))
+            MT((Tee Merge))
         SC1 -.->|Tee| MT
         SC2 -.->|Tee| MT
         SCN -.->|Tee| MT
@@ -123,13 +123,13 @@ graph LR
     
     %% Branching tees on the outbound and inbound paths
     %% One tee per link to avoid implying broadcast
-    TEE_GW_SC1((Tee))
-    TEE_GW_SC2((Tee))
-    TEE_SC1_OUT((Tee))
-    TEE_SC2_OUT((Tee))
+    TEE_GW_SC1((Tee Split))
+    TEE_GW_SC2((Tee Split))
+    TEE_SC1_OUT((Tee Split))
+    TEE_SC2_OUT((Tee Split))
     
-    %% Merging tee feeding the monitoring core
-    TEE_MON((Merging Tee))
+    %% Tee Merge feeding the monitoring core
+    TEE_MON((Tee Merge))
     
     %% Connect gateway outbound through branching tee to servers and monitor
     GW_OUT --> TEE_GW_SC1
@@ -147,7 +147,7 @@ graph LR
     TEE_SC1_OUT -.->|Tee| TEE_MON
     TEE_SC2_OUT -.->|Tee| TEE_MON
     
-    %% Merging tee to monitoring core input
+    %% Tee Merge to monitoring core input
     TEE_MON --> MON_IN
 ```
 
