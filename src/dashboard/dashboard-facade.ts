@@ -1,6 +1,7 @@
 /**
- * GatewayFacade - Main facade for the Gateway Core
- * Manages client connections and routes requests to appropriate server cores
+ * DashboardFacade - Facade for Dashboard Core
+ * - Inspect JSONRPC traffic between Gateway and Server Cores
+ * - Provides Dashboard web interface
  */
 
 import { Facade } from "@puremvc/puremvc-typescript-multicore-framework";
@@ -24,7 +25,7 @@ export class DashboardFacade extends LoggingFacade implements ILoggingFacade {
   }
 
   /**
-   * Initialize the Controller by registering Commands
+   * Initialize the Controller by registering the startup command
    */
   protected initializeController(): void {
     super.initializeController();

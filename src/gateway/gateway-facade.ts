@@ -1,6 +1,7 @@
 /**
- * GatewayFacade - Main facade for the Gateway Core
- * Manages client connections and routes requests to appropriate server cores
+ * GatewayFacade - Facade for the Gateway Core and primary entry point for the whole application
+ * - Creates and plumbs Dashboard and Server cores
+ * - Manages client connections and routes requests to appropriate server cores
  */
 
 import { Facade } from "@puremvc/puremvc-typescript-multicore-framework";
@@ -21,7 +22,7 @@ export class GatewayFacade extends LoggingFacade {
   }
 
   /**
-   * Initialize the Controller by registering Commands
+   * Initialize the Controller by registering the startup command
    */
   protected initializeController(): void {
     super.initializeController();
@@ -32,7 +33,7 @@ export class GatewayFacade extends LoggingFacade {
   }
 
   /**
-   * Start the gateway with the given configuration
+   * Start the Gateway with the given configuration
    */
   public startup(config: GatewayConfig): void {
     this.log("🔱 GatewayFacade - Preparing the Gateway Core");

@@ -6,7 +6,7 @@ import { DashboardPrepareViewCommand } from "./dashboard-prepare-view-command.js
 
 export class DashboardStartupCommand extends AsyncMacroCommand {
   /**
-   * Create the startup command pipeline for the App
+   * Create the startup command pipeline for the Dashboard
    * @override
    */
   public override initializeAsyncMacroCommand(): void {

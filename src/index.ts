@@ -1,14 +1,8 @@
-import dotenv from "dotenv";
 import { MultitonKeys } from "./common/constants.js";
 import { GatewayFacade } from "./gateway/gateway-facade.js";
 import type { GatewayConfig } from "./common/interfaces.js";
 
-// Only load environment variables from .env file in development mode
-dotenv.config({ path: `.env` });
-console.log(
-  "📝 Environment variables loaded from .env file (development mode)",
-);
-
+// Simulated config
 const config = {
   dashboard: {
     port: 8080,

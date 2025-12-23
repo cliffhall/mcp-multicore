@@ -1,6 +1,6 @@
 /**
  * ServerFacade - Facade for an individual MCP server connection
- * Each MCP server gets its own ServerFacade instance running in its own core
+ * Each MCP server gets its own ServerFacade instance running in its own Core
  */
 
 import { Facade } from "@puremvc/puremvc-typescript-multicore-framework";
@@ -21,7 +21,7 @@ export class ServerFacade extends LoggingFacade {
   }
 
   /**
-   * Initialize the Controller by registering Commands
+   * Initialize the Controller by registering the startup command
    */
   protected initializeController(): void {
     super.initializeController();

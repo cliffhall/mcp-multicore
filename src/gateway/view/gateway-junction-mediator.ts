@@ -6,6 +6,10 @@ import {
 } from "@puremvc/puremvc-typescript-util-pipes";
 import type { ILoggingFacade } from "../../common/interfaces.js";
 
+/**
+ * GatewayJunctionMediator - a Mediator for the Gateway's Junction plumbing component
+ * - Gateway's Junction handles inbound and outbound pipe messages to and from other cores
+ */
 export class GatewayJunctionMediator extends JunctionMediator {
   public static NAME = "GatewayJunctionMediator";
 
