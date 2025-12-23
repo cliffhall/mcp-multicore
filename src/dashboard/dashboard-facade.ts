@@ -6,10 +6,13 @@
 import { Facade } from "@puremvc/puremvc-typescript-multicore-framework";
 import { LoggingFacade } from "../common/actors/logging-facade.js";
 import { DashboardNotifications } from "../common/constants.js";
-import { StartupDashboardCommand } from "./controller/startup-dashboard-command.js";
-import { type DashboardConfig } from "../common/interfaces.js";
+import {
+  type DashboardConfig,
+  type ILoggingFacade,
+} from "../common/interfaces.js";
+import { DashboardStartupCommand } from "./controller/dashboard-startup-command.js";
 
-export class DashboardFacade extends LoggingFacade {
+export class DashboardFacade extends LoggingFacade implements ILoggingFacade {
   /**
    * Get or create the singleton instance
    */
@@ -28,7 +31,7 @@ export class DashboardFacade extends LoggingFacade {
 
     this.registerCommand(
       DashboardNotifications.STARTUP,
-      () => new StartupDashboardCommand(),
+      () => new DashboardStartupCommand(),
     );
   }
 
@@ -36,7 +39,7 @@ export class DashboardFacade extends LoggingFacade {
    * Start the dashboard with the given configuration
    */
   public startup(config: DashboardConfig): void {
-    this.log("🔱 Dashboard Facade - Preparing the Dashboard Core");
+    this.log("🔱 Dashboard Facade - Preparing the Dashboard Core", 2);
     this.sendNotification(DashboardNotifications.STARTUP, config);
   }
 }

@@ -76,7 +76,7 @@
     "@modelcontextprotocol/sdk": "^1.25.1",
     "@puremvc/puremvc-typescript-multicore-framework": "^2.2.0",
     "@puremvc/puremvc-typescript-util-async-command": "^1.0.8",
-    "@puremvc/puremvc-typescript-util-pipes": "^1.0.3",
+    "@puremvc/puremvc-typescript-util-pipes": "^1.0.4",
     "@puremvc/puremvc-typescript-util-state-machine": "^1.0.5",
     "@xenova/transformers": "^2.17.2",
     "better-sqlite3": "^12.5.0",

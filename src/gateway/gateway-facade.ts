@@ -5,9 +5,9 @@
 
 import { Facade } from "@puremvc/puremvc-typescript-multicore-framework";
 import { GatewayNotifications } from "../common/constants.js";
-import { StartupGatewayCommand } from "./controller/startup/startup-gateway-command.js";
-import { GatewayConfig } from "../common/interfaces.js";
+import { GatewayStartupCommand } from "./controller/startup/gateway-startup-command.js";
 import { LoggingFacade } from "../common/actors/logging-facade.js";
+import type { GatewayConfig } from "../common/interfaces.js";
 
 export class GatewayFacade extends LoggingFacade {
   /**
@@ -25,10 +25,9 @@ export class GatewayFacade extends LoggingFacade {
    */
   protected initializeController(): void {
     super.initializeController();
-
     this.registerCommand(
       GatewayNotifications.STARTUP,
-      () => new StartupGatewayCommand(),
+      () => new GatewayStartupCommand(),
     );
   }
 
