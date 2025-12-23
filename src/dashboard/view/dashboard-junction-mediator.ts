@@ -4,6 +4,7 @@ import {
   JunctionMediator,
   PipeMessageType,
 } from "@puremvc/puremvc-typescript-util-pipes";
+import type { ILoggingFacade } from "../../common/interfaces.js";
 
 export class DashboardJunctionMediator extends JunctionMediator {
   public static NAME = "DashboardJunctionMediator";
@@ -12,9 +13,15 @@ export class DashboardJunctionMediator extends JunctionMediator {
     super(DashboardJunctionMediator.NAME, new Junction());
   }
 
+  onRegister() {
+    super.onRegister();
+    const f = this.facade as ILoggingFacade;
+    f.log(`🧩 DashboardJunctionMediator - Registered`, 5);
+  }
+
   public override handlePipeMessage(message: IPipeMessage): void {
     if (message.type === PipeMessageType.NORMAL) {
-      console.log(`Dashboard core received:`, message);
+      console.log(`Dashboard Core received:`, message);
     }
   }
 }

@@ -6,23 +6,10 @@
 import { Facade } from "@puremvc/puremvc-typescript-multicore-framework";
 import { LoggingFacade } from "../common/actors/logging-facade.js";
 import { ServerNotifications } from "../common/constants.js";
-import { StartupServerCommand } from "./controller/startup-server-command.js";
 import { ServerConfig } from "../common/interfaces.js";
+import { ServerStartupCommand } from "./controller/server-startup-command.js";
 
 export class ServerFacade extends LoggingFacade {
-  protected static nextId: number = 0;
-
-  /**
-   * Generates and returns a new unique multiton key.
-   *
-   * The key is generated using a predefined format that includes a unique incrementing identifier.
-   *
-   * @return {string} A newly generated multiton key in the format "server-{id}".
-   */
-  public static getNewMultitonKey(): string {
-    return `server-${ServerFacade.nextId++}`;
-  }
-
   /**
    * Get or create the singleton instance
    */
@@ -40,15 +27,15 @@ export class ServerFacade extends LoggingFacade {
     super.initializeController();
     this.registerCommand(
       ServerNotifications.STARTUP,
-      () => new StartupServerCommand(),
+      () => new ServerStartupCommand(),
     );
   }
 
   /**
    * Start this server core with the given configuration
    */
-  public startup(config: ServerConfig): void {
-    this.log("🔱 ServerFacade - Preparing a Server Core");
+  public async startup(config: ServerConfig): Promise<void> {
+    this.log(`🔱 ServerFacade - Preparing Server Core ${this.multitonKey}`, 2);
     this.sendNotification(ServerNotifications.STARTUP, config);
   }
 }

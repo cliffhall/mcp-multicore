@@ -11,9 +11,10 @@ export interface ILoggingFacade extends IFacade {
  * Configuration for the gateway core
  */
 export interface GatewayConfig {
-  port: number;
-  host: string;
+  port?: number;
+  host?: number;
   maxClients?: number;
+  dashboard?: DashboardConfig;
   servers?: ServerConfig[];
 }
 
@@ -21,15 +22,15 @@ export interface GatewayConfig {
  * Configuration for the dasbhoard core
  */
 export interface DashboardConfig {
-  port: number;
-  host: string;
+  port?: number;
+  host?: string;
 }
 
 /**
  * Configuration for the server core
  */
 export interface ServerConfig {
-  id: string;
+  id?: string;
   name: string;
   transport: "stdio" | "sse" | "streamable-http" | "websocket";
   command?: string; // For stdio transport
