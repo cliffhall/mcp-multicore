@@ -1,4 +1,4 @@
-# MCP-Multicore
+# MCP-MultiCore
 An MCP Gateway Implemented with PureMVC MultiCore and Pipes
 
 ## Docs

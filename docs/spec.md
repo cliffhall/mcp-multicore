@@ -1,4 +1,4 @@
-# MCP-Multicore Gateway - Technical Specification
+# MCP-MultiCore Gateway - Technical Specification
 
 **Version:** 1.0  
 **Date:** 2025-12-20  

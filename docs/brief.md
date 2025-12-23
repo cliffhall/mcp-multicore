@@ -1,4 +1,4 @@
-# MCP-Multicore Gateway - Project Brief
+# MCP-MultiCore Gateway - Project Brief
 
 We're building an MCP (Model Context Protocol) gateway using the PureMVC MultiCore port for Typescript.
 
