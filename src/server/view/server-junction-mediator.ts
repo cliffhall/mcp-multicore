@@ -16,7 +16,7 @@ export class ServerJunctionMediator extends JunctionMediator {
   onRegister() {
     super.onRegister();
     const f = this.facade as ILoggingFacade;
-    f.log(`🧩 ServerJunctionMediator - Registered`, 5);
+    f.log(`🧩 ServerJunctionMediator - Registered`, 6);
   }
 
   public override handlePipeMessage(message: IPipeMessage): void {

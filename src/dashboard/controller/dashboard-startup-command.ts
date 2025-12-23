@@ -23,7 +23,7 @@ export class DashboardStartupCommand extends AsyncMacroCommand {
     const f = this.facade as ILoggingFacade;
     f.log(
       "📋 DashboardStartupCommand - Executing Dashboard startup subcommands",
-      3,
+      4,
     );
     super.execute(note);
   }

@@ -14,7 +14,7 @@ export class PlumbServersCommand extends AsyncCommand {
   public async execute(_notification: INotification): Promise<void> {
     const f = this.facade as ILoggingFacade;
 
-    f.log(`⚙️ PlumbServersCommand - Create and Plumb Server Cores`, 1);
+    f.log(`⚙️ PlumbServersCommand - Create and Plumb Server Cores`, 2);
 
     const createAndPlumbServers = async () => {
       // Get the Gateway Facade
@@ -36,7 +36,6 @@ export class PlumbServersCommand extends AsyncCommand {
       for (const config of serverConfigs) {
         const serverFacade = ServerFacade.getInstance(config.name);
         await serverFacade.startup(config);
-        f.log(`✔︎ Server Core ${config.name} started`, 5);
 
         // Plumb the server
         const gatewayToServer = new TeeSplit(dashboardIn);
@@ -74,7 +73,7 @@ export class PlumbServersCommand extends AsyncCommand {
       }
     };
     createAndPlumbServers().then(() => {
-      f.log("✔︎ Server Cores plumbed", 2);
+      f.log("✔︎ All Server Cores plumbed", 3);
       this.commandComplete();
     });
   }

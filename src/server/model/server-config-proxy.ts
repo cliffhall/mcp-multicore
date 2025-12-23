@@ -13,7 +13,7 @@ export class ServerConfigProxy extends Proxy {
     const f = this.facade as ILoggingFacade;
     f.log(
       `💾 ServerConfigProxy - Registered ${this.config ? `with` : `without`} config`,
-      5,
+      6,
     );
   }
 

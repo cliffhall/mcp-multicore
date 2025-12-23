@@ -35,7 +35,7 @@ export class ServerFacade extends LoggingFacade {
    * Start this server core with the given configuration
    */
   public async startup(config: ServerConfig): Promise<void> {
-    this.log(`🔱 ServerFacade - Preparing Server Core ${this.multitonKey}`, 2);
+    this.log(`🔱 ServerFacade - Preparing Server Core ${this.multitonKey}`, 3);
     this.sendNotification(ServerNotifications.STARTUP, config);
   }
 }

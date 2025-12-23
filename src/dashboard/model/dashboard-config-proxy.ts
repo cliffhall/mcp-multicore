@@ -16,7 +16,7 @@ export class DashboardConfigProxy extends Proxy {
     const f = this.facade as ILoggingFacade;
     f.log(
       `💾 DashboardConfigProxy - Registered ${this.config ? `with` : `without`} config`,
-      5,
+      6,
     );
   }
 

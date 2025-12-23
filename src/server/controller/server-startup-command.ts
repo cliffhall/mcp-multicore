@@ -21,7 +21,7 @@ export class ServerStartupCommand extends AsyncMacroCommand {
    */
   public override execute(note: INotification): void {
     const f = this.facade as ILoggingFacade;
-    f.log("📋 ServerStartupCommand - Executing Server startup subcommands", 3);
+    f.log("📋 ServerStartupCommand - Executing Server startup subcommands", 4);
     super.execute(note);
   }
 }
