@@ -1,4 +1,7 @@
-import {INotification, SimpleCommand} from "@puremvc/puremvc-typescript-multicore-framework";
+import {
+  INotification,
+  SimpleCommand,
+} from "@puremvc/puremvc-typescript-multicore-framework";
 import { type ILoggingFacade } from "../../../common/interfaces.js";
 import { DashboardFacade } from "../../../dashboard/dashboard-facade.js";
 import { MultitonKeys } from "../../../common/constants.js";

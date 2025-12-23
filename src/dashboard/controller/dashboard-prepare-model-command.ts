@@ -1,4 +1,7 @@
-import {INotification, SimpleCommand} from "@puremvc/puremvc-typescript-multicore-framework";
+import {
+  INotification,
+  SimpleCommand,
+} from "@puremvc/puremvc-typescript-multicore-framework";
 import {
   type DashboardConfig,
   type ILoggingFacade,
