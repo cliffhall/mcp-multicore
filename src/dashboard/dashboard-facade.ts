@@ -39,7 +39,7 @@ export class DashboardFacade extends LoggingFacade implements ILoggingFacade {
    * Start the dashboard with the given configuration
    */
   public startup(config: DashboardConfig): void {
-    this.log("🔱 Dashboard Facade - Preparing the Dashboard Core", 2);
+    this.log("🔱 Dashboard Facade - Preparing the Dashboard Core", 3);
     this.sendNotification(DashboardNotifications.STARTUP, config);
   }
 }

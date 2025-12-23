@@ -1,4 +1,4 @@
-import { INotification } from "@puremvc/puremvc-typescript-multicore-framework";
+import {INotification, SimpleCommand} from "@puremvc/puremvc-typescript-multicore-framework";
 import { type ILoggingFacade } from "../../../common/interfaces.js";
 import { DashboardFacade } from "../../../dashboard/dashboard-facade.js";
 import { MultitonKeys } from "../../../common/constants.js";
@@ -9,13 +9,12 @@ import {
 } from "@puremvc/puremvc-typescript-util-pipes";
 import { DashboardTeeMediator } from "../../view/dashboard-tee-mediator.js";
 import { GatewayConfigProxy } from "../../model/gateway-config-proxy.js";
-import { AsyncCommand } from "@puremvc/puremvc-typescript-util-async-command";
 
-export class PlumbDashboardCommand extends AsyncCommand {
+export class PlumbDashboardCommand extends SimpleCommand {
   public execute(_notification: INotification): void {
     const f = this.facade as ILoggingFacade;
 
-    f.log(`⚙️ PlumbDashboardCommand - Create and Plumb Dashboard Core`, 1);
+    f.log(`⚙️ PlumbDashboardCommand - Create and Plumb Dashboard Core`, 2);
 
     const gatewayConfigProxy = this.facade.retrieveProxy(
       GatewayConfigProxy.NAME,
@@ -47,8 +46,6 @@ export class PlumbDashboardCommand extends AsyncCommand {
       dashboardTeeMediator!.viewComponent = dashboardIn;
     }
 
-    f.log("✔︎ Dashboard Core plumbed", 2);
-
-    this.commandComplete();
+    f.log("✔︎ Dashboard Core plumbed", 3);
   }
 }

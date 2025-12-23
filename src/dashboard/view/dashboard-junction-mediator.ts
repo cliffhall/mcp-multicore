@@ -16,7 +16,7 @@ export class DashboardJunctionMediator extends JunctionMediator {
   onRegister() {
     super.onRegister();
     const f = this.facade as ILoggingFacade;
-    f.log(`🧩 DashboardJunctionMediator - Registered`, 5);
+    f.log(`🧩 DashboardJunctionMediator - Registered`, 6);
   }
 
   public override handlePipeMessage(message: IPipeMessage): void {

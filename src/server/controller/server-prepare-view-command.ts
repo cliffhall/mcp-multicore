@@ -10,14 +10,14 @@ export class ServerPrepareViewCommand extends AsyncCommand {
 
     f.log(
       `⚙️ ServerPrepareViewCommand - Preparing Server View for ${config.name}`,
-      4,
+      5,
     );
 
     // Register Mediators
     this.facade.registerMediator(new ServerJunctionMediator());
 
     // Done
-    f.log("✔︎ Server View prepared", 4);
+    f.log("✔︎ Server View prepared", 6);
     this.commandComplete();
   }
 }

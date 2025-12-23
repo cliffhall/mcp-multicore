@@ -10,7 +10,7 @@ export class ServerPrepareModelCommand extends AsyncCommand {
 
     f.log(
       `⚙️ ServerPrepareModelCommand - Preparing Server Model for ${config.name}`,
-      4,
+      5,
     );
 
     const serverConfig = notification.body as ServerConfig;
@@ -19,7 +19,7 @@ export class ServerPrepareModelCommand extends AsyncCommand {
     this.facade.registerProxy(new ServerConfigProxy(serverConfig));
 
     // Done
-    f.log("✔︎ Server Model prepared", 4);
+    f.log("✔︎ Server Model prepared", 6);
     this.commandComplete();
   }
 }

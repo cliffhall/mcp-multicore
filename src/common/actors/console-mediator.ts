@@ -18,6 +18,7 @@ export class ConsoleMediator extends Mediator {
   public override handleNotification(notification: INotification): void {
     const indent = "   ".repeat(Number(notification.type));
     const message = indent.concat(notification.body);
-    this.viewComponent.log(message);
+    // Use STDERR for default logging, since STDOUT conflicts with MCP stdio connections
+    this.viewComponent.error(message);
   }
 }
