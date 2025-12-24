@@ -7,7 +7,7 @@ import { Facade } from "@puremvc/puremvc-typescript-multicore-framework";
 import { LoggingFacade } from "../common/actors/logging-facade.js";
 import { ServerNotifications } from "../common/constants.js";
 import { ServerConfig } from "../common/interfaces.js";
-import { ServerStartupCommand } from "./controller/server-startup-command.js";
+import { ServerStartupCommand } from "./controller/startup/server-startup-command.js";
 
 export class ServerFacade extends LoggingFacade {
   /**
@@ -21,7 +21,7 @@ export class ServerFacade extends LoggingFacade {
   }
 
   /**
-   * Initialize the Controller by registering the startup command
+   * Minimally initialize the Controller by registering the startup command
    */
   protected initializeController(): void {
     super.initializeController();

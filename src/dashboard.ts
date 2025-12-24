@@ -34,6 +34,7 @@ const messages: IPipeMessage[] = [
     type: PipeMessageType.NORMAL,
     header: {
       core: "server-everything",
+      clientId: "1",
       "mcp-session-id": "1234567890",
       "Mcp-Protocol-Version": "2025-11-25",
     },
@@ -54,6 +55,7 @@ const messages: IPipeMessage[] = [
     type: PipeMessageType.NORMAL,
     header: {
       core: "gateway",
+      clientId: "1",
       "mcp-session-id": "1234567890",
       "Mcp-Protocol-Version": "2025-11-25",
     },
@@ -71,8 +73,18 @@ const messages: IPipeMessage[] = [
       },
     },
   },
+  {
+    type: PipeMessageType.NORMAL,
+    header: {
+      not: "mcp traffic",
+    },
+    body: {
+      this: "that",
+    },
+  },
 ];
 
 // Send the message to the dashboard
-dashboardIn.write(messages[0]);
-dashboardIn.write(messages[1]);
+for (const message of messages) {
+  dashboardIn.write(message);
+}

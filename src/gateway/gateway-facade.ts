@@ -22,7 +22,7 @@ export class GatewayFacade extends LoggingFacade {
   }
 
   /**
-   * Initialize the Controller by registering the startup command
+   * Minimally initialize the Controller by registering the startup command
    */
   protected initializeController(): void {
     super.initializeController();
