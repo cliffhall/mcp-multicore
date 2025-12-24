@@ -7,6 +7,7 @@ import {
   type ILoggingFacade,
 } from "../../common/interfaces.js";
 import { DashboardConfigProxy } from "../model/dashboard-config-proxy.js";
+import { DashboardStreamsProxy } from "../model/dashboard-streams-proxy.js";
 
 export class DashboardPrepareModelCommand extends SimpleCommand {
   public execute(notification: INotification): void {
@@ -17,6 +18,7 @@ export class DashboardPrepareModelCommand extends SimpleCommand {
 
     // Register Proxies
     this.facade.registerProxy(new DashboardConfigProxy(config));
+    this.facade.registerProxy(new DashboardStreamsProxy());
 
     // Done
     f.log("✔︎ Dashboard Model Prepared", 6);
