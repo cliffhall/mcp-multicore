@@ -27,8 +27,8 @@ export class DashboardJunctionMediator extends JunctionMediator {
     // If it is an MCPTrafficMessage, add it to the appropriate message stream
     if (
       message.type === PipeMessageType.NORMAL &&
-      message.header?.core &&
-      message.header?.clientId
+      typeof message.header?.core === "string" &&
+      typeof message.header?.clientId === "string"
     ) {
       (this.facade as ILoggingFacade).log(
         `🧩 DashboardJunctionMediator - Intercepted MCPTrafficMessage to "${message.header?.core}" with client "${message.header?.clientId}"`,

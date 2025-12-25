@@ -40,7 +40,7 @@ export class DashboardStreamsProxy extends Proxy {
 
     if (typeof core !== "string" || typeof clientId !== "string") {
       (this.facade as ILoggingFacade).log(
-        "💾 DashboardStreamsProxy: Message is missing 'core' or clientId' in header.",
+        "💾 DashboardStreamsProxy: Message is missing 'core' or 'clientId' in header.",
         5,
       );
       return false;

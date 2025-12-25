@@ -13,9 +13,6 @@ export class AddMessageToStreamCommand extends SimpleCommand {
     const message = notification.body as MCPTrafficMessage;
     const f = this.facade as ILoggingFacade;
 
-    const core = message?.header?.core as string;
-    const clientId = message?.header?.clientId as string;
-
     // Get the streams proxy
     const streamsProxy = this.facade.retrieveProxy(
       DashboardStreamsProxy.NAME,
@@ -23,9 +20,16 @@ export class AddMessageToStreamCommand extends SimpleCommand {
     const success = streamsProxy.addMessage(message);
 
     if (success) {
+      // `addMessage` succeeded, so we know header, core, and clientId are valid.
+      const core = message.header!.core;
+      const clientId = message.header!.clientId;
+
       // Read the stream back by core and client id
       const streamLength = streamsProxy.getStreamLength(core, clientId);
-      f.log(`⚙️ AddMessageToStreamCommand - Added to stream in DashboardStreamsProxy.`, 5);
+      f.log(
+        `⚙️ AddMessageToStreamCommand - Added to stream in DashboardStreamsProxy.`,
+        5,
+      );
       f.log(`🔍 Current stream length: ${streamLength}`, 5);
     }
   }
