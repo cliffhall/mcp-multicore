@@ -1,6 +1,6 @@
 import { AsyncMacroCommand } from "@puremvc/puremvc-typescript-util-async-command";
 import { INotification } from "@puremvc/puremvc-typescript-multicore-framework";
-import type { ILoggingFacade } from "../../common/interfaces.js";
+import type { ILoggingFacade } from "../../../common/interfaces.js";
 import { ServerPrepareModelCommand } from "./server-prepare-model-command.js";
 import { ServerPrepareViewCommand } from "./server-prepare-view-command.js";
 

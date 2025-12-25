@@ -1,7 +1,10 @@
 import { INotification } from "@puremvc/puremvc-typescript-multicore-framework";
-import { type ILoggingFacade, ServerConfig } from "../../common/interfaces.js";
+import {
+  type ILoggingFacade,
+  ServerConfig,
+} from "../../../common/interfaces.js";
 import { AsyncCommand } from "@puremvc/puremvc-typescript-util-async-command";
-import { ServerConfigProxy } from "../model/server-config-proxy.js";
+import { ServerConfigProxy } from "../../model/server-config-proxy.js";
 
 export class ServerPrepareModelCommand extends AsyncCommand {
   public execute(notification: INotification): void {

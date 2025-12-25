@@ -2,8 +2,8 @@ import {
   INotification,
   SimpleCommand,
 } from "@puremvc/puremvc-typescript-multicore-framework";
-import { type ILoggingFacade } from "../../common/interfaces.js";
-import { DashboardJunctionMediator } from "../view/dashboard-junction-mediator.js";
+import { type ILoggingFacade } from "../../../common/interfaces.js";
+import { DashboardJunctionMediator } from "../../view/dashboard-junction-mediator.js";
 
 export class DashboardPrepareViewCommand extends SimpleCommand {
   public execute(_notification: INotification): void {

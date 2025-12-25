@@ -1,19 +1,22 @@
 import { Proxy } from "@puremvc/puremvc-typescript-multicore-framework";
-import type { ILoggingFacade } from "../../common/interfaces.js";
+import type {
+  ILoggingFacade,
+  MCPTrafficMessage,
+} from "../../common/interfaces.js";
 import type { IPipeMessage } from "@puremvc/puremvc-typescript-util-pipes";
 
-type StreamsBySession = Map<string, IPipeMessage[]>;
-type SessionsByCore = Map<string, StreamsBySession>;
+type StreamsByClient = Map<string, IPipeMessage[]>;
+type ClientsByCore = Map<string, StreamsByClient>;
 
 /**
  * Represents a proxy for managing dashboard streams; message lists organized
- * by core identifiers and session IDs.
+ * by core identifiers and client IDs.
  */
 export class DashboardStreamsProxy extends Proxy {
   static NAME: string = "DashboardStreamsProxy";
   constructor() {
     // Initialize the streams map
-    const streamsMap = new Map<string, StreamsBySession>();
+    const streamsMap = new Map<string, StreamsByClient>();
     super(DashboardStreamsProxy.NAME, streamsMap);
   }
 
@@ -24,65 +27,73 @@ export class DashboardStreamsProxy extends Proxy {
   }
 
   /**
-   * Adds a message to the appropriate session array within the streams map.
-   * Messages are organized by a core identifier and a session ID.
-   * If no session exists for the given core and session ID, a new session is initialized.
+   * Adds a message to the appropriate client array within the streams map.
+   * Messages are organized by a core identifier and a client ID.
+   * If no client exists for the given core and client ID, a new client is initialized.
    *
-   * @param {IPipeMessage} message The message object to be added, containing headers with core and session ID information.
+   * @param {IPipeMessage} message The message object to be added, containing headers with core and client ID information.
    * @return {void} No return value.
    */
-  public addMessage(message: IPipeMessage): void {
-    const core = message?.header?.["core"] as string;
-    const sessionId = message?.header?.["mcp-session-id"] as string;
+  public addMessage(message: MCPTrafficMessage): boolean {
+    const core = message?.header?.core;
+    const clientId = message?.header?.clientId;
 
-    // Get the session map for the given core
-    let sessions = this.streamsMap.get(core);
-
-    // Initialize the given core's session list for the given sessionId if need be
-    if (sessions) {
-      if (!sessions?.has(sessionId)) {
-        sessions.set(sessionId, [] as IPipeMessage[]);
-      }
-    } else {
-      // Initialize the given core's session map and its session list for the given sessionId
-      this.streamsMap.set(core, new Map<string, IPipeMessage[]>());
-      this.streamsMap.get(core)?.set(sessionId, [] as IPipeMessage[]);
-      sessions = this.streamsMap.get(core);
+    if (typeof core !== "string" || typeof clientId !== "string") {
+      (this.facade as ILoggingFacade).log(
+        "💾 DashboardStreamsProxy: Message is missing 'core' or 'clientId' in header.",
+        5,
+      );
+      return false;
     }
 
-    // Get the session array and add the message
-    let stream = sessions!.get(sessionId);
-    stream!.push(message);
+    // Get or create the client map for the given core
+    let clients = this.streamsMap.get(core);
+    if (!clients) {
+      clients = new Map<string, IPipeMessage[]>();
+      this.streamsMap.set(core, clients);
+    }
+
+    // Get or create the stream for the given client ID
+    let stream = clients.get(clientId);
+    if (!stream) {
+      stream = [];
+      clients.set(clientId, stream);
+    }
+
+    // Add the message to the stream
+    stream.push(message);
+
+    return true;
   }
 
   /**
-   * Calculates the length of a stream associated with the given core and session ID.
+   * Calculates the length of a stream associated with the given core and client ID.
    *
    * @param {string} core - The identifier for the core to which the stream belongs.
-   * @param {string} sessionId - The identifier for the session associated with the stream.
+   * @param {string} clientId - The identifier for the client associated with the stream.
    * @return {number} The length of the stream, or 0 if the stream is not found.
    */
-  public getStreamLength(core: string, sessionId: string): number {
-    const stream = this.getStream(core, sessionId);
+  public getStreamLength(core: string, clientId: string): number {
+    const stream = this.getStream(core, clientId);
     return stream ? stream.length : 0;
   }
 
   /**
-   * Retrieves the stream of messages for a specific core and session ID.
+   * Retrieves the stream of messages for a specific core and client ID.
    *
    * @param {string} core - The identifier for the core to retrieve the stream from.
-   * @param {string} sessionId - The session ID associated with the stream to retrieve.
-   * @return {IPipeMessage[] | void} The array of messages in the stream if found, otherwise undefined.
+   * @param {string} clientId - The client ID associated with the stream to retrieve.
+   * @return {IPipeMessage[] | undefined} The array of messages in the stream if found, otherwise undefined.
    */
-  public getStream(core: string, sessionId: string): IPipeMessage[] | void {
-    return this.streamsMap.get(core)?.get(sessionId);
+  public getStream(core: string, clientId: string): IPipeMessage[] | undefined {
+    return this.streamsMap.get(core)?.get(clientId);
   }
 
   /**
    * Retrieves the mapping of streams stored in the current instance.
-   * @return {SessionsByCore} The representation of streams as stored in the data property.
+   * @return {ClientsByCore} The representation of streams as stored in the data property.
    */
-  get streamsMap(): SessionsByCore {
-    return this.data as SessionsByCore;
+  get streamsMap(): ClientsByCore {
+    return this.data as ClientsByCore;
   }
 }

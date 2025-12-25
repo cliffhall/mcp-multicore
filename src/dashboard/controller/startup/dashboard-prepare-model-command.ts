@@ -5,9 +5,9 @@ import {
 import {
   type DashboardConfig,
   type ILoggingFacade,
-} from "../../common/interfaces.js";
-import { DashboardConfigProxy } from "../model/dashboard-config-proxy.js";
-import { DashboardStreamsProxy } from "../model/dashboard-streams-proxy.js";
+} from "../../../common/interfaces.js";
+import { DashboardConfigProxy } from "../../model/dashboard-config-proxy.js";
+import { DashboardStreamsProxy } from "../../model/dashboard-streams-proxy.js";
 
 export class DashboardPrepareModelCommand extends SimpleCommand {
   public execute(notification: INotification): void {
