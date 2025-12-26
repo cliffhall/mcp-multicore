@@ -26,8 +26,8 @@
   ],
   "scripts": {
     "build": "npm run clean && npm run build:esm && npm run build:cjs",
-	"start:gateway": "node dist/esm/index.js",
-	"start:dashboard": "node dist/esm/dashboard.js",
+	"start:gateway": "node dist/esm/try-gateway.js",
+	"start:dashboard": "node dist/esm/try-dashboard.js",
 	"test": "jest $npm_package_directories_test --coverage",
 	"lint": "eslint ./src",
 	"lint:fix": "eslint ./src --fix",

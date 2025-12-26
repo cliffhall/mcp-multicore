@@ -1,14 +1,14 @@
-/**
- * ServerFacade - Facade for an individual MCP server connection
- * Each MCP server gets its own ServerFacade instance running in its own Core
- */
-
 import { Facade } from "@puremvc/puremvc-typescript-multicore-framework";
 import { LoggingFacade } from "../common/actors/logging-facade.js";
 import { ServerNotifications } from "../common/constants.js";
 import { ServerConfig } from "../common/interfaces.js";
 import { ServerStartupCommand } from "./controller/startup/server-startup-command.js";
 
+/**
+ * ServerFacade
+ * - Facade Multiton for an individual MCP server connection
+ * - Each MCP server has its own ServerFacade instance running in its own Core
+ */
 export class ServerFacade extends LoggingFacade {
   /**
    * Get or create the multiton instance

@@ -1,15 +1,15 @@
-/**
- * GatewayFacade - Facade for the Gateway Core and primary entry point for the whole application
- * - Creates and plumbs Dashboard and Server cores
- * - Manages client connections and routes requests to appropriate server cores
- */
-
 import { Facade } from "@puremvc/puremvc-typescript-multicore-framework";
 import { GatewayNotifications } from "../common/constants.js";
 import { GatewayStartupCommand } from "./controller/startup/gateway-startup-command.js";
 import { LoggingFacade } from "../common/actors/logging-facade.js";
 import type { GatewayConfig } from "../common/interfaces.js";
 
+/**
+ * GatewayFacade
+ * - Facade Multiton for the Gateway Core
+ * - Creates and plumbs Dashboard and Server cores
+ * - Manages client connections and routes requests to appropriate server cores
+ */
 export class GatewayFacade extends LoggingFacade {
   /**
    * Get or create the multiton instance

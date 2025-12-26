@@ -21,14 +21,14 @@ dashboardFacade.startup(config);
 // Plumb the dashboard
 const dashboardIn = new Pipe();
 
-// Dashboard In pipe
+// Plumb a Dashboard In pipe
 dashboardFacade.sendNotification(
   JunctionMediatorNotification.ACCEPT_INPUT_PIPE,
   dashboardIn,
   "dashboard-in",
 );
 
-// Create a test message
+// Create a test message array
 const messages: IPipeMessage[] = [
   {
     type: PipeMessageType.NORMAL,
@@ -84,7 +84,7 @@ const messages: IPipeMessage[] = [
   },
 ];
 
-// Send the message to the dashboard
+// Send the messages to the Dashboard Core
 for (const message of messages) {
   dashboardIn.write(message);
 }

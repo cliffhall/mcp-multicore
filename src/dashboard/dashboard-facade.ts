@@ -1,9 +1,3 @@
-/**
- * DashboardFacade - Facade for Dashboard Core
- * - Inspect JSONRPC traffic between Gateway and Server Cores
- * - Provides Dashboard web interface
- */
-
 import { Facade } from "@puremvc/puremvc-typescript-multicore-framework";
 import { LoggingFacade } from "../common/actors/logging-facade.js";
 import { DashboardNotifications } from "../common/constants.js";
@@ -13,6 +7,12 @@ import {
 } from "../common/interfaces.js";
 import { DashboardStartupCommand } from "./controller/startup/dashboard-startup-command.js";
 
+/**
+* DashboardFacade
+* - Facade Multiton for Dashboard Core
+* - Captures JSONRPC traffic between Gateway and Server Cores
+* - Provides web interface for logging / tracing / metrics
+*/
 export class DashboardFacade extends LoggingFacade implements ILoggingFacade {
   /**
    * Get or create the multiton instance
