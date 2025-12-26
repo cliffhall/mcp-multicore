@@ -11,7 +11,7 @@ import { ServerStartupCommand } from "./controller/startup/server-startup-comman
 
 export class ServerFacade extends LoggingFacade {
   /**
-   * Get or create the singleton instance
+   * Get or create the multiton instance
    */
   public static getInstance(multitonKey: string): ServerFacade {
     return Facade.getInstance(

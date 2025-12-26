@@ -15,7 +15,7 @@ import { DashboardStartupCommand } from "./controller/startup/dashboard-startup-
 
 export class DashboardFacade extends LoggingFacade implements ILoggingFacade {
   /**
-   * Get or create the singleton instance
+   * Get or create the multiton instance
    */
   public static getInstance(multitonKey: string): DashboardFacade {
     return Facade.getInstance(

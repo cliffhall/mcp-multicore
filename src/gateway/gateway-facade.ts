@@ -12,7 +12,7 @@ import type { GatewayConfig } from "../common/interfaces.js";
 
 export class GatewayFacade extends LoggingFacade {
   /**
-   * Get or create the singleton instance
+   * Get or create the multiton instance
    */
   public static getInstance(multitonKey: string): GatewayFacade {
     return Facade.getInstance(
