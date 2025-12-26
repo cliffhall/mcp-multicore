@@ -1,10 +1,10 @@
 import { INotification } from "@puremvc/puremvc-typescript-multicore-framework";
-import { type ILoggingFacade } from "../../../../common/interfaces.js";
+import { type ILoggingFacade } from "../../../../common/index.js";
 import {
   JunctionMediatorNotification,
   TeeSplit,
 } from "@puremvc/puremvc-typescript-util-pipes";
-import { DashboardTeeMediator } from "../../../../common/actors/dashboard-tee-mediator.js";
+import { DashboardTeeMediator } from "../../../../common/index.js";
 import { ServerFacade } from "../../../server/server-facade.js";
 import { AsyncCommand } from "@puremvc/puremvc-typescript-util-async-command";
 import type { GatewayFacade } from "../../gateway-facade.js";

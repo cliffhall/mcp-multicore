@@ -1,7 +1,7 @@
 import { Facade } from "@puremvc/puremvc-typescript-multicore-framework";
-import { LoggingFacade } from "../../common/actors/logging-facade.js";
-import { ServerNotifications } from "../../common/constants.js";
-import { ServerConfig } from "../../common/interfaces.js";
+import { LoggingFacade } from "../../common/index.js";
+import { ServerNotifications } from "../../common/index.js";
+import { ServerConfig } from "../../common/index.js";
 import { ServerStartupCommand } from "./controller/startup/server-startup-command.js";
 
 /**

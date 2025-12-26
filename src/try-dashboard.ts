@@ -1,4 +1,4 @@
-import type { DashboardConfig } from "./common/interfaces.js";
+import type { DashboardConfig } from "./common/index.js";
 import { DashboardFacade } from "./cores/dashboard/dashboard-facade.js";
 import {
   type IPipeMessage,

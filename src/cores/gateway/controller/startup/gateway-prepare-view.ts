@@ -2,9 +2,9 @@ import {
   SimpleCommand,
   INotification,
 } from "@puremvc/puremvc-typescript-multicore-framework";
-import { type ILoggingFacade } from "../../../../common/interfaces.js";
+import { type ILoggingFacade } from "../../../../common/index.js";
 import { GatewayJunctionMediator } from "../../view/gateway-junction-mediator.js";
-import { DashboardTeeMediator } from "../../../../common/actors/index.js";
+import { DashboardTeeMediator } from "../../../../common/index.js";
 export class GatewayPrepareViewCommand extends SimpleCommand {
   public execute(_notification: INotification): void {
     const f = this.facade as ILoggingFacade;

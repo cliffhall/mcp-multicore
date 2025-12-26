@@ -3,7 +3,7 @@ import { INotification } from "@puremvc/puremvc-typescript-multicore-framework";
 import { GatewayPrepareModelCommand } from "./gateway-prepare-model.js";
 import { GatewayPrepareViewCommand } from "./gateway-prepare-view.js";
 import { PlumbDashboardCommand } from "./plumb-dashboard-command.js";
-import type { ILoggingFacade } from "../../../../common/interfaces.js";
+import type { ILoggingFacade } from "../../../../common/index.js";
 import { PlumbServersCommand } from "./plumb-servers-command.js";
 
 export class GatewayStartupCommand extends AsyncMacroCommand {

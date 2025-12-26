@@ -1,6 +1,6 @@
 import { GatewayFacade } from "./cores/gateway/gateway-facade.js";
-import type { GatewayConfig } from "./common/interfaces.js";
-import { SingletonKeys } from "./common/constants.js";
+import type { GatewayConfig } from "./common/index.js";
+import { SingletonKeys } from "./common/index.js";
 
 // Simulated config
 const config = {

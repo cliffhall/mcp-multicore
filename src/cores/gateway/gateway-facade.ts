@@ -1,8 +1,8 @@
 import { Facade } from "@puremvc/puremvc-typescript-multicore-framework";
-import { GatewayNotifications } from "../../common/constants.js";
+import { GatewayNotifications } from "../../common/index.js";
 import { GatewayStartupCommand } from "./controller/startup/gateway-startup-command.js";
-import { LoggingFacade } from "../../common/actors/logging-facade.js";
-import type { GatewayConfig } from "../../common/interfaces.js";
+import { LoggingFacade } from "../../common/index.js";
+import type { GatewayConfig } from "../../common/index.js";
 
 /**
  * GatewayFacade

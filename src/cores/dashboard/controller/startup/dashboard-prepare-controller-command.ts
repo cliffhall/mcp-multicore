@@ -2,8 +2,8 @@ import {
   INotification,
   SimpleCommand,
 } from "@puremvc/puremvc-typescript-multicore-framework";
-import { type ILoggingFacade } from "../../../../common/interfaces.js";
-import { DashboardNotifications } from "../../../../common/constants.js";
+import { type ILoggingFacade } from "../../../../common/index.js";
+import { DashboardNotifications } from "../../../../common/index.js";
 import { AddMessageToStreamCommand } from "../operation/add-message-to-stream-command.js";
 
 export class DashboardPrepareControllerCommand extends SimpleCommand {

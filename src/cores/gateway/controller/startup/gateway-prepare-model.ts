@@ -5,7 +5,7 @@ import {
 import {
   GatewayConfig,
   type ILoggingFacade,
-} from "../../../../common/interfaces.js";
+} from "../../../../common/index.js";
 import { GatewayConfigProxy } from "../../model/gateway-config-proxy.js";
 
 export class GatewayPrepareModelCommand extends SimpleCommand {

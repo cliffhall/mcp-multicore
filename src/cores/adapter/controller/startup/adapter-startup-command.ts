@@ -3,7 +3,7 @@ import { INotification } from "@puremvc/puremvc-typescript-multicore-framework";
 import type {
   AdapterConfig,
   ILoggingFacade,
-} from "../../../../common/interfaces.js";
+} from "../../../../common/index.js";
 import { AdapterPrepareModelCommand } from "./adapter-prepare-model.js";
 import { AdapterPrepareViewCommand } from "./adapter-prepare-view.js";
 import { PlumbDashboardCommand } from "./plumb-dashboard-command.js";

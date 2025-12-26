@@ -1,8 +1,5 @@
 import { Proxy } from "@puremvc/puremvc-typescript-multicore-framework";
-import type {
-  ServerConfig,
-  ILoggingFacade,
-} from "../../../common/interfaces.js";
+import type { ServerConfig, ILoggingFacade } from "../../../common/index.js";
 
 export class ServerConfigProxy extends Proxy {
   static NAME: string = "ServerConfigProxy";

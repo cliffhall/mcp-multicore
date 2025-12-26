@@ -4,7 +4,7 @@ import {
   JunctionMediator,
   PipeMessageType,
 } from "@puremvc/puremvc-typescript-util-pipes";
-import type { ILoggingFacade } from "../../../common/interfaces.js";
+import type { ILoggingFacade } from "../../../common/index.js";
 
 export class ServerJunctionMediator extends JunctionMediator {
   public static NAME = "ServerJunctionMediator";

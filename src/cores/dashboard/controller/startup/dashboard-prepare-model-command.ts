@@ -5,7 +5,7 @@ import {
 import {
   type DashboardConfig,
   type ILoggingFacade,
-} from "../../../../common/interfaces.js";
+} from "../../../../common/index.js";
 import { DashboardConfigProxy } from "../../model/dashboard-config-proxy.js";
 import { DashboardStreamsProxy } from "../../model/dashboard-streams-proxy.js";
 

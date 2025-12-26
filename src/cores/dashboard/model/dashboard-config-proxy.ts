@@ -1,8 +1,5 @@
 import { Proxy } from "@puremvc/puremvc-typescript-multicore-framework";
-import type {
-  DashboardConfig,
-  ILoggingFacade,
-} from "../../../common/interfaces.js";
+import type { DashboardConfig, ILoggingFacade } from "../../../common/index.js";
 
 export class DashboardConfigProxy extends Proxy {
   static NAME: string = "DashboardConfigProxy";

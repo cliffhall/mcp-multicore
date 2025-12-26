@@ -2,7 +2,7 @@ import { Proxy } from "@puremvc/puremvc-typescript-multicore-framework";
 import type {
   ILoggingFacade,
   MCPTrafficMessage,
-} from "../../../common/interfaces.js";
+} from "../../../common/index.js";
 import type { IPipeMessage } from "@puremvc/puremvc-typescript-util-pipes";
 
 type StreamsByClient = Map<string, IPipeMessage[]>;

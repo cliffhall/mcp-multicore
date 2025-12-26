@@ -7,8 +7,8 @@ import {
 import type {
   ILoggingFacade,
   MCPTrafficMessage,
-} from "../../../common/interfaces.js";
-import { DashboardNotifications } from "../../../common/constants.js";
+} from "../../../common/index.js";
+import { DashboardNotifications } from "../../../common/index.js";
 
 export class DashboardJunctionMediator extends JunctionMediator {
   public static NAME = "DashboardJunctionMediator";

@@ -1,8 +1,8 @@
 import { Facade } from "@puremvc/puremvc-typescript-multicore-framework";
-import { AdapterNotifications } from "../../common/constants.js";
+import { AdapterNotifications } from "../../common/index.js";
 import { AdapterStartupCommand } from "./controller/startup/adapter-startup-command.js";
-import { LoggingFacade } from "../../common/actors/logging-facade.js";
-import type { AdapterConfig } from "../../common/interfaces.js";
+import { LoggingFacade } from "../../common/index.js";
+import type { AdapterConfig } from "../../common/index.js";
 
 /**
  * AdapterFacade

@@ -1,8 +1,5 @@
 import { INotification } from "@puremvc/puremvc-typescript-multicore-framework";
-import {
-  type ILoggingFacade,
-  ServerConfig,
-} from "../../../../common/interfaces.js";
+import { type ILoggingFacade, ServerConfig } from "../../../../common/index.js";
 import { ServerJunctionMediator } from "../../view/server-junction-mediator.js";
 import { AsyncCommand } from "@puremvc/puremvc-typescript-util-async-command";
 

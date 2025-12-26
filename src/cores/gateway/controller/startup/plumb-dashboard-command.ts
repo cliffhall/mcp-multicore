@@ -2,15 +2,15 @@ import {
   INotification,
   SimpleCommand,
 } from "@puremvc/puremvc-typescript-multicore-framework";
-import { type ILoggingFacade } from "../../../../common/interfaces.js";
+import { type ILoggingFacade } from "../../../../common/index.js";
 import { DashboardFacade } from "../../../dashboard/dashboard-facade.js";
-import { SingletonKeys } from "../../../../common/constants.js";
+import { SingletonKeys } from "../../../../common/index.js";
 import {
   JunctionMediatorNotification,
   Pipe,
   TeeMerge,
 } from "@puremvc/puremvc-typescript-util-pipes";
-import { DashboardTeeMediator } from "../../../../common/actors/index.js";
+import { DashboardTeeMediator } from "../../../../common/index.js";
 import { GatewayConfigProxy } from "../../model/gateway-config-proxy.js";
 
 export class PlumbDashboardCommand extends SimpleCommand {

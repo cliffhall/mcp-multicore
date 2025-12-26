@@ -1,10 +1,10 @@
 import { Facade } from "@puremvc/puremvc-typescript-multicore-framework";
-import { LoggingFacade } from "../../common/actors/logging-facade.js";
-import { DashboardNotifications } from "../../common/constants.js";
+import { LoggingFacade } from "../../common/index.js";
+import { DashboardNotifications } from "../../common/index.js";
 import {
   type DashboardConfig,
   type ILoggingFacade,
-} from "../../common/interfaces.js";
+} from "../../common/index.js";
 import { DashboardStartupCommand } from "./controller/startup/dashboard-startup-command.js";
 
 /**

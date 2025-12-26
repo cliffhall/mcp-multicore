@@ -5,7 +5,7 @@ import {
 import {
   AdapterConfig,
   type ILoggingFacade,
-} from "../../../../common/interfaces.js";
+} from "../../../../common/index.js";
 import { AdapterConfigProxy } from "../../model/adapter-config-proxy.js";
 
 export class AdapterPrepareModelCommand extends SimpleCommand {

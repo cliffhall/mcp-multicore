@@ -4,7 +4,7 @@ import {
   JunctionMediator,
   PipeMessageType,
 } from "@puremvc/puremvc-typescript-util-pipes";
-import type { ILoggingFacade } from "../../../common/interfaces.js";
+import type { ILoggingFacade } from "../../../common/index.js";
 import { AdapterConfigProxy } from "../model/adapter-config-proxy.js";
 
 /**

@@ -5,7 +5,7 @@ import {
 import {
   type ILoggingFacade,
   type MCPTrafficMessage,
-} from "../../../../common/interfaces.js";
+} from "../../../../common/index.js";
 import { DashboardStreamsProxy } from "../../model/dashboard-streams-proxy.js";
 
 export class AddMessageToStreamCommand extends SimpleCommand {
