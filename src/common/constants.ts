@@ -1,7 +1,14 @@
-// Core multiton keys
-export class MultitonKeys {
+// Keys for singleton-cores
+export class SingletonKeys {
   static readonly GATEWAY = "gateway";
   static readonly DASHBOARD = "dashboard";
+  static readonly ADAPTER = "adapter";
+}
+
+// Adapter Core notifications
+export class AdapterNotifications {
+  static readonly STARTUP = "adapter/startup";
+  static readonly ADD_MESSAGE_TO_STREAM = "adapter/message/add";
 }
 
 // Gateway Core notifications

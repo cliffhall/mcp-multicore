@@ -1,6 +1,6 @@
-import { MultitonKeys } from "./common/constants.js";
-import { GatewayFacade } from "./gateway/gateway-facade.js";
+import { GatewayFacade } from "./cores/gateway/gateway-facade.js";
 import type { GatewayConfig } from "./common/interfaces.js";
+import { SingletonKeys } from "./common/constants.js";
 
 // Simulated config
 const config = {
@@ -24,5 +24,5 @@ const config = {
   ],
 } as GatewayConfig;
 
-// Start the Gateway
-GatewayFacade.getInstance(MultitonKeys.GATEWAY).startup(config);
+// Start the Gateway Core
+GatewayFacade.getInstance(SingletonKeys.GATEWAY).startup(config);

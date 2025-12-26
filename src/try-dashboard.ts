@@ -1,12 +1,14 @@
-import { MultitonKeys } from "./common/constants.js";
 import type { DashboardConfig } from "./common/interfaces.js";
-import { DashboardFacade } from "./dashboard/dashboard-facade.js";
+import { DashboardFacade } from "./cores/dashboard/dashboard-facade.js";
 import {
   type IPipeMessage,
   JunctionMediatorNotification,
   Pipe,
   PipeMessageType,
 } from "@puremvc/puremvc-typescript-util-pipes";
+
+// Only one Dashboard Core expected at a time
+const SINGLETON_KEY = "dashboard";
 
 // Simulated config
 const config = {
@@ -15,7 +17,7 @@ const config = {
 } as DashboardConfig;
 
 // Start the Dashboard Core
-const dashboardFacade = DashboardFacade.getInstance(MultitonKeys.DASHBOARD);
+const dashboardFacade = DashboardFacade.getInstance(SINGLETON_KEY);
 dashboardFacade.startup(config);
 
 // Plumb the dashboard

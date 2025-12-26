@@ -9,7 +9,15 @@ export interface ILoggingFacade extends IFacade {
 }
 
 /**
- * Configuration for the gateway core
+ * Configuration for the Adapter Core
+ */
+export interface AdapterConfig {
+  output: "dashboard" | "stderr" | "both";
+  dashboard?: DashboardConfig;
+}
+
+/**
+ * Configuration for the Gateway Core
  */
 export interface GatewayConfig {
   port?: number;
@@ -20,7 +28,7 @@ export interface GatewayConfig {
 }
 
 /**
- * Configuration for the dasbhoard core
+ * Configuration for the Dashboard Core
  */
 export interface DashboardConfig {
   port?: number;
@@ -28,7 +36,7 @@ export interface DashboardConfig {
 }
 
 /**
- * Configuration for the server core
+ * Configuration for the Server Core
  */
 export interface ServerConfig {
   id?: string;
