@@ -74,6 +74,7 @@ const messages: IPipeMessage[] = [
         isError: false,
       },
     },
+    priority: 1,
   },
   {
     type: PipeMessageType.NORMAL,
