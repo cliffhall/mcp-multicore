@@ -27,7 +27,8 @@
   },
   "include": [
 	"src/*.ts",
-	"src/command/**/*"
+	"src/cores/**/*",
+	"src/common/**/*"
   ],
   "exclude": [
 	"dist",
