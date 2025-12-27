@@ -9,14 +9,14 @@ import {
 import { Writable } from "stream";
 
 /**
- * StderrMediator - a Mediator for the process's STDERR pipe
+ * StdoutMediator - a Mediator for the process's STDOUT pipe
  * -
  */
-export class StderrMediator extends Mediator {
-  static NAME: string = "StderrMediator";
+export class StdoutMediator extends Mediator {
+  static NAME: string = "StdoutMediator";
 
   constructor() {
-    super(StderrMediator.NAME, process.stderr);
+    super(StdoutMediator.NAME, process.stdout);
   }
 
   listNotificationInterests(): string[] {
@@ -29,17 +29,18 @@ export class StderrMediator extends Mediator {
   handleNotification(notification: INotification) {
     super.handleNotification(notification);
     const f = this.facade as ILoggingFacade;
-    f.log(`🧩 StderrMediator - Registered`, 3);
-    this.stderr.write(JSON.stringify(notification.body));
+    f.log(`🧩 StdoutMediator - Registered`, 3);
+    notification.body._meta = {this: "that"};
+    this.stdout.write(JSON.stringify(notification.body));
   }
 
   onRegister() {
     super.onRegister();
     const f = this.facade as ILoggingFacade;
-    f.log(`🧩 StderrMediator - Registered`, 3);
+    f.log(`🧩 StdoutMediator - Registered`, 3);
   }
 
-  get stderr() {
+  get stdout() {
     return this.viewComponent as Writable;
   }
 }

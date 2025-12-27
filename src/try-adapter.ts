@@ -33,18 +33,19 @@ const spawnOptions: SpawnOptions & SpawnRxExtras & { split: true } = {
   stdin: stdinSubject, // Pass the Subject as the stdin Observable
 };
 
+// Spawn a process running stdio-adapter.js
 const adapter = spawn(command, [stdioAdapter], spawnOptions);
 
 // Subscribe to the adapter output (required for spawn-rx to actually start the process)
 adapter.subscribe({
-  next: (output) => {
-    console.log(`[${output.source}]: ${output.text}`);
+  next: (_output) => {
+    //console.log(`[${output.source}]: ${output.text}`);
   },
-  error: (err) => {
-    console.error("Process error:", err);
+  error: (_err) => {
+    //console.error("Process error:", err);
   },
   complete: () => {
-    console.log("Process completed");
+    //console.log("Process completed");
   },
 });
 

@@ -9,6 +9,7 @@ import {
 import { DashboardTeeMediator } from "../../../../common/index.js";
 import { AdapterJunctionMediator } from "../../view/adapter-junction-mediator.js";
 import { StderrMediator } from "../../view/stderr-mediator.js";
+import { StdoutMediator } from "../../view/stdout-mediator.js";
 
 export class AdapterPrepareViewCommand extends SimpleCommand {
   public execute(notification: INotification): void {
@@ -17,6 +18,7 @@ export class AdapterPrepareViewCommand extends SimpleCommand {
 
     // Register Mediators
     this.facade.registerMediator(new AdapterJunctionMediator());
+    this.facade.registerMediator(new StdoutMediator());
 
     // Prepare to mediate the Dashboard Tee if necessary
     const config = notification.body as AdapterConfig;
