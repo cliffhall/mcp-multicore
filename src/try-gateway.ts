@@ -4,6 +4,8 @@ import { SingletonKeys } from "./common/index.js";
 
 // Simulated config
 const config = {
+  port: 3001,
+  host: "localhost",
   dashboard: {
     port: 8080,
     host: "localhost",

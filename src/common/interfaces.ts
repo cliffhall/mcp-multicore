@@ -21,7 +21,7 @@ export interface AdapterConfig {
  */
 export interface GatewayConfig {
   port?: number;
-  host?: number;
+  host?: string;
   maxClients?: number;
   dashboard?: DashboardConfig;
   servers?: ServerConfig[];
