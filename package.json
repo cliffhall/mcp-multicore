@@ -27,7 +27,6 @@
   "scripts": {
     "build": "npm run clean && npm run build:esm && npm run build:cjs",
     "format": "prettier --write ./src",
-    "try:adapter": "node dist/esm/try-adapter.js",
     "try:gateway": "node dist/esm/try-gateway.js",
     "try:dashboard": "node dist/esm/try-dashboard.js",
     "test": "jest $npm_package_directories_test --coverage",
