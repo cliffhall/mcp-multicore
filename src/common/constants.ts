@@ -8,7 +8,7 @@ export class SingletonKeys {
 // Adapter Core notifications
 export class AdapterNotifications {
   static readonly STARTUP = "adapter/startup";
-  static readonly ADD_MESSAGE_TO_STREAM = "adapter/message/add";
+  static readonly PROCESS_JSON_RPC_MESSAGE = "adapter/message/process";
 }
 
 // Gateway Core notifications

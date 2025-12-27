@@ -1,11 +1,16 @@
-import { Mediator } from "@puremvc/puremvc-typescript-multicore-framework";
-import type { ILoggingFacade } from "../../../common/index.js";
+import {
+  type INotification,
+  Mediator,
+} from "@puremvc/puremvc-typescript-multicore-framework";
+import {
+  AdapterNotifications,
+  type ILoggingFacade,
+} from "../../../common/index.js";
 import { Writable } from "stream";
 
 /**
- * StderrMediator - a Mediator for the Dashboard Tee plumbing component
- * - Dashboard Tee is a TeeMerge that is an input pipe on the Dashboard Core
- * - Dynamically created and plumbed servers need to TeeSplit into this pipe
+ * StderrMediator - a Mediator for the process's STDERR pipe
+ * -
  */
 export class StderrMediator extends Mediator {
   static NAME: string = "StderrMediator";
@@ -14,13 +19,26 @@ export class StderrMediator extends Mediator {
     super(StderrMediator.NAME, process.stderr);
   }
 
+  listNotificationInterests(): string[] {
+    return [
+      ...super.listNotificationInterests(),
+      AdapterNotifications.PROCESS_JSON_RPC_MESSAGE,
+    ];
+  }
+
+  handleNotification(notification: INotification) {
+    super.handleNotification(notification);
+    const f = this.facade as ILoggingFacade;
+    f.log(`🧩 StderrMediator - Registered`, 3);
+  }
+
   onRegister() {
     super.onRegister();
     const f = this.facade as ILoggingFacade;
     f.log(`🧩 StderrMediator - Registered`, 3);
   }
 
-  get tee() {
+  get stderr() {
     return this.viewComponent as Writable;
   }
 }
