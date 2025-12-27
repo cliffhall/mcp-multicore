@@ -37,8 +37,8 @@
     "npm:publish:dry-run": "npm publish --dry-run",
     "npm:publish": "npm publish --access public",
     "build:dist": "npm run build:esm && npm run build:cjs",
-    "build:esm": "tsc --module esnext --outDir dist/esm  && shx chmod +x dist/esm/cores/adapter/stdio-adapter.js && echo '{\"type\": \"module\"}' > dist/esm/package.json",
-    "build:cjs": "tsc -p tsconfig.cjs.json && shx chmod +x dist/cjs/cores/adapter/stdio-adapter.js && echo '{\"type\": \"commonjs\"}' > dist/cjs/package.json",
+    "build:esm": "tsc --module esnext --outDir dist/esm  && echo '{\"type\": \"module\"}' > dist/esm/package.json",
+    "build:cjs": "tsc -p tsconfig.cjs.json && echo '{\"type\": \"commonjs\"}' > dist/cjs/package.json",
     "clean": "rm -rf dist"
   },
   "nyc": {
