@@ -15,7 +15,7 @@ An MCP Gateway Implemented with PureMVC MultiCore and Pipes
 ```shell
 🔱 GatewayFacade - Preparing the Gateway Core
    📋 GatewayStartupCommand - Executing Gateway startup subcommands
-      ⚙️ GatewayPrepareModelCommand - Preparing Gateway Model
+      ⚙️ PrepareGatewayModelCommand - Preparing Gateway Model
          💾 GatewayConfigProxy - Registered with config
          ✔︎ Gateway Model prepared
       ⚙️ GatewayPrepareViewCommand - Preparing Gateway View

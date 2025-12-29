@@ -17,7 +17,10 @@ export class ManageSseTransportsCommand extends AsyncCommand {
   public async execute(_notification: INotification): Promise<void> {
     const f = this.facade as ILoggingFacade;
 
-    f.log(`⚙️ ManagerSseTransportsCommand - Manage MCP Interface SSE Transports`, 3);
+    f.log(
+      `⚙️ ManagerSseTransportsCommand - Manage MCP Interface SSE Transports`,
+      3,
+    );
 
     const startTransportManager = async () => {
       // Express app with permissive CORS for testing with Inspector direct connect mode

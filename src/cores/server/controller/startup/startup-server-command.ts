@@ -1,17 +1,17 @@
 import { AsyncMacroCommand } from "@puremvc/puremvc-typescript-util-async-command";
 import { INotification } from "@puremvc/puremvc-typescript-multicore-framework";
 import type { ILoggingFacade } from "../../../../common/index.js";
-import { ServerPrepareModelCommand } from "./server-prepare-model-command.js";
-import { ServerPrepareViewCommand } from "./server-prepare-view-command.js";
+import { PrepareServerModelCommand } from "./prepare-server-model-command.js";
+import { PrepareServerViewCommand } from "./prepare-server-view-command.js";
 
-export class ServerStartupCommand extends AsyncMacroCommand {
+export class StartupServerCommand extends AsyncMacroCommand {
   /**
    * Create the startup command pipeline for the App
    * @override
    */
   public override initializeAsyncMacroCommand(): void {
-    this.addSubCommand(() => new ServerPrepareModelCommand());
-    this.addSubCommand(() => new ServerPrepareViewCommand());
+    this.addSubCommand(() => new PrepareServerModelCommand());
+    this.addSubCommand(() => new PrepareServerViewCommand());
   }
 
   /**
@@ -21,7 +21,7 @@ export class ServerStartupCommand extends AsyncMacroCommand {
    */
   public override execute(note: INotification): void {
     const f = this.facade as ILoggingFacade;
-    f.log("📋 ServerStartupCommand - Executing Server startup subcommands", 4);
+    f.log("📋 StartupServerCommand - Executing Server startup subcommands", 4);
     super.execute(note);
   }
 }

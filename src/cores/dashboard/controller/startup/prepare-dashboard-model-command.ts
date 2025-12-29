@@ -9,12 +9,12 @@ import {
 import { DashboardConfigProxy } from "../../model/dashboard-config-proxy.js";
 import { DashboardStreamsProxy } from "../../model/dashboard-streams-proxy.js";
 
-export class DashboardPrepareModelCommand extends SimpleCommand {
+export class PrepareDashboardModelCommand extends SimpleCommand {
   public execute(notification: INotification): void {
     const config = notification.body as DashboardConfig;
     const f = this.facade as ILoggingFacade;
 
-    f.log(`⚙️ DashboardPrepareModelCommand - Preparing Dashboard Model`, 5);
+    f.log(`⚙️ PrepareDashboardModelCommand - Preparing Dashboard Model`, 5);
 
     // Register Proxies
     this.facade.registerProxy(new DashboardConfigProxy(config));

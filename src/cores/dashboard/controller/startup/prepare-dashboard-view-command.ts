@@ -5,11 +5,11 @@ import {
 import { type ILoggingFacade } from "../../../../common/index.js";
 import { DashboardJunctionMediator } from "../../view/dashboard-junction-mediator.js";
 
-export class DashboardPrepareViewCommand extends SimpleCommand {
+export class PrepareDashboardViewCommand extends SimpleCommand {
   public execute(_notification: INotification): void {
     const f = this.facade as ILoggingFacade;
 
-    f.log(`⚙️ DashboardPrepareViewCommand - Preparing Dashboard View`, 5);
+    f.log(`⚙️ PrepareDashboardViewCommand - Preparing Dashboard View`, 5);
 
     // Register Mediators
     this.facade.registerMediator(new DashboardJunctionMediator());

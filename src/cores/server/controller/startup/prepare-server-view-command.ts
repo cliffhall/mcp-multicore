@@ -1,25 +1,23 @@
 import { INotification } from "@puremvc/puremvc-typescript-multicore-framework";
 import { type ILoggingFacade, ServerConfig } from "../../../../common/index.js";
+import { ServerJunctionMediator } from "../../view/server-junction-mediator.js";
 import { AsyncCommand } from "@puremvc/puremvc-typescript-util-async-command";
-import { ServerConfigProxy } from "../../model/server-config-proxy.js";
 
-export class ServerPrepareModelCommand extends AsyncCommand {
+export class PrepareServerViewCommand extends AsyncCommand {
   public execute(notification: INotification): void {
     const config = notification.body as ServerConfig;
     const f = this.facade as ILoggingFacade;
 
     f.log(
-      `⚙️ ServerPrepareModelCommand - Preparing Server Model for ${config.name}`,
+      `⚙️ PrepareServerViewCommand - Preparing Server View for ${config.name}`,
       5,
     );
 
-    const serverConfig = notification.body as ServerConfig;
-
-    // Register Proxies
-    this.facade.registerProxy(new ServerConfigProxy(serverConfig));
+    // Register Mediators
+    this.facade.registerMediator(new ServerJunctionMediator());
 
     // Done
-    f.log("✔︎ Server Model prepared", 6);
+    f.log("✔︎ Server View prepared", 6);
     this.commandComplete();
   }
 }

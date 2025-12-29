@@ -17,31 +17,30 @@ export type MCPInterfaceFactoryResponse = {
  * - `server` {Object}: The initialized McpServer instance.
  * - `cleanup` {Function}: Function to perform cleanup operations for a closing session.
  */
-export const createMCPInterface: () => MCPInterfaceFactoryResponse =
-  () => {
-    const server = new McpServer(
-      {
-        name: "mcp-multicore/gateway",
-        title: "MCP MultiCore Gateway",
-        version: "0.1.0",
-      },
-      {
-        capabilities: {
-          tools: {
-            listChanged: true,
-          },
-          logging: {},
+export const createMCPInterface: () => MCPInterfaceFactoryResponse = () => {
+  const server = new McpServer(
+    {
+      name: "mcp-multicore/gateway",
+      title: "MCP MultiCore Gateway",
+      version: "0.1.0",
+    },
+    {
+      capabilities: {
+        tools: {
+          listChanged: true,
         },
-        instructions: "MCP MultiCore Gateway - Instructions go here",
+        logging: {},
       },
-    );
+      instructions: "MCP MultiCore Gateway - Instructions go here",
+    },
+  );
 
-    // Register the tools
-    registerTools(server);
+  // Register the tools
+  registerTools(server);
 
-    // Return the ServerFactoryResponse
-    return {
-      mcpServer: server,
-      cleanup: () => {},
-    } satisfies MCPInterfaceFactoryResponse;
-  };
+  // Return the ServerFactoryResponse
+  return {
+    mcpServer: server,
+    cleanup: () => {},
+  } satisfies MCPInterfaceFactoryResponse;
+};

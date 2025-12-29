@@ -2,7 +2,7 @@ import { Facade } from "@puremvc/puremvc-typescript-multicore-framework";
 import { LoggingFacade } from "../../common/index.js";
 import { ServerNotifications } from "../../common/index.js";
 import { ServerConfig } from "../../common/index.js";
-import { ServerStartupCommand } from "./controller/startup/server-startup-command.js";
+import { StartupServerCommand } from "./controller/startup/startup-server-command.js";
 
 /**
  * ServerFacade
@@ -30,7 +30,7 @@ export class ServerFacade extends LoggingFacade {
     super.initializeController();
     this.registerCommand(
       ServerNotifications.STARTUP,
-      () => new ServerStartupCommand(),
+      () => new StartupServerCommand(),
     );
   }
 

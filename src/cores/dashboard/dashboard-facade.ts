@@ -5,7 +5,7 @@ import {
   type DashboardConfig,
   type ILoggingFacade,
 } from "../../common/index.js";
-import { DashboardStartupCommand } from "./controller/startup/dashboard-startup-command.js";
+import { StartupDashboardCommand } from "./controller/startup/startup-dashboard-command.js";
 
 /**
  * DashboardFacade
@@ -31,7 +31,7 @@ export class DashboardFacade extends LoggingFacade implements ILoggingFacade {
     super.initializeController();
     this.registerCommand(
       DashboardNotifications.STARTUP,
-      () => new DashboardStartupCommand(),
+      () => new StartupDashboardCommand(),
     );
   }
 

@@ -8,7 +8,10 @@ export class ManageStdioTransportCommand extends AsyncCommand {
   public async execute(_notification: INotification): Promise<void> {
     const f = this.facade as ILoggingFacade;
 
-    f.log(`⚙️ ManageStdioClientsCommand -Manage MCP Interface STDIO Transport`, 3);
+    f.log(
+      `⚙️ ManageStdioClientsCommand -Manage MCP Interface STDIO Transport`,
+      3,
+    );
 
     const startTransportManager = async () => {
       // Create the server and transport
