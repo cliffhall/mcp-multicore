@@ -5,6 +5,7 @@ import { GatewayPrepareViewCommand } from "./gateway-prepare-view.js";
 import { PlumbDashboardCommand } from "./plumb-dashboard-command.js";
 import type { ILoggingFacade } from "../../../../common/index.js";
 import { PlumbServersCommand } from "./plumb-servers-command.js";
+import { StartMcpInterfaceCommand } from "./start-mcp-interface-command.js";
 
 export class GatewayStartupCommand extends AsyncMacroCommand {
   /**
@@ -16,6 +17,7 @@ export class GatewayStartupCommand extends AsyncMacroCommand {
     this.addSubCommand(() => new GatewayPrepareViewCommand());
     this.addSubCommand(() => new PlumbDashboardCommand());
     this.addSubCommand(() => new PlumbServersCommand());
+    this.addSubCommand(() => new StartMcpInterfaceCommand());
   }
 
   /**

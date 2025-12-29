@@ -4,8 +4,11 @@ import { SingletonKeys } from "./common/index.js";
 
 // Simulated config
 const config = {
-  port: 3001,
-  host: "localhost",
+  gateway: {
+    port: 3001,
+    host: "localhost",
+    transport: "streamable-http",
+  },
   dashboard: {
     port: 8080,
     host: "localhost",

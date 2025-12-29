@@ -1,14 +1,7 @@
-// Keys for singleton-cores
+// Keys for singleton cores
 export class SingletonKeys {
   static readonly GATEWAY = "gateway";
   static readonly DASHBOARD = "dashboard";
-  static readonly ADAPTER = "adapter";
-}
-
-// Adapter Core notifications
-export class AdapterNotifications {
-  static readonly STARTUP = "adapter/startup";
-  static readonly PROCESS_JSON_RPC_MESSAGE = "adapter/message/process";
 }
 
 // Gateway Core notifications
