@@ -14,7 +14,7 @@ export type MCPInterfaceFactoryResponse = {
  * function for handling server-side cleanup when a session ends.
  *
  * Properties of the returned object:
- * - `server` {Object}: The initialized McpServer instance.
+ * - `mcpServer` {Object}: The initialized McpServer instance.
  * - `cleanup` {Function}: Function to perform cleanup operations for a closing session.
  */
 export const createMCPInterface: () => MCPInterfaceFactoryResponse = () => {
