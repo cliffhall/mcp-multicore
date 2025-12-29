@@ -214,7 +214,7 @@ export class ManageStreamableHttpTransportsCommand extends AsyncCommand {
         console.log("Shutting down server...");
 
         // Close all active transports to properly clean up resources
-        for (const sessionId in transports) {
+        for (const [sessionId, transport] of transports) {
           try {
             console.log(`Closing transport for session ${sessionId}`);
             await transports.get(sessionId)!.close();
