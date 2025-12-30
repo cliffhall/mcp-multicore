@@ -1,8 +1,7 @@
-/**
- * Value objects for passing data between components
- */
 import type { IFacade } from "@puremvc/puremvc-typescript-multicore-framework";
 import { type IPipeMessage } from "@puremvc/puremvc-typescript-util-pipes";
+import { SSEServerTransport } from "@modelcontextprotocol/sdk/server/sse.js";
+import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/streamableHttp.js";
 
 export interface ILoggingFacade extends IFacade {
   log: (message: string, indent?: number) => void;
@@ -20,6 +19,11 @@ export interface GatewayConfig {
   };
   dashboard?: DashboardConfig;
   servers?: ServerConfig[];
+}
+
+export interface GatewayTransports {
+  sse?: Map<string, SSEServerTransport>;
+  streamableHttp?: Map<string, StreamableHTTPServerTransport>;
 }
 
 /**

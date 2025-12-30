@@ -6,13 +6,8 @@ import { createMCPInterface } from "../index.js";
 import express from "express";
 import cors from "cors";
 import { GatewayConfigProxy } from "../../../model/gateway-config-proxy.js";
+import {McpTransportsProxy} from "../../../model/mcp-transports-proxy.js";
 
-// Map sessionId to transport for each client
-// TODO proxy this
-const transports: Map<string, SSEServerTransport> = new Map<
-  string,
-  SSEServerTransport
->();
 
 export class ManageSseTransportsCommand extends AsyncCommand {
   public async execute(_notification: INotification): Promise<void> {
@@ -28,6 +23,14 @@ export class ManageSseTransportsCommand extends AsyncCommand {
       GatewayConfigProxy.NAME,
     ) as GatewayConfigProxy;
     const gatewayConfig = gatewayConfigProxy.gateway;
+
+    // Get the session id to streamable-http transport map
+    const mcpTransportsProxy = this.facade.retrieveProxy(
+      McpTransportsProxy.NAME,
+    ) as McpTransportsProxy;
+
+    // Proxy will already be registered, default is only to satisfy typescript
+    let transports = mcpTransportsProxy.sse || new Map<string, SSEServerTransport>();
 
     const startTransportManager = async () => {
       // Express app with permissive CORS for testing with Inspector direct connect mode

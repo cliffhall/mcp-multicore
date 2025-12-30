@@ -8,12 +8,8 @@ import { createMCPInterface } from "../index.js";
 import { randomUUID } from "node:crypto";
 import cors from "cors";
 import { GatewayConfigProxy } from "../../../model/gateway-config-proxy.js";
+import { McpTransportsProxy } from "../../../model/mcp-transports-proxy.js";
 
-// Map sessionId to server transport for each client
-const transports: Map<string, StreamableHTTPServerTransport> = new Map<
-  string,
-  StreamableHTTPServerTransport
->();
 
 export class ManageStreamableHttpTransportsCommand extends AsyncCommand {
   public async execute(_notification: INotification): Promise<void> {
@@ -30,12 +26,20 @@ export class ManageStreamableHttpTransportsCommand extends AsyncCommand {
     ) as GatewayConfigProxy;
     const gatewayConfig = gatewayConfigProxy.gateway;
 
+    // Get the session id to streamable-http transport map
+    const mcpTransportsProxy = this.facade.retrieveProxy(
+      McpTransportsProxy.NAME,
+    ) as McpTransportsProxy;
+
+    // Proxy will already be registered, default is only to satisfy typescript
+    let transports = mcpTransportsProxy.streamableHttp || new Map<string, StreamableHTTPServerTransport>();
+
     const startTransportManager = async () => {
       // Express app with permissive CORS for testing with Inspector direct connect mode
       const app = express();
       app.use(
         cors({
-          origin: "localhost",
+          origin: "*",
           methods: "GET,POST,DELETE",
           preflightContinue: false,
           optionsSuccessStatus: 204,
