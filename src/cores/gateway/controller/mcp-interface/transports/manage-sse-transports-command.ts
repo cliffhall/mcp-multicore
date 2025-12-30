@@ -55,7 +55,7 @@ export class ManageSseTransportsCommand extends AsyncCommand {
           const sessionId = req?.query?.sessionId as string;
           transport = transports.get(sessionId) as SSEServerTransport;
           f.log(
-            `⚠️ Client ${transport.sessionId} Reconnecting? This shouldn't happen; when client has a sessionId, GET /sse should not be called again.`,
+            `⚠️ Client ${transport?.sessionId} Reconnecting? This shouldn't happen; when client has a sessionId, GET /sse should not be called again.`,
             4,
           );
         } else {
