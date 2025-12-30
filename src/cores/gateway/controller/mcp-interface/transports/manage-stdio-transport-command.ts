@@ -9,7 +9,7 @@ export class ManageStdioTransportCommand extends AsyncCommand {
     const f = this.facade as ILoggingFacade;
 
     f.log(
-      `⚙️ ManageStdioClientsCommand -Manage MCP Interface STDIO Transport`,
+      `⚙️ ManageStdioTransportCommand - Manage MCP Interface STDIO Transport`,
       3,
     );
 
