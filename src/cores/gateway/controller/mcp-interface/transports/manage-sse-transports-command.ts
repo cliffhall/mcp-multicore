@@ -5,6 +5,7 @@ import { type ILoggingFacade } from "../../../../../common/index.js";
 import { createMCPInterface } from "../index.js";
 import express from "express";
 import cors from "cors";
+import { GatewayConfigProxy } from "../../../model/gateway-config-proxy.js";
 
 // Map sessionId to transport for each client
 // TODO proxy this
@@ -22,6 +23,12 @@ export class ManageSseTransportsCommand extends AsyncCommand {
       3,
     );
 
+    // Get the gateway configuration
+    const gatewayConfigProxy = this.facade.retrieveProxy(
+      GatewayConfigProxy.NAME,
+    ) as GatewayConfigProxy;
+    const gatewayConfig = gatewayConfigProxy.gateway;
+
     const startTransportManager = async () => {
       // Express app with permissive CORS for testing with Inspector direct connect mode
       const app = express();
@@ -36,6 +43,7 @@ export class ManageSseTransportsCommand extends AsyncCommand {
 
       // Handle GET requests for new SSE streams
       app.get("/sse", async (req, res) => {
+        f.log(`📥 Received GET request`, 4);
         let transport: SSEServerTransport;
         const { mcpServer, cleanup } = createMCPInterface();
 
@@ -55,18 +63,12 @@ export class ManageSseTransportsCommand extends AsyncCommand {
           // Connect server to transport
           await mcpServer.connect(transport);
           const sessionId = transport.sessionId;
-          f.log(
-            `🏁 Client Connected ${sessionId}.`,
-            4,
-          );
+          f.log(`🔌 Session initialized with ID ${sessionId}`, 5);
 
           // Handle close of connection
           mcpServer.server.onclose = async () => {
             const sessionId = transport.sessionId;
-            f.log(
-              `🛑 Client Disconnected ${sessionId}.`,
-              4,
-            );
+            f.log(`🛑 Client Disconnected ${sessionId}.`, 4);
             transports.delete(sessionId);
             cleanup(sessionId);
           };
@@ -75,32 +77,24 @@ export class ManageSseTransportsCommand extends AsyncCommand {
 
       // Handle POST requests for client messages
       app.post("/message", async (req, res) => {
+        f.log(`📥 Received POST request`, 4);
         // Session Id should exist for POST /message requests
         const sessionId = req?.query?.sessionId as string;
 
         // Get the transport for this session and use it to handle the request
         const transport = transports.get(sessionId);
         if (transport) {
-          f.log(
-            `📥 Client Message from ${sessionId}.`,
-            4,
-          );
+          f.log(`📥 Handling MCP Message from ${sessionId}`, 5);
           await transport.handlePostMessage(req, res);
         } else {
-          f.log(
-            `⚠️ No transport found for sessionId ${sessionId}.`,
-            4,
-          );
+          f.log(`⚠️ No transport found for sessionId ${sessionId}.`, 5);
         }
       });
 
       // Start the express server
-      const PORT = process.env.PORT || 3001;
-      app.listen(PORT, () => {
-        f.log(
-          `🎧 SSE MCP Server listening on port ${PORT}}.`,
-          4,
-        );
+      const port = gatewayConfig.port || 3001;
+      app.listen(port, () => {
+        f.log(`🎧 SSE MCP Server listening on port ${port}`, 4);
       });
     };
 

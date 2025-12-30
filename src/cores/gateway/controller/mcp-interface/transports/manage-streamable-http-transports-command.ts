@@ -7,6 +7,7 @@ import express, { Request, Response } from "express";
 import { createMCPInterface } from "../index.js";
 import { randomUUID } from "node:crypto";
 import cors from "cors";
+import { GatewayConfigProxy } from "../../../model/gateway-config-proxy.js";
 
 // Map sessionId to server transport for each client
 const transports: Map<string, StreamableHTTPServerTransport> = new Map<
@@ -22,6 +23,12 @@ export class ManageStreamableHttpTransportsCommand extends AsyncCommand {
       `⚙️ StreamableHttpTransportManagerCommand - Manage MCP Interface Streamable HTTP Transports`,
       3,
     );
+
+    // Get the gateway configuration
+    const gatewayConfigProxy = this.facade.retrieveProxy(
+      GatewayConfigProxy.NAME,
+    ) as GatewayConfigProxy;
+    const gatewayConfig = gatewayConfigProxy.gateway;
 
     const startTransportManager = async () => {
       // Express app with permissive CORS for testing with Inspector direct connect mode
@@ -42,10 +49,7 @@ export class ManageStreamableHttpTransportsCommand extends AsyncCommand {
 
       // Handle POST requests for client messages
       app.post("/mcp", async (req: Request, res: Response) => {
-        f.log(
-          `📥 Received MCP POST request`,
-          4,
-        );
+        f.log(`📥 Received POST request`, 4);
         try {
           // Check for existing session ID
           const sessionId = req.headers["mcp-session-id"] as string | undefined;
@@ -55,6 +59,9 @@ export class ManageStreamableHttpTransportsCommand extends AsyncCommand {
           if (sessionId && transports.has(sessionId)) {
             // Reuse existing transport
             transport = transports.get(sessionId)!;
+            f.log(`📤 Handling MCP Message from ${sessionId}`, 5);
+            await transport.handleRequest(req, res);
+            return;
           } else if (!sessionId) {
             const { mcpServer, cleanup } = createMCPInterface();
 
@@ -64,10 +71,7 @@ export class ManageStreamableHttpTransportsCommand extends AsyncCommand {
               sessionIdGenerator: () => randomUUID(),
               eventStore, // Enable resumability
               onsessioninitialized: (sessionId: string) => {
-                f.log(
-                  `🔌 Session initialized with ID ${sessionId}`,
-                  4,
-                );
+                f.log(`🔌 Session initialized with ID ${sessionId}`, 5);
                 // Store the transport by session ID when a session is initialized
                 // This avoids race conditions where requests might come in before the session is stored
                 transports.set(sessionId, transport);
@@ -78,42 +82,34 @@ export class ManageStreamableHttpTransportsCommand extends AsyncCommand {
             mcpServer.server.onclose = async () => {
               const sid = transport.sessionId;
               if (sid && transports.has(sid)) {
-                f.log(
-                  `🛑 Transport closed for session ${sid}, removing from transports map`,
-                  4,
-                );
+                f.log(`✅  Transport closed for session ${sid}`, 6);
                 transports.delete(sid);
                 cleanup(sid);
               }
             };
 
-            // Connect the transport to the MCP server BEFORE handling the request
-            // so responses can flow back through the same transport
             await mcpServer.connect(transport);
+
+            f.log(`📤 Handling MCP Initialization request`, 5);
+
             await transport.handleRequest(req, res);
             return;
           } else {
+            const message = "Bad Request: No transport for provided session ID";
+            f.log(`🔌 ${message}`, 5);
             // Invalid request - no session ID or not initialization request
             res.status(400).json({
               jsonrpc: "2.0",
               error: {
                 code: -32000,
-                message: "Bad Request: No valid session ID provided",
+                message,
               },
               id: req?.body?.id,
             });
             return;
           }
-
-          // Handle the request with existing transport - no need to reconnect
-          // The existing transport is already connected to the server
-          await transport.handleRequest(req, res);
         } catch (error) {
-          f.log(
-            `⚠️ Error handling MCP request ${error}`,
-            4,
-          );
-          console.log("Error handling MCP request:", error);
+          f.log(`⚠️ Error handling MCP request ${error}`, 4);
           if (!res.headersSent) {
             res.status(500).json({
               jsonrpc: "2.0",
@@ -130,14 +126,16 @@ export class ManageStreamableHttpTransportsCommand extends AsyncCommand {
 
       // Handle GET requests for SSE streams
       app.get("/mcp", async (req: Request, res: Response) => {
-        console.log("Received MCP GET request");
+        f.log(`📥 Received GET request`, 4);
         const sessionId = req.headers["mcp-session-id"] as string | undefined;
         if (!sessionId || !transports.has(sessionId)) {
+          const message = `Bad Request: No valid session ID provided`;
+          f.log(`🔌 ${message}`, 5);
           res.status(400).json({
             jsonrpc: "2.0",
             error: {
               code: -32000,
-              message: "Bad Request: No valid session ID provided",
+              message,
             },
             id: req?.body?.id,
           });
@@ -147,55 +145,48 @@ export class ManageStreamableHttpTransportsCommand extends AsyncCommand {
         // Check for Last-Event-ID header for resumability
         const lastEventId = req.headers["last-event-id"] as string | undefined;
         if (lastEventId) {
-          f.log(
-            `🔌 Client reconnecting with Last-Event-ID: ${lastEventId}`,
-            4,
-          );
-          console.log(`Client reconnecting with Last-Event-ID: ${lastEventId}`);
+          f.log(`🔌 Client reconnecting with Last-Event-ID: ${lastEventId}`, 5);
         } else {
-          f.log(
-            `🏁 Establishing new SSE stream for session ${sessionId}`,
-            4,
-          );
+          f.log(`🏁 Establishing new SSE stream for session ${sessionId}`, 5);
         }
 
         const transport = transports.get(sessionId);
+        f.log(`📤 Handling SSE handshake for session ${sessionId}`, 5);
         await transport!.handleRequest(req, res);
       });
 
       // Handle DELETE requests for session termination
       app.delete("/mcp", async (req: Request, res: Response) => {
+        f.log(`📥 Received DELETE request`, 4);
+
         const sessionId = req.headers["mcp-session-id"] as string | undefined;
         if (!sessionId || !transports.has(sessionId)) {
+          const message = "Bad Request: No valid session ID provided";
+          f.log(`🔌 ${message}`, 5);
           res.status(400).json({
             jsonrpc: "2.0",
             error: {
               code: -32000,
-              message: "Bad Request: No valid session ID provided",
+              message,
             },
             id: req?.body?.id,
           });
           return;
         }
-        f.log(
-          `🛑 Received session termination request for session ${sessionId}`,
-          4,
-        );
 
         try {
           const transport = transports.get(sessionId);
+          f.log(`🔌 Handling termination request for session ${sessionId}`, 5);
           await transport!.handleRequest(req, res);
         } catch (error) {
-          f.log(
-            `⚠️ Error handling session termination - ${error}`,
-            4,
-          );
           if (!res.headersSent) {
+            const message = `Error handling session termination ${error}`;
+            f.log(`⚠️ ${message}`, 5);
             res.status(500).json({
               jsonrpc: "2.0",
               error: {
                 code: -32603,
-                message: "Error handling session termination",
+                message,
               },
               id: req?.body?.id,
             });
@@ -205,12 +196,9 @@ export class ManageStreamableHttpTransportsCommand extends AsyncCommand {
       });
 
       // Start the server
-      const PORT = process.env.PORT || 3001;
-      const server = app.listen(PORT, () => {
-        f.log(
-          `🎧 Streamable HTTP MCP Server listening on port ${PORT}`,
-          4,
-        );
+      const port = gatewayConfig.port || 3001;
+      const server = app.listen(port, () => {
+        f.log(`🎧 Streamable HTTP MCP Server listening on port ${port}`, 4);
       });
 
       // Handle server errors
@@ -220,15 +208,9 @@ export class ManageStreamableHttpTransportsCommand extends AsyncCommand {
             ? (err as { code?: unknown }).code
             : undefined;
         if (code === "EADDRINUSE") {
-          f.log(
-            `⚠️ Failed to start: Port ${PORT} is already in use. `,
-            4,
-          );
+          f.log(`⚠️ Failed to start: Port ${port} is already in use. `, 4);
         } else {
-          f.log(
-            `⚠️ Failed to start: Unexpected error: ${err}`,
-            4,
-          );
+          f.log(`⚠️ Failed to start: Unexpected error: ${err}`, 4);
         }
         // Ensure a non-zero exit so npm reports the failure instead of silently exiting
         process.exit(1);
@@ -236,32 +218,22 @@ export class ManageStreamableHttpTransportsCommand extends AsyncCommand {
 
       // Handle server shutdown
       process.on("SIGINT", async () => {
-        console.log("Shutting down server...");
-        f.log(
-          `❌ Shutting down server...`,
-          4,
-        );
+        f.log(` ❌  Shutting down server...`, 4);
         // Close all active transports to properly clean up resources
         for (const [sessionId] of transports) {
           try {
-            f.log(
-              `🛑 Closing transport for session ${sessionId}`,
-              4,
-            );
+            f.log(`🔌 Closing transport for session ${sessionId}`, 6);
             await transports.get(sessionId)!.close();
             transports.delete(sessionId);
           } catch (error) {
             f.log(
               `⚠️ Error closing transport for session ${sessionId}: ${error}`,
-              4,
+              6,
             );
           }
         }
 
-        f.log(
-          `🛑 Server shutdown complete`,
-          4,
-        );
+        f.log(`🛑 Server shutdown complete`, 5);
         process.exit(0);
       });
     };
