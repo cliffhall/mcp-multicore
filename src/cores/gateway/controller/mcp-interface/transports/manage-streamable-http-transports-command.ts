@@ -55,6 +55,17 @@ export class ManageStreamableHttpTransportsCommand extends AsyncCommand {
         }),
       );
 
+      const handle400Response = (res: Response,  message: string, id: string ) => {
+        res.status(400).json({
+          jsonrpc: "2.0",
+          error: {
+            code: -32000,
+            message,
+          },
+          id
+        });
+      }
+
       // Handle POST requests for client messages
       app.post(MAIN_ENDPOINT, async (req: Request, res: Response) => {
         f.log(`📥 Received POST request`, 4);
@@ -105,15 +116,7 @@ export class ManageStreamableHttpTransportsCommand extends AsyncCommand {
           } else {
             const message = "Bad Request: No transport for provided session ID";
             f.log(`🔌 ${message}`, 5);
-            // Invalid request - no session ID or not initialization request
-            res.status(400).json({
-              jsonrpc: "2.0",
-              error: {
-                code: -32000,
-                message,
-              },
-              id: req?.body?.id,
-            });
+            handle400Response(res, message, req?.body?.id);
             return;
           }
         } catch (error) {
@@ -139,14 +142,7 @@ export class ManageStreamableHttpTransportsCommand extends AsyncCommand {
         if (!sessionId || !transports.has(sessionId)) {
           const message = `Bad Request: No valid session ID provided`;
           f.log(`🔌 ${message}`, 5);
-          res.status(400).json({
-            jsonrpc: "2.0",
-            error: {
-              code: -32000,
-              message,
-            },
-            id: req?.body?.id,
-          });
+          handle400Response(res, message, req?.body?.id);
           return;
         }
 
@@ -171,14 +167,7 @@ export class ManageStreamableHttpTransportsCommand extends AsyncCommand {
         if (!sessionId || !transports.has(sessionId)) {
           const message = "Bad Request: No valid session ID provided";
           f.log(`🔌 ${message}`, 5);
-          res.status(400).json({
-            jsonrpc: "2.0",
-            error: {
-              code: -32000,
-              message,
-            },
-            id: req?.body?.id,
-          });
+          handle400Response(res, message, req?.body?.id);
           return;
         }
 
