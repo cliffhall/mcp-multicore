@@ -7,7 +7,7 @@ const config = {
   gateway: {
     port: 3001,
     host: "localhost",
-    transport: "sse",
+    transport: "streamable-http",
   },
   dashboard: {
     port: 8080,
