@@ -42,7 +42,10 @@ export class ManageStreamableHttpTransportsCommand extends AsyncCommand {
 
       // Handle POST requests for client messages
       app.post("/mcp", async (req: Request, res: Response) => {
-        console.log("Received MCP POST request");
+        f.log(
+          `📥 Received MCP POST request`,
+          4,
+        );
         try {
           // Check for existing session ID
           const sessionId = req.headers["mcp-session-id"] as string | undefined;
@@ -61,9 +64,12 @@ export class ManageStreamableHttpTransportsCommand extends AsyncCommand {
               sessionIdGenerator: () => randomUUID(),
               eventStore, // Enable resumability
               onsessioninitialized: (sessionId: string) => {
+                f.log(
+                  `🔌 Session initialized with ID ${sessionId}`,
+                  4,
+                );
                 // Store the transport by session ID when a session is initialized
                 // This avoids race conditions where requests might come in before the session is stored
-                console.log(`Session initialized with ID: ${sessionId}`);
                 transports.set(sessionId, transport);
               },
             });
@@ -72,8 +78,9 @@ export class ManageStreamableHttpTransportsCommand extends AsyncCommand {
             mcpServer.server.onclose = async () => {
               const sid = transport.sessionId;
               if (sid && transports.has(sid)) {
-                console.log(
-                  `Transport closed for session ${sid}, removing from transports map`,
+                f.log(
+                  `🛑 Transport closed for session ${sid}, removing from transports map`,
+                  4,
                 );
                 transports.delete(sid);
                 cleanup(sid);
@@ -102,6 +109,10 @@ export class ManageStreamableHttpTransportsCommand extends AsyncCommand {
           // The existing transport is already connected to the server
           await transport.handleRequest(req, res);
         } catch (error) {
+          f.log(
+            `⚠️ Error handling MCP request ${error}`,
+            4,
+          );
           console.log("Error handling MCP request:", error);
           if (!res.headersSent) {
             res.status(500).json({
@@ -136,9 +147,16 @@ export class ManageStreamableHttpTransportsCommand extends AsyncCommand {
         // Check for Last-Event-ID header for resumability
         const lastEventId = req.headers["last-event-id"] as string | undefined;
         if (lastEventId) {
+          f.log(
+            `🔌 Client reconnecting with Last-Event-ID: ${lastEventId}`,
+            4,
+          );
           console.log(`Client reconnecting with Last-Event-ID: ${lastEventId}`);
         } else {
-          console.log(`Establishing new SSE stream for session ${sessionId}`);
+          f.log(
+            `🏁 Establishing new SSE stream for session ${sessionId}`,
+            4,
+          );
         }
 
         const transport = transports.get(sessionId);
@@ -159,16 +177,19 @@ export class ManageStreamableHttpTransportsCommand extends AsyncCommand {
           });
           return;
         }
-
-        console.log(
-          `Received session termination request for session ${sessionId}`,
+        f.log(
+          `🛑 Received session termination request for session ${sessionId}`,
+          4,
         );
 
         try {
           const transport = transports.get(sessionId);
           await transport!.handleRequest(req, res);
         } catch (error) {
-          console.log("Error handling session termination:", error);
+          f.log(
+            `⚠️ Error handling session termination - ${error}`,
+            4,
+          );
           if (!res.headersSent) {
             res.status(500).json({
               jsonrpc: "2.0",
@@ -186,7 +207,10 @@ export class ManageStreamableHttpTransportsCommand extends AsyncCommand {
       // Start the server
       const PORT = process.env.PORT || 3001;
       const server = app.listen(PORT, () => {
-        console.error(`MCP Streamable HTTP Server listening on port ${PORT}`);
+        f.log(
+          `🎧 Streamable HTTP MCP Server listening on port ${PORT}`,
+          4,
+        );
       });
 
       // Handle server errors
@@ -196,13 +220,14 @@ export class ManageStreamableHttpTransportsCommand extends AsyncCommand {
             ? (err as { code?: unknown }).code
             : undefined;
         if (code === "EADDRINUSE") {
-          console.error(
-            `Failed to start: Port ${PORT} is already in use. Set PORT to a free port or stop the conflicting process.`,
+          f.log(
+            `⚠️ Failed to start: Port ${PORT} is already in use. `,
+            4,
           );
         } else {
-          console.error(
-            "HTTP server encountered an error while starting:",
-            err,
+          f.log(
+            `⚠️ Failed to start: Unexpected error: ${err}`,
+            4,
           );
         }
         // Ensure a non-zero exit so npm reports the failure instead of silently exiting
@@ -212,22 +237,31 @@ export class ManageStreamableHttpTransportsCommand extends AsyncCommand {
       // Handle server shutdown
       process.on("SIGINT", async () => {
         console.log("Shutting down server...");
-
+        f.log(
+          `❌ Shutting down server...`,
+          4,
+        );
         // Close all active transports to properly clean up resources
-        for (const [sessionId, transport] of transports) {
+        for (const [sessionId] of transports) {
           try {
-            console.log(`Closing transport for session ${sessionId}`);
+            f.log(
+              `🛑 Closing transport for session ${sessionId}`,
+              4,
+            );
             await transports.get(sessionId)!.close();
             transports.delete(sessionId);
           } catch (error) {
-            console.log(
-              `Error closing transport for session ${sessionId}:`,
-              error,
+            f.log(
+              `⚠️ Error closing transport for session ${sessionId}: ${error}`,
+              4,
             );
           }
         }
 
-        console.log("Server shutdown complete");
+        f.log(
+          `🛑 Server shutdown complete`,
+          4,
+        );
         process.exit(0);
       });
     };

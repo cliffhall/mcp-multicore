@@ -43,9 +43,9 @@ export class ManageSseTransportsCommand extends AsyncCommand {
         if (req?.query?.sessionId) {
           const sessionId = req?.query?.sessionId as string;
           transport = transports.get(sessionId) as SSEServerTransport;
-          console.error(
-            "Client Reconnecting? This shouldn't happen; when client has a sessionId, GET /sse should not be called again.",
-            transport.sessionId,
+          f.log(
+            `⚠️ Client ${transport.sessionId} Reconnecting? This shouldn't happen; when client has a sessionId, GET /sse should not be called again.`,
+            4,
           );
         } else {
           // Create and store transport for the new session
@@ -55,12 +55,18 @@ export class ManageSseTransportsCommand extends AsyncCommand {
           // Connect server to transport
           await mcpServer.connect(transport);
           const sessionId = transport.sessionId;
-          console.error("Client Connected: ", sessionId);
+          f.log(
+            `🏁 Client Connected ${sessionId}.`,
+            4,
+          );
 
           // Handle close of connection
           mcpServer.server.onclose = async () => {
             const sessionId = transport.sessionId;
-            console.error("Client Disconnected: ", sessionId);
+            f.log(
+              `🛑 Client Disconnected ${sessionId}.`,
+              4,
+            );
             transports.delete(sessionId);
             cleanup(sessionId);
           };
@@ -75,17 +81,26 @@ export class ManageSseTransportsCommand extends AsyncCommand {
         // Get the transport for this session and use it to handle the request
         const transport = transports.get(sessionId);
         if (transport) {
-          console.error("Client Message from", sessionId);
+          f.log(
+            `📥 Client Message from ${sessionId}.`,
+            4,
+          );
           await transport.handlePostMessage(req, res);
         } else {
-          console.error(`No transport found for sessionId ${sessionId}`);
+          f.log(
+            `⚠️ No transport found for sessionId ${sessionId}.`,
+            4,
+          );
         }
       });
 
       // Start the express server
       const PORT = process.env.PORT || 3001;
       app.listen(PORT, () => {
-        console.error(`Server is running on port ${PORT}`);
+        f.log(
+          `🎧 SSE MCP Server listening on port ${PORT}}.`,
+          4,
+        );
       });
     };
 
