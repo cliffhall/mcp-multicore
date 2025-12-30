@@ -41,6 +41,8 @@ export const createMCPInterface: () => MCPInterfaceFactoryResponse = () => {
   // Return the ServerFactoryResponse
   return {
     mcpServer: server,
-    cleanup: () => {},
+    cleanup: () => {
+      // TODO: Implement cleanup logic for the closing session if needed
+    },
   } satisfies MCPInterfaceFactoryResponse;
 };
