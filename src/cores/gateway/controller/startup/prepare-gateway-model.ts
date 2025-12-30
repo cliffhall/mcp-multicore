@@ -7,7 +7,7 @@ import {
   type ILoggingFacade,
 } from "../../../../common/index.js";
 import { GatewayConfigProxy } from "../../model/gateway-config-proxy.js";
-import {McpTransportsProxy} from "../../model/mcp-transports-proxy.js";
+import { McpTransportsProxy } from "../../model/mcp-transports-proxy.js";
 
 export class PrepareGatewayModelCommand extends SimpleCommand {
   public execute(notification: INotification): void {

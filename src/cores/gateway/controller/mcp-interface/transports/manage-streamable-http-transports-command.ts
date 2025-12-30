@@ -10,7 +10,6 @@ import cors from "cors";
 import { GatewayConfigProxy } from "../../../model/gateway-config-proxy.js";
 import { McpTransportsProxy } from "../../../model/mcp-transports-proxy.js";
 
-
 export class ManageStreamableHttpTransportsCommand extends AsyncCommand {
   public async execute(_notification: INotification): Promise<void> {
     const f = this.facade as ILoggingFacade;
@@ -32,7 +31,9 @@ export class ManageStreamableHttpTransportsCommand extends AsyncCommand {
     ) as McpTransportsProxy;
 
     // Proxy will already be registered, default is only to satisfy typescript
-    let transports = mcpTransportsProxy.streamableHttp || new Map<string, StreamableHTTPServerTransport>();
+    let transports =
+      mcpTransportsProxy.streamableHttp ||
+      new Map<string, StreamableHTTPServerTransport>();
 
     const startTransportManager = async () => {
       // Express app with permissive CORS for testing with Inspector direct connect mode

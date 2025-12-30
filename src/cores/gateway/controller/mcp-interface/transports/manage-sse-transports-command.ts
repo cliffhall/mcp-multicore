@@ -6,8 +6,7 @@ import { createMCPInterface } from "../index.js";
 import express from "express";
 import cors from "cors";
 import { GatewayConfigProxy } from "../../../model/gateway-config-proxy.js";
-import {McpTransportsProxy} from "../../../model/mcp-transports-proxy.js";
-
+import { McpTransportsProxy } from "../../../model/mcp-transports-proxy.js";
 
 export class ManageSseTransportsCommand extends AsyncCommand {
   public async execute(_notification: INotification): Promise<void> {
@@ -30,7 +29,8 @@ export class ManageSseTransportsCommand extends AsyncCommand {
     ) as McpTransportsProxy;
 
     // Proxy will already be registered, default is only to satisfy typescript
-    let transports = mcpTransportsProxy.sse || new Map<string, SSEServerTransport>();
+    let transports =
+      mcpTransportsProxy.sse || new Map<string, SSEServerTransport>();
 
     const startTransportManager = async () => {
       // Express app with permissive CORS for testing with Inspector direct connect mode
