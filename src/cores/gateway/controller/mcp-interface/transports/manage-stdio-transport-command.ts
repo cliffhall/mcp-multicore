@@ -22,11 +22,16 @@ export class ManageStdioTransportCommand extends AsyncCommand {
       await mcpServer.connect(transport);
 
       // Cleanup on exit
-      process.on("SIGINT", async () => {
+      const cleanupAndExit = async () => {
         await mcpServer.close();
         cleanup();
         process.exit(0);
-      });
+      };
+      process.on("SIGINT", cleanupAndExit);
+      process.on("SIGTERM", cleanupAndExit);
+
+
+
     };
 
     startTransportManager().then(() => {
