@@ -3,7 +3,7 @@ An MCP Gateway Implemented with PureMVC MultiCore and Pipes
 
 ## Docs
 * [Project Brief](docs/brief.md) 
-* [Technical Specification](docs/spec.md)
+* [Technical Specification](docs/spec-draft.md)
 
 ## Status
 * Config-driven Gateway, Dashboard, and (multiple) Server Cores initialized and plumbed.
