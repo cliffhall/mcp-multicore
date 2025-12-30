@@ -7,7 +7,7 @@ import { SSEServerTransport } from "@modelcontextprotocol/sdk/server/sse.js";
 import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/streamableHttp.js";
 
 export class McpTransportsProxy extends Proxy {
-  static NAME: string = "MCPTransportsProxy";
+  static NAME: string = "McpTransportsProxy";
 
   constructor() {
     super(McpTransportsProxy.NAME, {
