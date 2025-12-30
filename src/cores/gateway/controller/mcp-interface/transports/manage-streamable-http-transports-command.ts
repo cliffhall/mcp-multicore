@@ -204,7 +204,7 @@ export class ManageStreamableHttpTransportsCommand extends AsyncCommand {
       });
 
       // Start the server
-      const port = gatewayConfig.port || 3001;
+      const port = gatewayConfig.port;
       const server = app.listen(port, () => {
         f.log(`🎧 Streamable HTTP MCP Server listening on port ${port}`, 4);
       });

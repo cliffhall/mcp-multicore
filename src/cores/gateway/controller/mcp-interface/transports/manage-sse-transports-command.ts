@@ -99,7 +99,7 @@ export class ManageSseTransportsCommand extends AsyncCommand {
       });
 
       // Start the express server
-      const port = gatewayConfig.port || 3001;
+      const port = gatewayConfig.port;
       app.listen(port, () => {
         f.log(`🎧 SSE MCP Server listening on port ${port}`, 4);
       });
