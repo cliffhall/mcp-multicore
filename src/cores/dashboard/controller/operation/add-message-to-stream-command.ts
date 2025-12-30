@@ -30,7 +30,7 @@ export class AddMessageToStreamCommand extends SimpleCommand {
         `⚙️ AddMessageToStreamCommand - Added to stream in DashboardStreamsProxy.`,
         5,
       );
-      f.log(`🔍 Current stream length: ${streamLength}`, 5);
+      f.log(`🔍 Current stream length: ${streamLength}`, 6);
     }
   }
 }
