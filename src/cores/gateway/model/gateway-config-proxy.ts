@@ -29,14 +29,7 @@ export class GatewayConfigProxy extends Proxy {
     return this.config.servers || [];
   }
 
-  get host() {
-    return this.config.host || "localhost";
-  }
-
-  get port() {
-    return this.config.port || 3001;
-  }
-  get maxClients() {
-    return this.config.maxClients || 10;
+  get gateway() {
+    return this.config.gateway || { transport: "stdio", maxClients: 10 };
   }
 }

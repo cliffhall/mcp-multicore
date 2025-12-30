@@ -5,10 +5,10 @@ import {
 import { type ILoggingFacade } from "../../../../common/index.js";
 import { GatewayJunctionMediator } from "../../view/gateway-junction-mediator.js";
 import { DashboardTeeMediator } from "../../../../common/index.js";
-export class GatewayPrepareViewCommand extends SimpleCommand {
+export class PrepareGatewayViewCommand extends SimpleCommand {
   public execute(_notification: INotification): void {
     const f = this.facade as ILoggingFacade;
-    f.log(`⚙️ GatewayPrepareViewCommand - Preparing Gateway View`, 2);
+    f.log(`⚙️ PrepareGatewayViewCommand - Preparing Gateway View`, 2);
 
     // Register Mediators
     this.facade.registerMediator(new GatewayJunctionMediator());

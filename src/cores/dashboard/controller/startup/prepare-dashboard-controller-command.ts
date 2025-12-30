@@ -6,12 +6,12 @@ import { type ILoggingFacade } from "../../../../common/index.js";
 import { DashboardNotifications } from "../../../../common/index.js";
 import { AddMessageToStreamCommand } from "../operation/add-message-to-stream-command.js";
 
-export class DashboardPrepareControllerCommand extends SimpleCommand {
+export class PrepareDashboardControllerCommand extends SimpleCommand {
   public execute(_notification: INotification): void {
     const f = this.facade as ILoggingFacade;
 
     f.log(
-      `⚙️ DashboardPrepareControllerCommand - Preparing Dashboard Controller`,
+      `⚙️ PrepareDashboardControllerCommand - Preparing Dashboard Controller`,
       5,
     );
 

@@ -3,7 +3,7 @@ An MCP Gateway Implemented with PureMVC MultiCore and Pipes
 
 ## Docs
 * [Project Brief](docs/brief.md) 
-* [Technical Specification](docs/spec.md)
+* [Technical Specification](docs/spec-draft.md)
 
 ## Status
 * Config-driven Gateway, Dashboard, and (multiple) Server Cores initialized and plumbed.
@@ -14,42 +14,60 @@ An MCP Gateway Implemented with PureMVC MultiCore and Pipes
 ## Current Startup Log
 ```shell
 🔱 GatewayFacade - Preparing the Gateway Core
-   📋 GatewayStartupCommand - Executing Gateway startup subcommands
-      ⚙️ GatewayPrepareModelCommand - Preparing Gateway Model
+   📋 StartupGatewayCommand - Executing Gateway startup subcommands
+      ⚙️ PrepareGatewayModelCommand - Preparing Gateway Model
          💾 GatewayConfigProxy - Registered with config
          ✔︎ Gateway Model prepared
-      ⚙️ GatewayPrepareViewCommand - Preparing Gateway View
+      ⚙️ PrepareGatewayViewCommand - Preparing Gateway View
          🧩 GatewayJunctionMediator - Registered
          🧩 DashboardTeeMediator - Registered
          ✔︎ Gateway View prepared
       ⚙️ PlumbDashboardCommand - Create and Plumb Dashboard Core
          🔱 Dashboard Facade - Preparing the Dashboard Core
-            📋 DashboardStartupCommand - Executing Dashboard startup subcommands
-               ⚙️ DashboardPrepareModelCommand - Preparing Dashboard Model
+            📋 StartupDashboardCommand - Executing Dashboard startup subcommands
+               ⚙️ PrepareDashboardModelCommand - Preparing Dashboard Model
                   💾 DashboardConfigProxy - Registered with config
+                  💾 DashboardStreamsProxy - registered
                   ✔︎ Dashboard Model Prepared
-               ⚙️ DashboardPrepareViewCommand - Preparing Dashboard View
+               ⚙️ PrepareDashboardViewCommand - Preparing Dashboard View
                   🧩 DashboardJunctionMediator - Registered
                   ✔︎ Dashboard View prepared
+               ⚙️ PrepareDashboardControllerCommand - Preparing Dashboard Controller
+                  ✔︎ Dashboard Controller Prepared
          ✔︎ Dashboard Core plumbed
       ⚙️ PlumbServersCommand - Create and Plumb Server Cores
          🔱 ServerFacade - Preparing Server Core server-everything
-            📋 ServerStartupCommand - Executing Server startup subcommands
-               ⚙️ ServerPrepareModelCommand - Preparing Server Model for server-everything
+            📋 StartupServerCommand - Executing Server startup subcommands
+               ⚙️ PrepareServerModelCommand - Preparing Server Model for server-everything
                   💾 ServerConfigProxy - Registered with config
                   ✔︎ Server Model prepared
-               ⚙️ ServerPrepareViewCommand - Preparing Server View for server-everything
+               ⚙️ PrepareServerViewCommand - Preparing Server View for server-everything
                   🧩 ServerJunctionMediator - Registered
                   ✔︎ Server View prepared
          ✔︎ Server Core server-everything plumbed
          🔱 ServerFacade - Preparing Server Core server-filesystem
-            📋 ServerStartupCommand - Executing Server startup subcommands
-               ⚙️ ServerPrepareModelCommand - Preparing Server Model for server-filesystem
+            📋 StartupServerCommand - Executing Server startup subcommands
+               ⚙️ PrepareServerModelCommand - Preparing Server Model for server-filesystem
                   💾 ServerConfigProxy - Registered with config
                   ✔︎ Server Model prepared
-               ⚙️ ServerPrepareViewCommand - Preparing Server View for server-filesystem
+               ⚙️ PrepareServerViewCommand - Preparing Server View for server-filesystem
                   🧩 ServerJunctionMediator - Registered
                   ✔︎ Server View prepared
          ✔︎ Server Core server-filesystem plumbed
          ✔︎ All Server Cores plumbed
+      📋 StartMCPInterfaceCommand - Executing MCP Interface startup subcommands
+         ⚙️ StreamableHttpTransportManagerCommand - Manage MCP Interface Streamable HTTP Transports
+         ✔︎ Streamable HTTP Transport Manager started
+            🎧 Streamable HTTP MCP Server listening on port 3001
+            📥 Received POST request
+               📤 Handling MCP Initialization request
+               🔌 Session initialized with ID 07c79340-3c00-4808-8f03-ce66b8b67f0f
+            📥 Received POST request
+               📤 Handling MCP Message from 07c79340-3c00-4808-8f03-ce66b8b67f0f
+            📥 Received GET request
+               🏁 Establishing new SSE stream for session 07c79340-3c00-4808-8f03-ce66b8b67f0f
+               📤 Handling SSE handshake for session 07c79340-3c00-4808-8f03-ce66b8b67f0f
+            📥 Received POST request
+               📤 Handling MCP Message from 07c79340-3c00-4808-8f03-ce66b8b67f0f
+
 ```
