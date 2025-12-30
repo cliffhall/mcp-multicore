@@ -1,4 +1,5 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import { MCPInterfaceConfig } from "../../../../common/index.js";
 import { registerTools } from "./tools/index.js";
 
 // MCP Interface factory response
@@ -18,22 +19,8 @@ export type MCPInterfaceFactoryResponse = {
  * - `cleanup` {Function}: Function to perform cleanup operations for a closing session.
  */
 export const createMCPInterface: () => MCPInterfaceFactoryResponse = () => {
-  const server = new McpServer(
-    {
-      name: "mcp-multicore/gateway",
-      title: "MCP MultiCore Gateway",
-      version: "0.1.0",
-    },
-    {
-      capabilities: {
-        tools: {
-          listChanged: true,
-        },
-        logging: {},
-      },
-      instructions: "MCP MultiCore Gateway - Instructions go here",
-    },
-  );
+  const { implementation, options } = MCPInterfaceConfig;
+  const server = new McpServer(implementation, options);
 
   // Register the tools
   registerTools(server);
@@ -42,7 +29,7 @@ export const createMCPInterface: () => MCPInterfaceFactoryResponse = () => {
   return {
     mcpServer: server,
     cleanup: () => {
-      // TODO: Implement cleanup logic for the closing session if needed
+      // TODO: Implement any cleanup logic for the closing session here, if needed
     },
   } satisfies MCPInterfaceFactoryResponse;
 };

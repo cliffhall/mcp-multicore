@@ -29,9 +29,6 @@ export class ManageStdioTransportCommand extends AsyncCommand {
       };
       process.on("SIGINT", cleanupAndExit);
       process.on("SIGTERM", cleanupAndExit);
-
-
-
     };
 
     startTransportManager().then(() => {
