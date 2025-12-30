@@ -55,16 +55,37 @@ export class ManageStreamableHttpTransportsCommand extends AsyncCommand {
         }),
       );
 
-      const handle400Response = (res: Response,  message: string, id: string ) => {
+      // Extract message body with body-parser
+      app.use(express.json());
+      app.use((req, _res, next) => {
+        f.log(`️✉️ Request Body ${JSON.stringify(req.body)}`, 5);
+        next();
+      });
+
+      // Extract headers
+      app.use((req, _res, next) => {
+        f.log(`️✉️ Request Headers`, 5);
+        Object.entries(req.headers).forEach(([key, value]) => {
+          f.log(`👉 ${key}: ${value}`, 6);
+        });
+
+        next();
+      });
+
+      const handle400Response = (
+        res: Response,
+        message: string,
+        id: string,
+      ) => {
         res.status(400).json({
           jsonrpc: "2.0",
           error: {
             code: -32000,
             message,
           },
-          id
+          id,
         });
-      }
+      };
 
       // Handle POST requests for client messages
       app.post(MAIN_ENDPOINT, async (req: Request, res: Response) => {
@@ -79,7 +100,7 @@ export class ManageStreamableHttpTransportsCommand extends AsyncCommand {
             // Reuse existing transport
             transport = transports.get(sessionId)!;
             f.log(`📤 Handling MCP Message from ${sessionId}`, 5);
-            await transport.handleRequest(req, res);
+            await transport.handleRequest(req, res, req.body);
             return;
           } else if (!sessionId) {
             const { mcpServer, cleanup } = createMCPInterface();
@@ -111,7 +132,7 @@ export class ManageStreamableHttpTransportsCommand extends AsyncCommand {
 
             f.log(`📤 Handling MCP Initialization request`, 5);
 
-            await transport.handleRequest(req, res);
+            await transport.handleRequest(req, res, req.body);
             return;
           } else {
             const message = "Bad Request: No transport for provided session ID";
@@ -156,7 +177,7 @@ export class ManageStreamableHttpTransportsCommand extends AsyncCommand {
 
         const transport = transports.get(sessionId);
         f.log(`📤 Handling SSE handshake for session ${sessionId}`, 5);
-        await transport!.handleRequest(req, res);
+        await transport!.handleRequest(req, res, req.body);
       });
 
       // Handle DELETE requests for session termination
@@ -174,7 +195,7 @@ export class ManageStreamableHttpTransportsCommand extends AsyncCommand {
         try {
           const transport = transports.get(sessionId);
           f.log(`🔌 Handling termination request for session ${sessionId}`, 5);
-          await transport!.handleRequest(req, res);
+          await transport!.handleRequest(req, res, req.body);
         } catch (error) {
           if (!res.headersSent) {
             const message = `Error handling session termination ${error}`;
@@ -232,11 +253,10 @@ export class ManageStreamableHttpTransportsCommand extends AsyncCommand {
 
         f.log(`🛑 Server shutdown complete`, 5);
         process.exit(0);
-      }
+      };
 
       process.on("SIGINT", cleanupAndExit);
       process.on("SIGTERM", cleanupAndExit);
-
     };
 
     startTransportManager().then(() => {

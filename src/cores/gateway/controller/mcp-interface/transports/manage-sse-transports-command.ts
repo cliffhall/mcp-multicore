@@ -33,7 +33,7 @@ export class ManageSseTransportsCommand extends AsyncCommand {
       mcpTransportsProxy.sse || new Map<string, SSEServerTransport>();
 
     // This transport expects GET to one endpoint for new connections and POST to another for messages
-    const CONNECT_ENDPOINT = "/sse"
+    const CONNECT_ENDPOINT = "/sse";
     const MESSAGE_ENDPOINT = "/message";
 
     const startTransportManager = async () => {
@@ -47,6 +47,23 @@ export class ManageSseTransportsCommand extends AsyncCommand {
           optionsSuccessStatus: 204,
         }),
       );
+
+      // Extract message body with body-parser
+      app.use(express.json());
+      app.use((req, _res, next) => {
+        f.log(`️✉️ Request Body ${JSON.stringify(req.body)}`, 5);
+        next();
+      });
+
+      // Extract headers
+      app.use((req, _res, next) => {
+        f.log(`️✉️ Request Headers`, 5);
+        Object.entries(req.headers).forEach(([key, value]) => {
+          f.log(`👉 ${key}: ${value}`, 6);
+        });
+
+        next();
+      });
 
       // Handle GET requests for new SSE streams
       app.get(CONNECT_ENDPOINT, async (req, res) => {
@@ -93,7 +110,7 @@ export class ManageSseTransportsCommand extends AsyncCommand {
         const transport = transports.get(sessionId);
         if (transport) {
           f.log(`📥 Handling MCP Message from ${sessionId}`, 5);
-          await transport.handlePostMessage(req, res);
+          await transport.handlePostMessage(req, res, req.body);
         } else {
           f.log(`⚠️ No transport found for sessionId ${sessionId}.`, 5);
         }
@@ -123,11 +140,10 @@ export class ManageSseTransportsCommand extends AsyncCommand {
         }
 
         f.log(`✔︎ Server shutdown complete`, 5);
-        process.exit(0)
+        process.exit(0);
       };
       process.on("SIGINT", cleanupAndExit);
       process.on("SIGTERM", cleanupAndExit);
-
     };
 
     startTransportManager().then(() => {
