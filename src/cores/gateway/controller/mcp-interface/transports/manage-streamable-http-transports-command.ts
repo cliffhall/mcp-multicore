@@ -31,9 +31,12 @@ export class ManageStreamableHttpTransportsCommand extends AsyncCommand {
     ) as McpTransportsProxy;
 
     // Proxy will already be registered, default is only to satisfy typescript
-    let transports =
+    const transports =
       mcpTransportsProxy.streamableHttp ||
       new Map<string, StreamableHTTPServerTransport>();
+
+    // This transport expects GETS, POSTS, and DELETES to the following endpoint
+    const MAIN_ENDPOINT = "/mcp";
 
     const startTransportManager = async () => {
       // Express app with permissive CORS for testing with Inspector direct connect mode
@@ -53,7 +56,7 @@ export class ManageStreamableHttpTransportsCommand extends AsyncCommand {
       );
 
       // Handle POST requests for client messages
-      app.post("/mcp", async (req: Request, res: Response) => {
+      app.post(MAIN_ENDPOINT, async (req: Request, res: Response) => {
         f.log(`📥 Received POST request`, 4);
         try {
           // Check for existing session ID
@@ -130,7 +133,7 @@ export class ManageStreamableHttpTransportsCommand extends AsyncCommand {
       });
 
       // Handle GET requests for SSE streams
-      app.get("/mcp", async (req: Request, res: Response) => {
+      app.get(MAIN_ENDPOINT, async (req: Request, res: Response) => {
         f.log(`📥 Received GET request`, 4);
         const sessionId = req.headers["mcp-session-id"] as string | undefined;
         if (!sessionId || !transports.has(sessionId)) {
@@ -161,7 +164,7 @@ export class ManageStreamableHttpTransportsCommand extends AsyncCommand {
       });
 
       // Handle DELETE requests for session termination
-      app.delete("/mcp", async (req: Request, res: Response) => {
+      app.delete(MAIN_ENDPOINT, async (req: Request, res: Response) => {
         f.log(`📥 Received DELETE request`, 4);
 
         const sessionId = req.headers["mcp-session-id"] as string | undefined;

@@ -29,8 +29,12 @@ export class ManageSseTransportsCommand extends AsyncCommand {
     ) as McpTransportsProxy;
 
     // Proxy will already be registered, default is only to satisfy typescript
-    let transports =
+    const transports =
       mcpTransportsProxy.sse || new Map<string, SSEServerTransport>();
+
+    // This transport expects GET to one endpoint for new connections and POST to another for messages
+    const CONNECT_ENDPOINT = "/sse"
+    const MESSAGE_ENDPOINT = "/message";
 
     const startTransportManager = async () => {
       // Express app with permissive CORS for testing with Inspector direct connect mode
@@ -45,7 +49,7 @@ export class ManageSseTransportsCommand extends AsyncCommand {
       );
 
       // Handle GET requests for new SSE streams
-      app.get("/sse", async (req, res) => {
+      app.get(CONNECT_ENDPOINT, async (req, res) => {
         f.log(`📥 Received GET request`, 4);
         let transport: SSEServerTransport;
         const { mcpServer, cleanup } = createMCPInterface();
@@ -60,7 +64,7 @@ export class ManageSseTransportsCommand extends AsyncCommand {
           );
         } else {
           // Create and store transport for the new session
-          transport = new SSEServerTransport("/message", res);
+          transport = new SSEServerTransport(MESSAGE_ENDPOINT, res);
           transports.set(transport.sessionId, transport);
 
           // Connect server to transport
@@ -79,7 +83,7 @@ export class ManageSseTransportsCommand extends AsyncCommand {
       });
 
       // Handle POST requests for client messages
-      app.post("/message", async (req, res) => {
+      app.post(MESSAGE_ENDPOINT, async (req, res) => {
         f.log(`📥 Received POST request`, 4);
         // Session Id should exist for POST /message requests
         const sessionId = req?.query?.sessionId as string;
