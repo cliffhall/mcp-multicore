@@ -224,8 +224,8 @@ export class ManageStreamableHttpTransportsCommand extends AsyncCommand {
         process.exit(1);
       });
 
-      // Handle server shutdown
-      process.on("SIGINT", async () => {
+      // Cleanup and exit
+      const cleanupAndExit = async () => {
         f.log(` ❌  Shutting down server...`, 4);
         // Close all active transports to properly clean up resources
         for (const [sessionId] of transports) {
@@ -243,7 +243,11 @@ export class ManageStreamableHttpTransportsCommand extends AsyncCommand {
 
         f.log(`🛑 Server shutdown complete`, 5);
         process.exit(0);
-      });
+      }
+
+      process.on("SIGINT", cleanupAndExit);
+      process.on("SIGTERM", cleanupAndExit);
+
     };
 
     startTransportManager().then(() => {

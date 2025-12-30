@@ -75,9 +75,10 @@ export class ManageSseTransportsCommand extends AsyncCommand {
           // Handle close of connection
           mcpServer.server.onclose = async () => {
             const sessionId = transport.sessionId;
-            f.log(`🛑 Client Disconnected ${sessionId}.`, 4);
+            f.log(`🛑 Client Disconnected ${sessionId}.`, 6);
             transports.delete(sessionId);
             cleanup(sessionId);
+            mcpServer.server.onclose = undefined;
           };
         }
       });
@@ -103,6 +104,30 @@ export class ManageSseTransportsCommand extends AsyncCommand {
       app.listen(port, () => {
         f.log(`🎧 SSE MCP Server listening on port ${port}`, 4);
       });
+
+      // Cleanup on exit
+      const cleanupAndExit = async () => {
+        f.log(` ❌  Shutting down server...`, 4);
+        // Close all active transports to properly clean up resources
+        for (const [sessionId] of transports) {
+          try {
+            f.log(`🔌 Closing transport for session ${sessionId}`, 6);
+            await transports.get(sessionId)!.close();
+            transports.delete(sessionId);
+          } catch (error) {
+            f.log(
+              `⚠️ Error closing transport for session ${sessionId}: ${error}`,
+              6,
+            );
+          }
+        }
+
+        f.log(`✔︎ Server shutdown complete`, 5);
+        process.exit(0)
+      };
+      process.on("SIGINT", cleanupAndExit);
+      process.on("SIGTERM", cleanupAndExit);
+
     };
 
     startTransportManager().then(() => {
