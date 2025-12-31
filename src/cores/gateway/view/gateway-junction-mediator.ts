@@ -61,7 +61,11 @@ export class GatewayJunctionMediator extends JunctionMediator {
           5,
         );
         const toDashboard = this.junction.retrievePipe("to-dashboard");
-        toDashboard!.write(note.body);
+        if (toDashboard) {
+          toDashboard.write(note.body);
+        } else {
+          f.log(`🔥 GatewayJunctionMediator: 'to-dashboard' pipe not found.`, 5);
+        }
         break;
     }
   }
