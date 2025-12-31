@@ -1,6 +1,6 @@
 import { Mediator } from "@puremvc/puremvc-typescript-multicore-framework";
 import { TeeMerge } from "@puremvc/puremvc-typescript-util-pipes";
-import type { ILoggingFacade } from "../interfaces.js";
+import type { ILoggingFacade } from "../../../common/index.js";
 
 /**
  * DashboardTeeMediator - a Mediator for the Dashboard Tee plumbing component

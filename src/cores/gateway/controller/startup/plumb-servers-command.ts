@@ -4,11 +4,11 @@ import {
   JunctionMediatorNotification,
   TeeSplit,
 } from "@puremvc/puremvc-typescript-util-pipes";
-import { DashboardTeeMediator } from "../../../../common/index.js";
 import { ServerFacade } from "../../../server/server-facade.js";
 import { AsyncCommand } from "@puremvc/puremvc-typescript-util-async-command";
 import type { GatewayFacade } from "../../gateway-facade.js";
 import { GatewayConfigProxy } from "../../model/gateway-config-proxy.js";
+import {DashboardTeeMediator} from "../../view/dashboard-tee-mediator.js";
 
 export class PlumbServersCommand extends AsyncCommand {
   public async execute(_notification: INotification): Promise<void> {
@@ -43,30 +43,30 @@ export class PlumbServersCommand extends AsyncCommand {
 
         // Register Server Out Pipe with Gateway
         gatewayFacade.sendNotification(
-          JunctionMediatorNotification.ACCEPT_INPUT_PIPE,
+          JunctionMediatorNotification.ACCEPT_OUTPUT_PIPE,
           gatewayToServer,
-          `gateway-to-${config.name}`,
-        );
-
-        // Register Server In Pipe with Gateway
-        gatewayFacade.sendNotification(
-          JunctionMediatorNotification.ACCEPT_INPUT_PIPE,
-          serverToGateway,
-          `${config.name}-to-gateway`,
+          `to-${config.name}`,
         );
 
         // Register Gateway In Pipe with Server
         serverFacade.sendNotification(
           JunctionMediatorNotification.ACCEPT_INPUT_PIPE,
           gatewayToServer,
-          "gateway-in",
+          `from-gateway`,
+        );
+
+        // Register Server In Pipe with Gateway
+        gatewayFacade.sendNotification(
+          JunctionMediatorNotification.ACCEPT_INPUT_PIPE,
+          serverToGateway,
+          `from-${config.name}`,
         );
 
         // Register Server Out Pipe with Server
         serverFacade.sendNotification(
           JunctionMediatorNotification.ACCEPT_OUTPUT_PIPE,
           serverToGateway,
-          "server-out",
+          "to-gateway",
         );
 
         f.log(`✔︎ Server Core ${config.name} plumbed`, 3);

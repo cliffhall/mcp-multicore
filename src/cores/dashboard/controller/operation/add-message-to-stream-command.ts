@@ -27,7 +27,7 @@ export class AddMessageToStreamCommand extends SimpleCommand {
       // Read the stream back by core and client id
       const streamLength = streamsProxy.getStreamLength(core, clientId);
       f.log(
-        `⚙️ AddMessageToStreamCommand - Added to stream in DashboardStreamsProxy.`,
+        `⚙️ AddMessageToStreamCommand - Added to message stream in DashboardStreamsProxy.`,
         5,
       );
       f.log(`🔍 Current stream length: ${streamLength}`, 6);

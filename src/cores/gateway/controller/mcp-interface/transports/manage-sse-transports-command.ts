@@ -1,12 +1,17 @@
 import { INotification } from "@puremvc/puremvc-typescript-multicore-framework";
 import { SSEServerTransport } from "@modelcontextprotocol/sdk/server/sse.js";
 import { AsyncCommand } from "@puremvc/puremvc-typescript-util-async-command";
-import { type ILoggingFacade } from "../../../../../common/index.js";
+import {
+  CoreNames,
+  GatewayNotifications,
+  type ILoggingFacade,
+} from "../../../../../common/index.js";
 import { createMCPInterface } from "../index.js";
 import express from "express";
 import cors from "cors";
 import { GatewayConfigProxy } from "../../../model/gateway-config-proxy.js";
 import { McpTransportsProxy } from "../../../model/mcp-transports-proxy.js";
+import { PipeMessageType } from "@puremvc/puremvc-typescript-util-pipes";
 
 export class ManageSseTransportsCommand extends AsyncCommand {
   public async execute(_notification: INotification): Promise<void> {
@@ -48,20 +53,26 @@ export class ManageSseTransportsCommand extends AsyncCommand {
         }),
       );
 
-      // Extract message body with body-parser
+      // Extract message body and headers and send to junction mediator
       app.use(express.json());
       app.use((req, _res, next) => {
-        f.log(`️✉️ Request Body ${JSON.stringify(req.body)}`, 5);
-        next();
-      });
-
-      // Extract headers
-      app.use((req, _res, next) => {
-        f.log(`️✉️ Request Headers`, 5);
-        Object.entries(req.headers).forEach(([key, value]) => {
-          f.log(`👉 ${key}: ${value}`, 6);
+        const clientIdHeader = req.headers["mcp-session-id"];
+        const clientId = Array.isArray(clientIdHeader)
+          ? clientIdHeader[0]
+          : clientIdHeader;
+        this.sendNotification(GatewayNotifications.CLIENT_REQUEST, {
+          type: PipeMessageType.NORMAL,
+          header: {
+            core: CoreNames.GATEWAY,
+            clientId,
+          },
+          body: {
+            rpc: {
+              body: req.body,
+              headers: req.headers,
+            },
+          },
         });
-
         next();
       });
 

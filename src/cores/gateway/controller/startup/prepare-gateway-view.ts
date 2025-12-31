@@ -4,7 +4,7 @@ import {
 } from "@puremvc/puremvc-typescript-multicore-framework";
 import { type ILoggingFacade } from "../../../../common/index.js";
 import { GatewayJunctionMediator } from "../../view/gateway-junction-mediator.js";
-import { DashboardTeeMediator } from "../../../../common/index.js";
+import { DashboardTeeMediator } from "../../view/dashboard-tee-mediator.js";
 export class PrepareGatewayViewCommand extends SimpleCommand {
   public execute(_notification: INotification): void {
     const f = this.facade as ILoggingFacade;

@@ -5,8 +5,8 @@ import type {
 } from "../../../common/index.js";
 import type { IPipeMessage } from "@puremvc/puremvc-typescript-util-pipes";
 
-type StreamsByClient = Map<string, IPipeMessage[]>;
-type ClientsByCore = Map<string, StreamsByClient>;
+type StreamsByClient = Map<string | undefined, IPipeMessage[]>;
+type ClientsByCore = Map<string | undefined, StreamsByClient>;
 
 /**
  * Represents a proxy for managing dashboard streams; message lists organized
@@ -38,9 +38,9 @@ export class DashboardStreamsProxy extends Proxy {
     const core = message?.header?.core;
     const clientId = message?.header?.clientId;
 
-    if (typeof core !== "string" || typeof clientId !== "string") {
+    if (typeof core !== "string") {
       (this.facade as ILoggingFacade).log(
-        "💾 DashboardStreamsProxy: Message is missing 'core' or 'clientId' in header.",
+        "💾 DashboardStreamsProxy: Message is missing 'core' in header.",
         5,
       );
       return false;
@@ -73,7 +73,7 @@ export class DashboardStreamsProxy extends Proxy {
    * @param {string} clientId - The identifier for the client associated with the stream.
    * @return {number} The length of the stream, or 0 if the stream is not found.
    */
-  public getStreamLength(core: string, clientId: string): number {
+  public getStreamLength(core: string, clientId?: string): number {
     const stream = this.getStream(core, clientId);
     return stream ? stream.length : 0;
   }
@@ -82,10 +82,13 @@ export class DashboardStreamsProxy extends Proxy {
    * Retrieves the stream of messages for a specific core and client ID.
    *
    * @param {string} core - The identifier for the core to retrieve the stream from.
-   * @param {string} clientId - The client ID associated with the stream to retrieve.
+   * @param {string | undefined} clientId - The client ID associated with the stream to retrieve.
    * @return {IPipeMessage[] | undefined} The array of messages in the stream if found, otherwise undefined.
    */
-  public getStream(core: string, clientId: string): IPipeMessage[] | undefined {
+  public getStream(
+    core: string,
+    clientId?: string,
+  ): IPipeMessage[] | undefined {
     return this.streamsMap.get(core)?.get(clientId);
   }
 

@@ -55,8 +55,22 @@ export interface MCPTrafficMessage extends IPipeMessage {
   header:
     | {
         core: string;
-        clientId: string;
+        clientId?: string;
         [key: string]: unknown;
       }
     | undefined;
+  body: {
+    rpc: {
+      headers?:
+        | {
+            [key: string]: unknown;
+          }
+        | undefined;
+      body?:
+        | {
+            [key: string]: unknown;
+          }
+        | undefined;
+    };
+  };
 }
