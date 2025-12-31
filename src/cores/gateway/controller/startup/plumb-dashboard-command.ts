@@ -10,8 +10,9 @@ import {
   Pipe,
   TeeMerge,
 } from "@puremvc/puremvc-typescript-util-pipes";
-import { DashboardTeeMediator } from "../../../../common/index.js";
+
 import { GatewayConfigProxy } from "../../model/gateway-config-proxy.js";
+import { DashboardTeeMediator } from "../../view/dashboard-tee-mediator.js";
 
 export class PlumbDashboardCommand extends SimpleCommand {
   public execute(_notification: INotification): void {

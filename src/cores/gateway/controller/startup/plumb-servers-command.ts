@@ -4,11 +4,11 @@ import {
   JunctionMediatorNotification,
   TeeSplit,
 } from "@puremvc/puremvc-typescript-util-pipes";
-import { DashboardTeeMediator } from "../../../../common/index.js";
 import { ServerFacade } from "../../../server/server-facade.js";
 import { AsyncCommand } from "@puremvc/puremvc-typescript-util-async-command";
 import type { GatewayFacade } from "../../gateway-facade.js";
 import { GatewayConfigProxy } from "../../model/gateway-config-proxy.js";
+import {DashboardTeeMediator} from "../../view/dashboard-tee-mediator.js";
 
 export class PlumbServersCommand extends AsyncCommand {
   public async execute(_notification: INotification): Promise<void> {
