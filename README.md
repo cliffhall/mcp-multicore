@@ -69,5 +69,5 @@ An MCP Gateway Implemented with PureMVC MultiCore and Pipes
       📋 StartMCPInterfaceCommand - Executing MCP Interface startup subcommands
          ⚙️ StreamableHttpTransportManagerCommand - Manage MCP Interface Streamable HTTP Transports
          ✔︎ Streamable HTTP Transport Manager started
-            🎧 Streamable HTTP MCP Server listening on port 3001z
+            🎧 Streamable HTTP MCP Server listening on port 3001
 ```
