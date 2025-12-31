@@ -48,7 +48,7 @@ export class PlumbDashboardCommand extends SimpleCommand {
     );
 
     // Store the Dashboard Tee
-    if (this.facade.hasProxy(DashboardTeeMediator.NAME)) {
+    if (this.facade.hasMediator(DashboardTeeMediator.NAME)) {
       const dashboardTeeMediator = this.facade.retrieveMediator(
         DashboardTeeMediator.NAME,
       );
