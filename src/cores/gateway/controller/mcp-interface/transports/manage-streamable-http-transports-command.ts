@@ -63,11 +63,15 @@ export class ManageStreamableHttpTransportsCommand extends AsyncCommand {
       // Extract message body and headers and send to junction mediator
       app.use(express.json());
       app.use((req, _res, next) => {
+        const clientIdHeader = req.headers["mcp-session-id"];
+        const clientId = Array.isArray(clientIdHeader)
+          ? clientIdHeader[0]
+          : clientIdHeader;
         this.sendNotification(GatewayNotifications.CLIENT_REQUEST, {
           type: PipeMessageType.NORMAL,
           header: {
             core: CoreNames.GATEWAY,
-            clientId: req.headers["mcp-session-id"],
+            clientId,
           },
           body: {
             rpc: {
