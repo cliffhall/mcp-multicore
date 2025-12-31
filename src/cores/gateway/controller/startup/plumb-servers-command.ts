@@ -43,30 +43,30 @@ export class PlumbServersCommand extends AsyncCommand {
 
         // Register Server Out Pipe with Gateway
         gatewayFacade.sendNotification(
-          JunctionMediatorNotification.ACCEPT_INPUT_PIPE,
+          JunctionMediatorNotification.ACCEPT_OUTPUT_PIPE,
           gatewayToServer,
-          `gateway-to-${config.name}`,
-        );
-
-        // Register Server In Pipe with Gateway
-        gatewayFacade.sendNotification(
-          JunctionMediatorNotification.ACCEPT_INPUT_PIPE,
-          serverToGateway,
-          `${config.name}-to-gateway`,
+          `to-${config.name}`,
         );
 
         // Register Gateway In Pipe with Server
         serverFacade.sendNotification(
           JunctionMediatorNotification.ACCEPT_INPUT_PIPE,
           gatewayToServer,
-          "gateway-in",
+          `from-gateway`,
+        );
+
+        // Register Server In Pipe with Gateway
+        gatewayFacade.sendNotification(
+          JunctionMediatorNotification.ACCEPT_INPUT_PIPE,
+          serverToGateway,
+          `from-${config.name}`,
         );
 
         // Register Server Out Pipe with Server
         serverFacade.sendNotification(
           JunctionMediatorNotification.ACCEPT_OUTPUT_PIPE,
           serverToGateway,
-          "server-out",
+          "to-gateway",
         );
 
         f.log(`✔︎ Server Core ${config.name} plumbed`, 3);

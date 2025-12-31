@@ -27,7 +27,7 @@ const dashboardIn = new Pipe();
 dashboardFacade.sendNotification(
   JunctionMediatorNotification.ACCEPT_INPUT_PIPE,
   dashboardIn,
-  "dashboard-in",
+  "to-dashboard",
 );
 
 // Create a test message array

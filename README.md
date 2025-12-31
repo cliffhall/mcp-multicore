@@ -17,6 +17,7 @@ An MCP Gateway Implemented with PureMVC MultiCore and Pipes
    📋 StartupGatewayCommand - Executing Gateway startup subcommands
       ⚙️ PrepareGatewayModelCommand - Preparing Gateway Model
          💾 GatewayConfigProxy - Registered with config
+         💾 McpTransportsProxy - Registered
          ✔︎ Gateway Model prepared
       ⚙️ PrepareGatewayViewCommand - Preparing Gateway View
          🧩 GatewayJunctionMediator - Registered
@@ -34,6 +35,8 @@ An MCP Gateway Implemented with PureMVC MultiCore and Pipes
                   ✔︎ Dashboard View prepared
                ⚙️ PrepareDashboardControllerCommand - Preparing Dashboard Controller
                   ✔︎ Dashboard Controller Prepared
+               🧩 DashboardJunctionMediator - Accepting input pipe [from-everywhere]
+               🧩 GatewayJunctionMediator - Accepting output pipe [to-dashboard]
          ✔︎ Dashboard Core plumbed
       ⚙️ PlumbServersCommand - Create and Plumb Server Cores
          🔱 ServerFacade - Preparing Server Core server-everything
@@ -44,6 +47,10 @@ An MCP Gateway Implemented with PureMVC MultiCore and Pipes
                ⚙️ PrepareServerViewCommand - Preparing Server View for server-everything
                   🧩 ServerJunctionMediator - Registered
                   ✔︎ Server View prepared
+               🧩 GatewayJunctionMediator - Accepting output pipe [to-server-everything]
+               🧩 ServerJunctionMediator - Accepting input pipe [from-gateway]
+               🧩 GatewayJunctionMediator - Accepting input pipe [from-server-everything]
+               🧩 ServerJunctionMediator - Accepting output pipe [to-gateway]
          ✔︎ Server Core server-everything plumbed
          🔱 ServerFacade - Preparing Server Core server-filesystem
             📋 StartupServerCommand - Executing Server startup subcommands
@@ -53,21 +60,14 @@ An MCP Gateway Implemented with PureMVC MultiCore and Pipes
                ⚙️ PrepareServerViewCommand - Preparing Server View for server-filesystem
                   🧩 ServerJunctionMediator - Registered
                   ✔︎ Server View prepared
+               🧩 GatewayJunctionMediator - Accepting output pipe [to-server-filesystem]
+               🧩 ServerJunctionMediator - Accepting input pipe [from-gateway]
+               🧩 GatewayJunctionMediator - Accepting input pipe [from-server-filesystem]
+               🧩 ServerJunctionMediator - Accepting output pipe [to-gateway]
          ✔︎ Server Core server-filesystem plumbed
          ✔︎ All Server Cores plumbed
       📋 StartMCPInterfaceCommand - Executing MCP Interface startup subcommands
          ⚙️ StreamableHttpTransportManagerCommand - Manage MCP Interface Streamable HTTP Transports
          ✔︎ Streamable HTTP Transport Manager started
-            🎧 Streamable HTTP MCP Server listening on port 3001
-            📥 Received POST request
-               📤 Handling MCP Initialization request
-               🔌 Session initialized with ID 07c79340-3c00-4808-8f03-ce66b8b67f0f
-            📥 Received POST request
-               📤 Handling MCP Message from 07c79340-3c00-4808-8f03-ce66b8b67f0f
-            📥 Received GET request
-               🏁 Establishing new SSE stream for session 07c79340-3c00-4808-8f03-ce66b8b67f0f
-               📤 Handling SSE handshake for session 07c79340-3c00-4808-8f03-ce66b8b67f0f
-            📥 Received POST request
-               📤 Handling MCP Message from 07c79340-3c00-4808-8f03-ce66b8b67f0f
-
+            🎧 Streamable HTTP MCP Server listening on port 3001z
 ```

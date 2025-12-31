@@ -1,6 +1,6 @@
 import { GatewayFacade } from "./cores/gateway/gateway-facade.js";
 import type { GatewayConfig } from "./common/index.js";
-import { SingletonKeys } from "./common/index.js";
+import { CoreNames } from "./common/index.js";
 
 // Simulated config
 const config = {
@@ -30,4 +30,4 @@ const config = {
 } as GatewayConfig;
 
 // Start the Gateway Core
-GatewayFacade.getInstance(SingletonKeys.GATEWAY).startup(config);
+GatewayFacade.getInstance(CoreNames.GATEWAY).startup(config);

@@ -1,8 +1,8 @@
 import type { ServerOptions } from "@modelcontextprotocol/sdk/server/index.js";
 import type { Implementation } from "@modelcontextprotocol/sdk/types.js";
 
-// Keys for singleton cores
-export class SingletonKeys {
+// Names for singleton cores
+export class CoreNames {
   static readonly GATEWAY = "gateway";
   static readonly DASHBOARD = "dashboard";
 }
@@ -10,12 +10,12 @@ export class SingletonKeys {
 // Gateway Core notifications
 export class GatewayNotifications {
   static readonly STARTUP = "gateway/startup";
+  static readonly CLIENT_REQUEST = "gateway/request/client";
 }
 
 // Server Core notifications
 export class ServerNotifications {
   static readonly STARTUP = "server/startup";
-  static readonly SHUTDOWN = "server/shutdown";
 }
 
 // Dashboard Core notifications
@@ -43,4 +43,5 @@ const options: ServerOptions = {
   instructions: "MCP MultiCore Gateway - Instructions go here",
 };
 
+// MCP Interface Configuration
 export const MCPInterfaceConfig = { implementation, options };
