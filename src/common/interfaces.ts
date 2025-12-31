@@ -38,8 +38,7 @@ export interface DashboardConfig {
  * Configuration for the Server Core
  */
 export interface ServerConfig {
-  id?: string;
-  name: string;
+  serverName: string;
   transport: "stdio" | "sse" | "streamable-http";
   command?: string; // For stdio transport
   args?: string[]; // For stdio transport

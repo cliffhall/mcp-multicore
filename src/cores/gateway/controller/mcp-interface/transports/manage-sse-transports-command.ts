@@ -14,7 +14,7 @@ import { McpTransportsProxy } from "../../../model/mcp-transports-proxy.js";
 import { PipeMessageType } from "@puremvc/puremvc-typescript-util-pipes";
 
 export class ManageSseTransportsCommand extends AsyncCommand {
-  public async execute(_notification: INotification): Promise<void> {
+  public execute(_notification: INotification): void {
     const f = this.facade as ILoggingFacade;
 
     f.log(
