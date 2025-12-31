@@ -4,7 +4,7 @@ import type { ILoggingFacade } from "../../../../common/index.js";
 import { PrepareServerModelCommand } from "./prepare-server-model-command.js";
 import { PrepareServerViewCommand } from "./prepare-server-view-command.js";
 import { ConnectMcpServerCommand } from "./connect-mcp-server-command.js";
-import type {ServerFacade} from "../../server-facade.js";
+import type { ServerFacade } from "../../server-facade.js";
 
 export class StartupServerCommand extends AsyncMacroCommand {
   /**
@@ -25,7 +25,7 @@ export class StartupServerCommand extends AsyncMacroCommand {
   public override execute(note: INotification): void {
     const f = this.facade as ILoggingFacade;
     f.log("📋 StartupServerCommand - Executing Server startup subcommands", 4);
-    this.setOnComplete(() =>  (this.facade as ServerFacade).setReady());
+    this.setOnComplete(() => (this.facade as ServerFacade).setReady());
     super.execute(note);
   }
 }

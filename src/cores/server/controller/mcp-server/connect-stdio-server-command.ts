@@ -7,13 +7,16 @@ import {
   type ILoggingFacade,
   ServerNotifications,
 } from "../../../../common/index.js";
-import {ServerTransportProxy} from "../../model/server-transport-proxy.js";
+import { ServerTransportProxy } from "../../model/server-transport-proxy.js";
 
 export class ConnectStdioServerCommand extends AsyncCommand {
   public execute(_notification: INotification): void {
     const f = this.facade as ILoggingFacade;
 
-    f.log(`⚙️ StartStdioServerCommand - Start STDIO server for ${this.multitonKey}`, 6);
+    f.log(
+      `⚙️ StartStdioServerCommand - Start STDIO server for ${this.multitonKey}`,
+      6,
+    );
 
     // Get server configuration
 
@@ -22,7 +25,6 @@ export class ConnectStdioServerCommand extends AsyncCommand {
       ServerConfigProxy.NAME,
     ) as ServerConfigProxy;
     const { serverName, command, args, env } = serverConfigProxy.config;
-
 
     // Get the Server Transport Proxy
     const serverTransportProxy = this.facade.retrieveProxy(

@@ -1,5 +1,5 @@
 import { INotification } from "@puremvc/puremvc-typescript-multicore-framework";
-import {type ILoggingFacade, wait} from "../../../../common/index.js";
+import { type ILoggingFacade, wait } from "../../../../common/index.js";
 import {
   JunctionMediatorNotification,
   TeeSplit,
@@ -34,13 +34,12 @@ export class PlumbServersCommand extends AsyncCommand {
 
       // Start the Server Cores
       for (const config of serverConfigs) {
-
         // Start the Server Core
         const serverFacade = ServerFacade.getInstance(config.serverName);
         serverFacade.startup(config);
         do {
           await wait(500);
-        } while (!serverFacade.isReady())
+        } while (!serverFacade.isReady());
 
         // Plumb the server
         const gatewayToServer = new TeeSplit(dashboardIn);

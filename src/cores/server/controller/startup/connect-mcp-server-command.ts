@@ -12,7 +12,10 @@ export class ConnectMcpServerCommand extends AsyncMacroCommand {
    */
   public override execute(note: INotification): void {
     const f = this.facade as ILoggingFacade;
-    f.log(`📋 ConnectMcpServerCommand - Connecting MCP Server for ${this.multitonKey}`, 5);
+    f.log(
+      `📋 ConnectMcpServerCommand - Connecting MCP Server for ${this.multitonKey}`,
+      5,
+    );
 
     const serverConfigProxy = this.facade.retrieveProxy(
       ServerConfigProxy.NAME,

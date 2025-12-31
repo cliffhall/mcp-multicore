@@ -1,4 +1,4 @@
-import {Transport} from "@modelcontextprotocol/sdk/shared/transport.js";
+import { Transport } from "@modelcontextprotocol/sdk/shared/transport.js";
 import { Proxy } from "@puremvc/puremvc-typescript-multicore-framework";
 import type { ILoggingFacade } from "../../../common/index.js";
 
@@ -18,7 +18,7 @@ export class ServerTransportProxy extends Proxy {
     );
   }
 
-  set transport(t:Transport) {
+  set transport(t: Transport) {
     this.data = t;
   }
 

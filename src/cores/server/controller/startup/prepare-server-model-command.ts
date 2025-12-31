@@ -4,7 +4,7 @@ import {
 } from "@puremvc/puremvc-typescript-multicore-framework";
 import { type ILoggingFacade, ServerConfig } from "../../../../common/index.js";
 import { ServerConfigProxy } from "../../model/server-config-proxy.js";
-import {ServerTransportProxy} from "../../model/server-transport-proxy.js";
+import { ServerTransportProxy } from "../../model/server-transport-proxy.js";
 
 export class PrepareServerModelCommand extends SimpleCommand {
   public execute(notification: INotification): void {
