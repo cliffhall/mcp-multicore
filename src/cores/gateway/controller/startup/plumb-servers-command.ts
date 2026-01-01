@@ -1,5 +1,5 @@
 import { INotification } from "@puremvc/puremvc-typescript-multicore-framework";
-import { type ILoggingFacade } from "../../../../common/index.js";
+import { type ILoggingFacade, wait } from "../../../../common/index.js";
 import {
   JunctionMediatorNotification,
   TeeSplit,
@@ -8,10 +8,10 @@ import { ServerFacade } from "../../../server/server-facade.js";
 import { AsyncCommand } from "@puremvc/puremvc-typescript-util-async-command";
 import type { GatewayFacade } from "../../gateway-facade.js";
 import { GatewayConfigProxy } from "../../model/gateway-config-proxy.js";
-import {DashboardTeeMediator} from "../../view/dashboard-tee-mediator.js";
+import { DashboardTeeMediator } from "../../view/dashboard-tee-mediator.js";
 
 export class PlumbServersCommand extends AsyncCommand {
-  public async execute(_notification: INotification): Promise<void> {
+  public execute(_notification: INotification): void {
     const f = this.facade as ILoggingFacade;
 
     f.log(`⚙️ PlumbServersCommand - Create and Plumb Server Cores`, 2);
@@ -34,8 +34,25 @@ export class PlumbServersCommand extends AsyncCommand {
 
       // Start the Server Cores
       for (const config of serverConfigs) {
-        const serverFacade = ServerFacade.getInstance(config.name);
-        await serverFacade.startup(config);
+        // Start the Server Core
+        const serverFacade = ServerFacade.getInstance(config.serverName);
+        serverFacade.startup(config);
+
+        // Wait for core to be ready (MCP server startup is async)
+        const timeout = 10000; // 10 seconds
+        const pollInterval = 500;
+        let waited = 0;
+        while (!serverFacade.isReady() && waited < timeout) {
+          await wait(pollInterval);
+          waited += pollInterval;
+        }
+        if (!serverFacade.isReady()) {
+          f.log(
+            `🔥 Server Core ${config.serverName} failed to start within ${timeout / 1000} seconds.`,
+            3,
+          );
+          continue;
+        }
 
         // Plumb the server
         const gatewayToServer = new TeeSplit(dashboardIn);
@@ -45,7 +62,7 @@ export class PlumbServersCommand extends AsyncCommand {
         gatewayFacade.sendNotification(
           JunctionMediatorNotification.ACCEPT_OUTPUT_PIPE,
           gatewayToServer,
-          `to-${config.name}`,
+          `to-${config.serverName}`,
         );
 
         // Register Gateway In Pipe with Server
@@ -59,7 +76,7 @@ export class PlumbServersCommand extends AsyncCommand {
         gatewayFacade.sendNotification(
           JunctionMediatorNotification.ACCEPT_INPUT_PIPE,
           serverToGateway,
-          `from-${config.name}`,
+          `from-${config.serverName}`,
         );
 
         // Register Server Out Pipe with Server
@@ -69,7 +86,7 @@ export class PlumbServersCommand extends AsyncCommand {
           "to-gateway",
         );
 
-        f.log(`✔︎ Server Core ${config.name} plumbed`, 3);
+        f.log(`✔︎ Server Core ${config.serverName} plumbed`, 3);
       }
     };
     createAndPlumbServers().then(() => {

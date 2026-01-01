@@ -16,6 +16,7 @@ export class GatewayNotifications {
 // Server Core notifications
 export class ServerNotifications {
   static readonly STARTUP = "server/startup";
+  static readonly SERVER_RESPONSE = "gateway/response/server";
 }
 
 // Dashboard Core notifications

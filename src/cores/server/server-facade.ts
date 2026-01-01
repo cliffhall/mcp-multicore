@@ -37,8 +37,27 @@ export class ServerFacade extends LoggingFacade {
   /**
    * Start this server core with the given configuration
    */
-  public async startup(config: ServerConfig): Promise<void> {
+  public startup(config: ServerConfig): void {
     this.log(`🔱 ServerFacade - Preparing Server Core ${this.multitonKey}`, 3);
     this.sendNotification(ServerNotifications.STARTUP, config);
   }
+
+  /**
+   * Checks if the current instance is in a ready state.
+   *
+   * @return {boolean} True if the instance is ready, otherwise false.
+   */
+  public isReady(): boolean {
+    return this.ready;
+  }
+
+  /**
+   * Sets the ready state to true.
+   * @return {void} This method does not return any value.
+   */
+  public setReady(): void {
+    this.ready = true;
+  }
+
+  protected ready: boolean = false;
 }

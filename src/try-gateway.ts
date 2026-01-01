@@ -15,15 +15,17 @@ const config = {
   },
   servers: [
     {
-      name: "server-everything",
+      serverName: "server-everything",
       transport: "stdio",
-      command: "npx @modelcontextprotocol/server-everything",
+      command: "npx",
+      args: ["-y", "@modelcontextprotocol/server-everything"],
       autoConnect: true,
     },
     {
-      name: "server-filesystem",
+      serverName: "server-filesystem",
       transport: "stdio",
-      command: "npx @modelcontextprotocol/server-filesystem",
+      command: "npx",
+      args: ["-y", "@modelcontextprotocol/server-filesystem"],
       autoConnect: true,
     },
   ],

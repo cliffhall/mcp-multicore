@@ -12,7 +12,7 @@ export class ServerConfigProxy extends Proxy {
     super.onRegister();
     const f = this.facade as ILoggingFacade;
     f.log(
-      `💾 ServerConfigProxy - Registered ${this.config ? `with` : `without`} config`,
+      `💾 ServerConfigProxy - Registered ${this.config ? `with` : `without`} config for Core: ${this.multitonKey}`,
       6,
     );
   }
@@ -21,16 +21,12 @@ export class ServerConfigProxy extends Proxy {
     return this.data as ServerConfig;
   }
 
-  get id() {
-    return this.config.id || "";
-  }
-
-  get name() {
-    return this.config.name || "";
+  get serverName() {
+    return this.config.serverName || "";
   }
 
   get transport() {
-    return this.config.name || "stdio";
+    return this.config.transport || "stdio";
   }
 
   get command() {
