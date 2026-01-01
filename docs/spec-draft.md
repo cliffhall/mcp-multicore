@@ -1,7 +1,7 @@
 # MCP-MultiCore Gateway - Technical Specification
 
 **Version:** 1.0  
-**Date:** 2026-01-01
+**Date:** 2026-01-01  
 **Status:** Draft
 
 ---
