@@ -14,6 +14,70 @@ An MCP Gateway Implemented with PureMVC MultiCore and Pipes
 * Start servers (server cores are plumbed but servers not started yet)
 * Implement tools in Gateway MCP Interface to list servers list tools, resources, and prompts for a given server, invoke a tool on a server, etc
 
+##  Pipe Topology
+* PureMVC systems are modular, with each "Core" being its own MVC application.
+* Cores can message each other using the [Pipes utility](https://github.com/PureMVC/puremvc-typescript-util-pipes).
+* Pipelines can contain filters, queues, splitting and merging tees, and more.
+* This diagram shows how the MCP MultiCore Gateway is plumbed.
+```mermaid
+graph LR
+    subgraph "Gateway Core"
+        GW_OUT[Gateway Out]
+        GW_IN[Gateway In]
+    end
+    
+    subgraph "Server Core 1"
+        SC1_IN[Server In]
+        SC1_OUT[Server Out]
+    end
+    
+    subgraph "Server Core 2"
+        SC2_IN[Server In]
+        SC2_OUT[Server Out]
+    end
+    
+    subgraph "Dashboard Core"
+        DASH_IN[Dashboard In]
+    end
+    
+    %% Branching tees on the outbound and inbound paths
+    %% One tee per link to avoid implying broadcast
+    TEE_GW_SC1((Tee Split))
+    TEE_GW_SC2((Tee Split))
+    TEE_SC1_OUT((Tee Split))
+    TEE_SC2_OUT((Tee Split))
+    
+    %% Tee Merge feeding the Dashboard core
+    TEE_DASH((Tee Merge))
+    
+    %% Connect gateway outbound through branching tee to servers and DASHitor
+    GW_OUT --> TEE_GW_SC1
+    GW_OUT --> TEE_GW_SC2
+    TEE_GW_SC1 --> SC1_IN
+    TEE_GW_SC2 --> SC2_IN
+    TEE_GW_SC1 -.-> TEE_DASH
+    TEE_GW_SC2 -.-> TEE_DASH
+    
+    %% Connect server outs through branching tees to gateway in and DASHitor
+    SC1_OUT --> TEE_SC1_OUT
+    SC2_OUT --> TEE_SC2_OUT
+    TEE_SC1_OUT --> GW_IN
+    TEE_SC2_OUT --> GW_IN
+    TEE_SC1_OUT -.-> TEE_DASH
+    TEE_SC2_OUT -.-> TEE_DASH
+    
+    %% Tee Merge to DASHitoring core input
+    TEE_DASH --> DASH_IN
+```
+
+### Pipe Characteristics:
+- Bidirectional: Gateway and Server Cores have input and output pipes
+- Unidirectional: Dashboard has only an input pipe
+- Tees: All pipes copy messages to Dasbhoard Core
+- Asynchronous: Message delivery does not block sender
+- Typed: Messages follow strict schema
+
+
 ## Current Startup Log
 ```shell
 🔱 GatewayFacade - Preparing the Gateway Core
@@ -45,11 +109,15 @@ An MCP Gateway Implemented with PureMVC MultiCore and Pipes
          🔱 ServerFacade - Preparing Server Core server-everything
             📋 StartupServerCommand - Executing Server startup subcommands
                ⚙️ PrepareServerModelCommand - Preparing Server Model for server-everything
-                  💾 ServerConfigProxy - Registered with config
+                  💾 ServerConfigProxy - Registered with config for Core: server-everything
+                  💾 ServerTransportProxy - Registered for Core: server-everything
                   ✔︎ Server Model prepared
                ⚙️ PrepareServerViewCommand - Preparing Server View for server-everything
                   🧩 ServerJunctionMediator - Registered
                   ✔︎ Server View prepared
+               📋 ConnectMcpServerCommand - Connecting MCP Server for server-everything
+                  ⚙️ ConnectStdioServerCommand - Start STDIO server for server-everything
+                  ✔︎ STDIO server connected for server-everything
                🧩 GatewayJunctionMediator - Accepting output pipe [to-server-everything]
                🧩 ServerJunctionMediator - Accepting input pipe [from-gateway]
                🧩 GatewayJunctionMediator - Accepting input pipe [from-server-everything]
@@ -58,11 +126,15 @@ An MCP Gateway Implemented with PureMVC MultiCore and Pipes
          🔱 ServerFacade - Preparing Server Core server-filesystem
             📋 StartupServerCommand - Executing Server startup subcommands
                ⚙️ PrepareServerModelCommand - Preparing Server Model for server-filesystem
-                  💾 ServerConfigProxy - Registered with config
+                  💾 ServerConfigProxy - Registered with config for Core: server-filesystem
+                  💾 ServerTransportProxy - Registered for Core: server-filesystem
                   ✔︎ Server Model prepared
                ⚙️ PrepareServerViewCommand - Preparing Server View for server-filesystem
                   🧩 ServerJunctionMediator - Registered
                   ✔︎ Server View prepared
+               📋 ConnectMcpServerCommand - Connecting MCP Server for server-filesystem
+                  ⚙️ ConnectStdioServerCommand - Start STDIO server for server-filesystem
+                  ✔︎ STDIO server connected for server-filesystem
                🧩 GatewayJunctionMediator - Accepting output pipe [to-server-filesystem]
                🧩 ServerJunctionMediator - Accepting input pipe [from-gateway]
                🧩 GatewayJunctionMediator - Accepting input pipe [from-server-filesystem]
