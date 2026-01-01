@@ -21,6 +21,9 @@
 11. [Performance Considerations](#11-performance-considerations)
 
 ---
+## 0. Note
+
+Much actual development has been done since this spec was generated and so the direction differs slightly. The Cores and pipe topology are the same as shown, with the exception that the Monitoring Core is called Dashboard now.
 
 ## 1. System Overview
 
