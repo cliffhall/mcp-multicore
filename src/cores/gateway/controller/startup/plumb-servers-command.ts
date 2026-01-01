@@ -47,7 +47,10 @@ export class PlumbServersCommand extends AsyncCommand {
           waited += pollInterval;
         }
         if (!serverFacade.isReady()) {
-          f.log(`🔥 Server Core ${config.serverName} failed to start within ${timeout / 1000} seconds.`, 3);
+          f.log(
+            `🔥 Server Core ${config.serverName} failed to start within ${timeout / 1000} seconds.`,
+            3,
+          );
           continue;
         }
 
