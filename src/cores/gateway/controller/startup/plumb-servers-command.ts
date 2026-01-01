@@ -37,9 +37,19 @@ export class PlumbServersCommand extends AsyncCommand {
         // Start the Server Core
         const serverFacade = ServerFacade.getInstance(config.serverName);
         serverFacade.startup(config);
-        do {
-          await wait(500);
-        } while (!serverFacade.isReady());
+
+        // Wait for core to be ready (MCP server startup is async)
+        const timeout = 10000; // 10 seconds
+        const pollInterval = 500;
+        let waited = 0;
+        while (!serverFacade.isReady() && waited < timeout) {
+          await wait(pollInterval);
+          waited += pollInterval;
+        }
+        if (!serverFacade.isReady()) {
+          f.log(`🔥 Server Core ${config.serverName} failed to start within ${timeout / 1000} seconds.`, 3);
+          continue;
+        }
 
         // Plumb the server
         const gatewayToServer = new TeeSplit(dashboardIn);

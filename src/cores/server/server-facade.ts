@@ -55,7 +55,7 @@ export class ServerFacade extends LoggingFacade {
    * Sets the ready state to true.
    * @return {void} This method does not return any value.
    */
-  public setReady() {
+  public setReady(): void {
     this.ready = true;
   }
 
