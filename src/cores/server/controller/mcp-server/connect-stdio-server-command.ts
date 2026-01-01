@@ -14,7 +14,7 @@ export class ConnectStdioServerCommand extends AsyncCommand {
     const f = this.facade as ILoggingFacade;
 
     f.log(
-      `⚙️ StartStdioServerCommand - Start STDIO server for ${this.multitonKey}`,
+      `⚙️ ConnectStdioServerCommand - Start STDIO server for ${this.multitonKey}`,
       6,
     );
 
