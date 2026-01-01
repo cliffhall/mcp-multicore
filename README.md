@@ -9,9 +9,10 @@ An MCP Gateway Implemented with PureMVC MultiCore and Pipes
 * Config-driven Gateway, Dashboard, and (multiple) Server Cores initialized and plumbed.
 * Basic MCP Interface implemented in Gateway Core - (WIP, only has an echo tool for proof atm)
 * All client requests being sent to the Dashboard Core and tracked in streams by core and clientId
+* STDIO servers started in each server core and connected transports proxied.
 
 ## Next
-* Start servers (server cores are plumbed but servers not started yet)
+* Auto-connect to each server and cache their capabilities and instructions
 * Implement tools in Gateway MCP Interface to list servers list tools, resources, and prompts for a given server, invoke a tool on a server, etc
 
 ##  Pipe Topology
