@@ -43,7 +43,7 @@ export class ServerJunctionMediator extends JunctionMediator {
   public override handlePipeMessage(message: IPipeMessage): void {
     if (message.type === PipeMessageType.NORMAL) {
       (this.facade as ILoggingFacade).log(
-        `🧩 ServerJunctionMediator - ${this.multitonKey} core received: \n${"-".repeat(80)}\n${JSON.stringify(message)}`,
+        `🧩 ServerJunctionMediator - ${this.multitonKey} core received: \n${"-".repeat(80)}\n${JSON.stringify(message)}\n${"-".repeat(80)}\n`,
         1,
       );
     }

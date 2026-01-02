@@ -58,7 +58,7 @@ export class DashboardJunctionMediator extends JunctionMediator {
         message as MCPTrafficMessage,
       );
       (this.facade as ILoggingFacade).log(
-        `🧩 DashboardJunctionMediator - ${this.multitonKey} core received: \n${"-".repeat(80)}\n${JSON.stringify(message, null, 2)}`,
+        `🧩 DashboardJunctionMediator - ${this.multitonKey} core received: \n${"-".repeat(80)}\n${JSON.stringify(message, null, 2)}\n${"-".repeat(80)}\n`,
         4,
       );
     }
