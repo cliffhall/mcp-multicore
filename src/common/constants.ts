@@ -46,3 +46,42 @@ const options: ServerOptions = {
 
 // MCP Interface Configuration
 export const MCPInterfaceConfig = { implementation, options };
+
+
+export const ClientInfo = {
+    protocolVersion: "2024-11-05",
+    capabilities: {
+      roots: {
+        listChanged: true,
+      },
+      sampling: {},
+      elicitation: {
+        form: {},
+        url: {},
+      },
+      tasks: {
+        requests: {
+          elicitation: {
+            create: {},
+          },
+          sampling: {
+            createMessage: {},
+          },
+        },
+      },
+    },
+    clientInfo: {
+      name: "MCP-MultiCore",
+      title: "The PureMVC MultiCore MCP Gateway",
+      version: "0.1.0",
+      description: "An MCP gateway implemented with PureMVC MultiCore and Pipes",
+      icons: [
+        {
+          src: "https://puremvc.org/images/puremvc-logo.png",
+          mimeType: "image/png",
+          sizes: ["60x60"],
+        },
+      ],
+      websiteUrl: "https://github.com/cliffhall/mcp-multicore",
+    },
+  };

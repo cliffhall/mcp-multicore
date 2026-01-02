@@ -3,6 +3,7 @@ import { INotification } from "@puremvc/puremvc-typescript-multicore-framework";
 import type { ILoggingFacade } from "../../../../common/index.js";
 import { ConnectStdioServerCommand } from "../mcp-server/connect-stdio-server-command.js";
 import { ServerConfigProxy } from "../../model/server-config-proxy.js";
+import { CacheServerInfoCommand } from "../mcp-server/cache-server-info-command.js";
 
 export class ConnectMcpServerCommand extends AsyncMacroCommand {
   /**
@@ -34,6 +35,8 @@ export class ConnectMcpServerCommand extends AsyncMacroCommand {
         break;
     }
 
+    // Run the cache capabilities subcommand after connecting
+    this.addSubCommand(() => new CacheServerInfoCommand());
     super.execute(note);
   }
 }

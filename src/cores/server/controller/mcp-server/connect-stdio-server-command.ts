@@ -18,8 +18,6 @@ export class ConnectStdioServerCommand extends AsyncCommand {
       6,
     );
 
-    // Get server configuration
-
     // Get the Server Config Proxy
     const serverConfigProxy = this.facade.retrieveProxy(
       ServerConfigProxy.NAME,
@@ -47,7 +45,7 @@ export class ConnectStdioServerCommand extends AsyncCommand {
 
       await transport.start();
 
-      // Extract outgoing message body and send to junction mediator
+      // Extract the outgoing message body and send to the junction mediator
       const cb = transport.onmessage;
       transport.onmessage = (message) => {
         this.sendNotification(ServerNotifications.SERVER_RESPONSE, {
