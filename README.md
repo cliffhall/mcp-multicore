@@ -40,7 +40,7 @@ Cores can message each other using the [Pipes utility](https://github.com/PureMV
 ## Pipe Communications Characteristics
 Each PureMVC Core has own isolated _intra-core_ notification space, where its actors communicate with each other.
 
-The pipe utility adds an _inter-core_ notification space where schema-typed messages can be exchanged between one Core and another.
+The pipe utility adds an _inter-core_ notification space where schema-typed messages can be exchanged between Cores.
 
 - Asynchronous: Message delivery does not block sender
 - Typed: Messages follow a strict schema
