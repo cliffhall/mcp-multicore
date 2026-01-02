@@ -1,6 +1,6 @@
 import { INotification } from "@puremvc/puremvc-typescript-multicore-framework";
 import { AsyncCommand } from "@puremvc/puremvc-typescript-util-async-command";
-import {ClientInfo, type ILoggingFacade} from "../../../../common/index.js";
+import { ClientInfo, type ILoggingFacade } from "../../../../common/index.js";
 import { ServerTransportProxy } from "../../model/server-transport-proxy.js";
 
 export class CacheServerInfoCommand extends AsyncCommand {
@@ -25,27 +25,30 @@ export class CacheServerInfoCommand extends AsyncCommand {
     }
 
     const cacheCapabilities = async () => {
-      return new Promise((resolve, reject):void => {
+      return new Promise((resolve, reject): void => {
         const oldMessageHandler = transport.onmessage;
         const oldErrorHandler = transport.onerror;
         const replaceHandlers = () => {
           transport.onerror = oldErrorHandler;
           transport.onmessage = oldMessageHandler;
-        }
+        };
         transport.onerror = (error) => {
-          f.log(`❌ Server info cache failed for ${this.multitonKey}: ${error}`, 7);
+          f.log(
+            `❌ Server info cache failed for ${this.multitonKey}: ${error}`,
+            7,
+          );
           replaceHandlers();
           reject(error);
-        }
+        };
         transport.onmessage = (message) => {
           replaceHandlers();
           resolve(message);
-        }
+        };
         transport.send({
           jsonrpc: "2.0",
           id: 1,
           method: "initialize",
-          params: ClientInfo
+          params: ClientInfo,
         });
       });
     };

@@ -41,5 +41,4 @@ export class CapabilitiesAndInfoProxy extends Proxy {
   get _meta() {
     return this.result._meta;
   }
-
 }
