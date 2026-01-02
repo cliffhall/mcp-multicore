@@ -119,6 +119,8 @@ graph LR
                📋 ConnectMcpServerCommand - Connecting MCP Server for server-everything
                   ⚙️ ConnectStdioServerCommand - Start STDIO server for server-everything
                   ✔︎ STDIO server connected for server-everything
+                  ⚙️ CacheServerInfoCommand - Cache initialization result for server-everything
+                  ✔︎ Server info cached for server-everything
                🧩 GatewayJunctionMediator - Accepting output pipe [to-server-everything]
                🧩 ServerJunctionMediator - Accepting input pipe [from-gateway]
                🧩 GatewayJunctionMediator - Accepting input pipe [from-server-everything]
@@ -136,6 +138,8 @@ graph LR
                📋 ConnectMcpServerCommand - Connecting MCP Server for server-filesystem
                   ⚙️ ConnectStdioServerCommand - Start STDIO server for server-filesystem
                   ✔︎ STDIO server connected for server-filesystem
+                  ⚙️ CacheServerInfoCommand - Cache initialization result for server-filesystem
+                  ✔︎ Server info cached for server-filesystem
                🧩 GatewayJunctionMediator - Accepting output pipe [to-server-filesystem]
                🧩 ServerJunctionMediator - Accepting input pipe [from-gateway]
                🧩 GatewayJunctionMediator - Accepting input pipe [from-server-filesystem]
