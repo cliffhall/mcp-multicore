@@ -137,7 +137,6 @@ In `try-gateway.ts`, this working configuration is used to start the **Gateway C
   ]
 }
 ```
-[
 
 # Logging
 ## MCP Activity Logging
@@ -150,7 +149,6 @@ MCP Multicore Gateway operational log output is displayed on `STDERR` and is opt
 * Responsibilities of the various system actors
 * How each actor is related to other actors
 * Actual errors
-]()
 
 # System Tests
 ## Try Gateway
