@@ -199,6 +199,7 @@ MCP Multicore Gateway operational log output is displayed on `STDERR` and is opt
                   ⚙️ ConnectStdioServerCommand - Start STDIO server for server-everything
                   ✔︎ STDIO server connected for server-everything
                   ⚙️ CacheServerInfoCommand - Cache initialization result for server-everything
+                     💾 CapabilitiesAndInfoProxy - Registered for Core: server-everything
                   ✔︎ Server info cached for server-everything
                🧩 GatewayJunctionMediator - Accepting output pipe [to-server-everything]
                🧩 ServerJunctionMediator - Accepting input pipe [from-gateway]
