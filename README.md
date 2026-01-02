@@ -72,15 +72,62 @@ graph LR
 ```
 
 ### Pipe Characteristics:
-- Bidirectional: Gateway and Server Cores have input and output pipes
+- Bidirectional: Gateway and Server Cores have mutual input and output pipes
 - Unidirectional: Dashboard has only an input pipe
-- Tees: All pipes copy messages to Dasbhoard Core
+- Tees: All pipes copy messages to Dashboard Core
 - Asynchronous: Message delivery does not block sender
 - Typed: Messages follow strict schema
 
 
-## Current Startup Log
-```shell
+## Try Gateway
+### `npm run try:gateway`
+Starts the **Gateway Core** with a simple configuration, which starts and plumbs the **Dashboard Core** and any configured **Server Cores**.
+
+### Gateway Core 
+Exposes an MCP server interface for clients, offering tool discovery and calling, resource, prompts, tasks, implemented by configured servers.
+
+
+### Current Configuration
+Hardcoded at the moment in `try-gateway.ts`, this demonstrates 
+```json
+{
+  "gateway": {
+	"port": 3001,
+	"host": "localhost",
+	"transport": "streamable-http"
+  },
+  "dashboard": {
+	"port": 8080,
+	"host": "localhost"
+  },
+  "servers": [
+	{
+	  "serverName": "server-everything",
+	  "transport": "stdio",
+	  "command": "npx",
+	  "args": ["-y", "@modelcontextprotocol/server-everything"],
+	  "autoConnect": true
+	},
+	{
+	  "serverName": "server-filesystem",
+	  "transport": "stdio",
+	  "command": "npx",
+	  "args": ["-y", "@modelcontextprotocol/server-filesystem"],
+	  "autoConnect": false
+	}
+  ]
+}
+```
+
+### Operational Logging
+MCP Multicore Gateway operational log output is displayed on `STDERR` and is optimized to expose: 
+* The order of operations at startup
+* Ongoing runtime event-driven behavior
+* Responsibilities of the various system actors
+* How each actor is related to other actors
+* Actual errors
+
+```
 🔱 GatewayFacade - Preparing the Gateway Core
    📋 StartupGatewayCommand - Executing Gateway startup subcommands
       ⚙️ PrepareGatewayModelCommand - Preparing Gateway Model
@@ -116,7 +163,7 @@ graph LR
                ⚙️ PrepareServerViewCommand - Preparing Server View for server-everything
                   🧩 ServerJunctionMediator - Registered
                   ✔︎ Server View prepared
-               📋 ConnectMcpServerCommand - Connecting MCP Server for server-everything
+               📋 ConnectMcpServerCommand - Auto-connecting MCP Server for server-everything
                   ⚙️ ConnectStdioServerCommand - Start STDIO server for server-everything
                   ✔︎ STDIO server connected for server-everything
                   ⚙️ CacheServerInfoCommand - Cache initialization result for server-everything
@@ -135,11 +182,6 @@ graph LR
                ⚙️ PrepareServerViewCommand - Preparing Server View for server-filesystem
                   🧩 ServerJunctionMediator - Registered
                   ✔︎ Server View prepared
-               📋 ConnectMcpServerCommand - Connecting MCP Server for server-filesystem
-                  ⚙️ ConnectStdioServerCommand - Start STDIO server for server-filesystem
-                  ✔︎ STDIO server connected for server-filesystem
-                  ⚙️ CacheServerInfoCommand - Cache initialization result for server-filesystem
-                  ✔︎ Server info cached for server-filesystem
                🧩 GatewayJunctionMediator - Accepting output pipe [to-server-filesystem]
                🧩 ServerJunctionMediator - Accepting input pipe [from-gateway]
                🧩 GatewayJunctionMediator - Accepting input pipe [from-server-filesystem]

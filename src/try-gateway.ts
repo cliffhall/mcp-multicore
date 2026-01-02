@@ -26,7 +26,7 @@ const config = {
       transport: "stdio",
       command: "npx",
       args: ["-y", "@modelcontextprotocol/server-filesystem"],
-      autoConnect: true,
+      autoConnect: false,
     },
   ],
 } as GatewayConfig;
