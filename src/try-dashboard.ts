@@ -21,12 +21,12 @@ const dashboardFacade = DashboardFacade.getInstance(SINGLETON_KEY);
 dashboardFacade.startup(config);
 
 // Plumb the dashboard
-const dashboardIn = new Pipe();
+const toDashboard = new Pipe();
 
 // Plumb a Dashboard In pipe
 dashboardFacade.sendNotification(
   JunctionMediatorNotification.ACCEPT_INPUT_PIPE,
-  dashboardIn,
+  toDashboard,
   "to-dashboard",
 );
 
@@ -89,5 +89,5 @@ const messages: IPipeMessage[] = [
 
 // Send the messages to the Dashboard Core
 for (const message of messages) {
-  dashboardIn.write(message);
+  toDashboard.write(message);
 }
