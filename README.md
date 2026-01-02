@@ -155,9 +155,9 @@ MCP Multicore Gateway operational log output is displayed on `STDERR` and is opt
 # System Tests
 ## Try Gateway
 ### `npm run try:gateway`
-Starts the **Gateway Core** with a simple configuration, which starts and plumbs the **Dashboard Core** and any configured **Server Cores**.
-
-An MCP server is available at `http://localhost:3001` for interacting with the system.
+* Starts the **Gateway Core** with a simple configuration.
+* The **Gateway Core** starts and plumbs the **Dashboard Core** and any configured **Server Cores**.
+* An MCP server interface is available at `http://localhost:3001` for interacting with the system.
 
 ```
 🔱 GatewayFacade - Preparing the Gateway Core
@@ -228,8 +228,8 @@ An MCP server is available at `http://localhost:3001` for interacting with the s
 
 ## Try Dashboard
 ### `npm run try:dashboard`
-Starts the **Dashboard Core** with a simple configuration and sends it some test messages.
-
+* Starts only the **Dashboard Core** and sends it some test messages.
+* Demonstrates how each Core can be started and interacted with independently.
 ```
 
          🔱 Dashboard Facade - Preparing the Dashboard Core
