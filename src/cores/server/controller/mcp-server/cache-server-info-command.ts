@@ -2,6 +2,8 @@ import { INotification } from "@puremvc/puremvc-typescript-multicore-framework";
 import { AsyncCommand } from "@puremvc/puremvc-typescript-util-async-command";
 import { ClientInfo, type ILoggingFacade } from "../../../../common/index.js";
 import { ServerTransportProxy } from "../../model/server-transport-proxy.js";
+import { CapabilitiesAndInfoProxy } from "../../model/capabilities-and-info-proxy.js";
+import type { InitializeResult } from "@modelcontextprotocol/sdk/types.js";
 
 export class CacheServerInfoCommand extends AsyncCommand {
   public execute(_notification: INotification): void {
@@ -53,9 +55,20 @@ export class CacheServerInfoCommand extends AsyncCommand {
       });
     };
 
-    cacheCapabilities().then(() => {
-      f.log(`✔︎ Server info cached for ${this.multitonKey}`, 6);
-      this.commandComplete();
-    });
+    cacheCapabilities()
+      .then((result) => {
+        if (result instanceof Error) {
+          f.log(
+            `❌ Server info cache failed for ${this.multitonKey}: ${result}`,
+            7,
+          );
+        } else {
+          this.facade.registerProxy(
+            new CapabilitiesAndInfoProxy(result as InitializeResult),
+          );
+          f.log(`✔︎ Server info cached for ${this.multitonKey}`, 6);
+        }
+      })
+      .finally(() => this.commandComplete());
   }
 }

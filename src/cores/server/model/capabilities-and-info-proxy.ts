@@ -14,7 +14,7 @@ export class CapabilitiesAndInfoProxy extends Proxy {
     const f = this.facade as ILoggingFacade;
     f.log(
       `💾 CapabilitiesAndInfoProxy - Registered for Core: ${this.multitonKey}`,
-      6,
+      7,
     );
   }
 
