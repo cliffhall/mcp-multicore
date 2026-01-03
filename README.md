@@ -14,11 +14,9 @@ An MCP Gateway implemented with PureMVC MultiCore and its Pipes Utility.
 * [x] All client requests being sent to the **Dashboard Core** and tracked in streams by Core and ClientId
 * [x] STDIO servers configured for auto-connect are started, transports proxied, initialized, and their capabilities, info, instructions, and _meta are proxied.
 
-## Next Steps
-The MCP Gateway Interface is currently a **WIP**: It works but only has an Echo tool for proof of concept.
-Next steps are to implement tools to:
+## WIP
 ### Build the MCP Interface's server discovery and calling capabilities
-* [ ] List available servers 
+* [x] List available servers tool
 * [ ] List tools on a server
 * [ ] Invoke a tool
 * [ ] List resources on a server
