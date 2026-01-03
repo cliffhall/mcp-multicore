@@ -1,4 +1,4 @@
-import {type ServerConfig, wait} from "./common/index.js";
+import { type ServerConfig, wait } from "./common/index.js";
 import { ServerFacade } from "./cores/server/server-facade.js";
 
 // Simulated config
@@ -14,7 +14,6 @@ const config = {
 const serverFacade = ServerFacade.getInstance(config.serverName);
 serverFacade.startup(config);
 
-
 // Wait for core to be ready (MCP server startup is async)
 const timeout = 10000; // 10 seconds
 const pollInterval = 500;
@@ -25,6 +24,6 @@ while (!serverFacade.isReady() && waited < timeout) {
 }
 
 // Get and log the cached capabilities
-const info = serverFacade.getServerInfo()
+const info = serverFacade.getServerInitializationResult();
 const divider = "-".repeat(80);
-console.log(`${divider}\n${JSON.stringify(info,null,2)}\n${divider}`);
+console.log(`${divider}\n${JSON.stringify(info, null, 2)}\n${divider}`);

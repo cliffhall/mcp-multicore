@@ -66,7 +66,7 @@ export class ServerFacade extends LoggingFacade {
    *
    * @return {InitializeResult | void} The server information encapsulated in an InitializeResult object if available, otherwise undefined.
    */
-  public getServerInfo(): InitializeResult | void {
+  public getServerInitializationResult(): InitializeResult | void {
     if (this.hasProxy(CapabilitiesAndInfoProxy.NAME)) {
       const p = this.retrieveProxy(
         CapabilitiesAndInfoProxy.NAME,
