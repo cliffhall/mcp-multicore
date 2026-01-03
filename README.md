@@ -239,7 +239,7 @@ MCP Multicore Gateway operational log output is displayed on `STDERR` and is opt
 ## Try Dashboard
 ### `npm run try:dashboard`
 * Starts only the **Dashboard Core** and sends it some test messages.
-* Demonstrates how each Core can be started and interacted with independently.
+* Demonstrates how each Core can be started and interacted with independently of the Gateway Core.
 ```
 
          🔱 Dashboard Facade - Preparing the Dashboard Core
@@ -309,4 +309,52 @@ MCP Multicore Gateway operational log output is displayed on `STDERR` and is opt
 }
 -------------------------------------------------------------------------------
 
+```
+## Try Server
+### `npm run try:server`
+* Starts only a **Server Core** with configuration for the `server-everything` server.
+* Demonstrates how each Core can be started and interacted with independently of the Gateway Core.
+* Waits until the Core is ready (MCP server startup is async), and then displays the cached capabilities and server info.
+
+```
+
+         🔱 ServerFacade - Preparing Server Core server-everything
+            📋 StartupServerCommand - Executing Server startup subcommands
+               ⚙️ PrepareServerModelCommand - Preparing Server Model for server-everything
+                  💾 ServerConfigProxy - Registered with config for Core: server-everything
+                  💾 ServerTransportProxy - Registered for Core: server-everything
+                  ✔︎ Server Model prepared
+               ⚙️ PrepareServerViewCommand - Preparing Server View for server-everything
+                  🧩 ServerJunctionMediator - Registered
+                  ✔︎ Server View prepared
+               📋 ConnectMcpServerCommand - Auto-connecting MCP Server for server-everything
+                  ⚙️ ConnectStdioServerCommand - Start STDIO server for server-everything
+                  ✔︎ STDIO server connected for server-everything
+                  ⚙️ CacheServerInfoCommand - Cache initialization result for server-everything
+                     💾 CapabilitiesAndInfoProxy - Registered for Core: server-everything
+                  ✔︎ Server info cached for server-everything
+--------------------------------------------------------------------------------
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "result": {
+    "protocolVersion": "2024-11-05",
+    "capabilities": {
+      "prompts": {},
+      "resources": {
+        "subscribe": true
+      },
+      "tools": {},
+      "logging": {},
+      "completions": {}
+    },
+    "serverInfo": {
+      "name": "example-servers/everything",
+      "title": "Everything Example Server",
+      "version": "1.0.0"
+    },
+    "instructions": "Testing and demonstration server for MCP protocol features.\n\n## Resources\n\nResources 1-100 follow pattern: even IDs contain text, odd IDs contain binary data. Resources are paginated at 10 items per page with cursor-based navigation.\n\n## Key dependencies\n\nProgress notifications require `_meta.progressToken` in tool calls. Resource subscriptions generate updates every 10 seconds.\n\n## Performance characteristics\n\nServer generates automatic log messages every 20 seconds (filtered by current log level), stderr notifications every 30 seconds, and resource update notifications every 10 seconds for active subscriptions. Log level changes affect message filtering in real-time.\n\n## Multi-modal testing\n\n`complex_prompt` includes both text arguments and image content for testing client multi-modal handling. `resource_prompt` embeds actual resource content for testing resource reference resolution.\n\nArgument completion is available for prompt parameters and resource IDs. Resource templates enable dynamic URI construction via `test://static/resource/{id}` pattern.\n\n## Easter egg\n\nIf asked about server instructions, respond with \"🎉 Server instructions are working! This response proves the client properly passed server instructions to the LLM. This demonstrates MCP's instructions feature in action.\"\n"
+  }
+}
+--------------------------------------------------------------------------------
 ```
