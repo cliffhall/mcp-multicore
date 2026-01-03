@@ -1,6 +1,9 @@
 # MCP-MultiCore
 An MCP Gateway implemented with PureMVC MultiCore and its Pipes Utility.
 
+* Allows clients to discover and call tools on connected MCP servers
+* Captures all JSONRPC message activity and provides a dashboard for access
+
 ## Docs
 * [Project Brief](docs/brief.md) 
 * [Technical Specification (draft)](docs/spec-draft.md)
@@ -11,9 +14,10 @@ An MCP Gateway implemented with PureMVC MultiCore and its Pipes Utility.
 * [x] All client requests being sent to the **Dashboard Core** and tracked in streams by Core and ClientId
 * [x] STDIO servers configured for auto-connect are started, transports proxied, initialized, and their capabilities, info, instructions, and _meta are proxied.
 
-## Next
+## Next Steps
 The MCP Gateway Interface is currently a **WIP**: It works but only has an Echo tool for proof of concept.
 Next steps are to implement tools to:
+### Build the MCP Interface's server discovery and calling capabilities
 * [ ] List available servers 
 * [ ] List tools on a server
 * [ ] Invoke a tool
@@ -21,6 +25,13 @@ Next steps are to implement tools to:
 * [ ] Retrieve resource from a server
 * [ ] List prompts on a server
 * [ ] Get prompt from a server
+
+### Build the Dashboard's data access interface
+Data is in a schema'd JSON format with a JSONRPC message bodies. 
+* [ ] Consider OpenTelemetry format with Jaeger Tracing 
+* [ ] Web interface
+* [ ] REST API
+
 
 # Meet The Cores
 ## Gateway Core
