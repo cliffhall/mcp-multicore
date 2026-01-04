@@ -68,8 +68,8 @@ export const registerListServersTool = (server: McpServer): void => {
         if (result) {
           info.push({
             name: serverConfig.serverName,
-            title: result?.serverInfo?.title,
-            description: result?.serverInfo?.description,
+            title: result.serverInfo?.title,
+            description: result.serverInfo?.description,
           });
         }
       }
