@@ -45,7 +45,7 @@ export const registerListServersTool = (server: McpServer): void => {
     // Get the gateway facade
     const gatewayFacade = GatewayFacade.getInstance(
       CoreNames.GATEWAY,
-    ) as GatewayFacade;
+    );
 
     // Get the config proxy
     const configProxy = gatewayFacade.retrieveProxy(
