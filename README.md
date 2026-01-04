@@ -4,6 +4,34 @@ An MCP Gateway implemented with PureMVC MultiCore and its Pipes Utility.
 * Allows clients to discover and call tools on connected MCP servers
 * Captures all JSONRPC message activity and provides a dashboard for access
 
+## Table of Contents
+<!-- TOC -->
+* [MCP-MultiCore](#mcp-multicore)
+  * [Docs](#docs)
+  * [Progress](#progress)
+  * [WIP](#wip)
+    * [Build the MCP Interface's server discovery and calling capabilities](#build-the-mcp-interfaces-server-discovery-and-calling-capabilities)
+    * [Build the Dashboard's data access interface](#build-the-dashboards-data-access-interface)
+* [The Cores](#the-cores)
+  * [Gateway Core](#gateway-core)
+  * [Dashboard Core](#dashboard-core)
+  * [Server Cores](#server-cores)
+* [Core Plumbing](#core-plumbing)
+  * [Pipe Communications Characteristics](#pipe-communications-characteristics)
+  * [Pipe Topology](#pipe-topology)
+* [Gateway Configuration](#gateway-configuration)
+* [Logging](#logging)
+  * [MCP Activity Logging](#mcp-activity-logging)
+  * [System Logging](#system-logging)
+* [System Tests](#system-tests)
+  * [Try Gateway](#try-gateway)
+    * [`npm run try:gateway`](#npm-run-trygateway)
+  * [Try Dashboard](#try-dashboard)
+    * [`npm run try:dashboard`](#npm-run-trydashboard)
+  * [Try Server](#try-server)
+    * [`npm run try:server`](#npm-run-tryserver)
+<!-- TOC -->
+
 ## Docs
 * [Project Brief](docs/brief.md) 
 * [Technical Specification (draft)](docs/spec-draft.md)
@@ -31,7 +59,7 @@ Data is in a schema'd JSON format with a JSONRPC message bodies.
 * [ ] REST API
 
 
-# Meet The Cores
+# The Cores
 ## Gateway Core
 Exposes an MCP server interface for clients, offering tool discovery and calling, resource, prompts, tasks, implemented by configured servers.
 
