@@ -59,7 +59,7 @@ export const registerListServersTool = (server: McpServer): void => {
         // Get the server facade
         const serverFacade = ServerFacade.getInstance(
           serverConfig.serverName,
-        ) as ServerFacade;
+        );
 
         // Get the server initialization result
         const result = serverFacade.getServerInitializationResult();
