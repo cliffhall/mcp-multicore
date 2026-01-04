@@ -43,9 +43,7 @@ const config = {
 export const registerListServersTool = (server: McpServer): void => {
   server.registerTool(name, config, async (): Promise<CallToolResult> => {
     // Get the gateway facade
-    const gatewayFacade = GatewayFacade.getInstance(
-      CoreNames.GATEWAY,
-    );
+    const gatewayFacade = GatewayFacade.getInstance(CoreNames.GATEWAY);
 
     // Get the config proxy
     const configProxy = gatewayFacade.retrieveProxy(
@@ -57,9 +55,7 @@ export const registerListServersTool = (server: McpServer): void => {
     for (const serverConfig of configProxy.servers) {
       if (serverConfig.autoConnect) {
         // Get the server facade
-        const serverFacade = ServerFacade.getInstance(
-          serverConfig.serverName,
-        );
+        const serverFacade = ServerFacade.getInstance(serverConfig.serverName);
 
         // Get the server initialization result
         const result = serverFacade.getServerInitializationResult();

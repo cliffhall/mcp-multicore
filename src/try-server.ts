@@ -23,6 +23,12 @@ while (!serverFacade.isReady() && waited < timeout) {
   waited += pollInterval;
 }
 
+if (!serverFacade.isReady()) {
+  console.error(
+    `Error: Server facade did not become ready within ${timeout / 1000} seconds.`,
+  );
+  process.exit(1);
+}
 // Get and log the cached capabilities
 const info = serverFacade.getServerInitializationResult();
 const divider = "-".repeat(80);
