@@ -30,6 +30,7 @@
 	"format:fix": "prettier --write ./src",
     "try:gateway": "node dist/esm/try-gateway.js",
     "try:dashboard": "node dist/esm/try-dashboard.js",
+	"try:server": "node dist/esm/try-server.js",
     "test": "jest $npm_package_directories_test --coverage",
     "lint": "eslint ./src",
     "lint:fix": "eslint ./src --fix",

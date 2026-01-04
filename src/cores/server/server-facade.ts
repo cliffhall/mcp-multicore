@@ -3,6 +3,8 @@ import { LoggingFacade } from "../../common/index.js";
 import { ServerNotifications } from "../../common/index.js";
 import { ServerConfig } from "../../common/index.js";
 import { StartupServerCommand } from "./controller/startup/startup-server-command.js";
+import type { InitializeResult } from "@modelcontextprotocol/sdk/types.js";
+import { CapabilitiesAndInfoProxy } from "./model/capabilities-and-info-proxy.js";
 
 /**
  * ServerFacade
@@ -57,6 +59,20 @@ export class ServerFacade extends LoggingFacade {
    */
   public setReady(): void {
     this.ready = true;
+  }
+
+  /**
+   * Retrieves server information if the CapabilitiesAndInfoProxy exists.
+   *
+   * @return {InitializeResult | void} The server information encapsulated in an InitializeResult object if available, otherwise undefined.
+   */
+  public getServerInitializationResult(): InitializeResult | void {
+    if (this.hasProxy(CapabilitiesAndInfoProxy.NAME)) {
+      const p = this.retrieveProxy(
+        CapabilitiesAndInfoProxy.NAME,
+      ) as CapabilitiesAndInfoProxy;
+      return p.result;
+    }
   }
 
   protected ready: boolean = false;
