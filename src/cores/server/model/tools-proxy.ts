@@ -20,6 +20,6 @@ export class ToolsProxy extends Proxy {
   }
 
   get tools(): Tool[] {
-    return this.data as Tool[] | [];
+    return this.data as Tool[] ?? [];
   }
 }

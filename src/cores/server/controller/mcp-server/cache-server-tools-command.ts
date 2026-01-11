@@ -116,7 +116,7 @@ export class CacheServerToolsCommand extends AsyncCommand {
             const toolsProxy = this.facade.retrieveProxy(
               ToolsProxy.NAME,
             ) as ToolsProxy;
-            toolsProxy.tools = toolsProxy.tools = tools;
+            toolsProxy.tools = tools;
           } else {
             this.facade.registerProxy(new ToolsProxy(tools));
           }

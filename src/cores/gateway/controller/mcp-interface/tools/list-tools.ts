@@ -78,8 +78,8 @@ export const registerListToolsTool = (server: McpServer): void => {
         for (const tool of tools) {
           list.push({
             name: tool?.name,
-            title: tool?.title,
-            description: tool?.description,
+            title: tool.title,
+            description: tool.description,
           });
         }
       }
