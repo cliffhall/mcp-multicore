@@ -7,9 +7,11 @@ An MCP Gateway implemented with PureMVC MultiCore and its Pipes Utility.
 ## Table of Contents
 <!-- TOC -->
 * [MCP-MultiCore](#mcp-multicore)
+  * [Table of Contents](#table-of-contents)
   * [Docs](#docs)
   * [Progress](#progress)
   * [WIP](#wip)
+    * [Server core](#server-core)
     * [Build the MCP Interface's server discovery and calling capabilities](#build-the-mcp-interfaces-server-discovery-and-calling-capabilities)
     * [Build the Dashboard's data access interface](#build-the-dashboards-data-access-interface)
 * [The Cores](#the-cores)
@@ -40,12 +42,16 @@ An MCP Gateway implemented with PureMVC MultiCore and its Pipes Utility.
 * [x] Config-driven **Gateway**, **Dashboard**, and (multiple) **Server Cores** initialized and plumbed.
 * [x] Front-end MCP Interface implemented in **Gateway Core**
 * [x] All client requests being sent to the **Dashboard Core** and tracked in streams by Core and ClientId
-* [x] STDIO servers configured for auto-connect are started, transports proxied, initialized, and their capabilities, info, instructions, and _meta are proxied.
+* [x] STDIO servers configured for auto-connect are started, transports proxied, initialized, and their capabilities, info, instructions, _meta, and tools are proxied.
 
 ## WIP
+### Server core
+* [ ] Connect to SSE server
+* [ ] Connect to StreamableHttp server
+
 ### Build the MCP Interface's server discovery and calling capabilities
 * [x] List available servers tool
-* [ ] List tools on a server
+* [x] List tools on a server
 * [ ] Invoke a tool
 * [ ] List resources on a server
 * [ ] Retrieve resource from a server
@@ -235,7 +241,10 @@ MCP Multicore Gateway operational log output is displayed on `STDERR` and is opt
                   ✔︎ STDIO server connected for server-everything
                   ⚙️ CacheServerInfoCommand - Cache initialization result for server-everything
                      💾 CapabilitiesAndInfoProxy - Registered for Core: server-everything
-                  ✔︎ Server info cached for server-everything
+                  ✔︎ Server capabilities and info cached for server-everything
+                  ⚙️ CacheServerToolsCommand - Cache tools for server-everything
+                     💾 ToolsProxy - Registered for Core: server-everything
+                  ✔︎ 11 Server tools cached for server-everything
                🧩 GatewayJunctionMediator - Accepting output pipe [to-server-everything]
                🧩 ServerJunctionMediator - Accepting input pipe [from-gateway]
                🧩 GatewayJunctionMediator - Accepting input pipe [from-server-everything]
@@ -250,6 +259,15 @@ MCP Multicore Gateway operational log output is displayed on `STDERR` and is opt
                ⚙️ PrepareServerViewCommand - Preparing Server View for server-filesystem
                   🧩 ServerJunctionMediator - Registered
                   ✔︎ Server View prepared
+               📋 ConnectMcpServerCommand - Auto-connecting MCP Server for server-filesystem
+                  ⚙️ ConnectStdioServerCommand - Start STDIO server for server-filesystem
+                  ✔︎ STDIO server connected for server-filesystem
+                  ⚙️ CacheServerInfoCommand - Cache initialization result for server-filesystem
+                     💾 CapabilitiesAndInfoProxy - Registered for Core: server-filesystem
+                  ✔︎ Server capabilities and info cached for server-filesystem
+                  ⚙️ CacheServerToolsCommand - Cache tools for server-filesystem
+                     💾 ToolsProxy - Registered for Core: server-filesystem
+                  ✔︎ 14 Server tools cached for server-filesystem
                🧩 GatewayJunctionMediator - Accepting output pipe [to-server-filesystem]
                🧩 ServerJunctionMediator - Accepting input pipe [from-gateway]
                🧩 GatewayJunctionMediator - Accepting input pipe [from-server-filesystem]

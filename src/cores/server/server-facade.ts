@@ -3,8 +3,12 @@ import { LoggingFacade } from "../../common/index.js";
 import { ServerNotifications } from "../../common/index.js";
 import { ServerConfig } from "../../common/index.js";
 import { StartupServerCommand } from "./controller/startup/startup-server-command.js";
-import type { InitializeResult } from "@modelcontextprotocol/sdk/types.js";
+import type {
+  InitializeResult,
+  Tool,
+} from "@modelcontextprotocol/sdk/types.js";
 import { CapabilitiesAndInfoProxy } from "./model/capabilities-and-info-proxy.js";
+import { ToolsProxy } from "./model/tools-proxy.js";
 
 /**
  * ServerFacade
@@ -72,6 +76,18 @@ export class ServerFacade extends LoggingFacade {
         CapabilitiesAndInfoProxy.NAME,
       ) as CapabilitiesAndInfoProxy;
       return p.result;
+    }
+  }
+
+  /**
+   * Retrieves the list of tools from the ToolsProxy if the proxy exists.
+   *
+   * @return {Tool[] | void} The list of tools if the proxy is available, otherwise undefined.
+   */
+  public getToolsList(): Tool[] | void {
+    if (this.hasProxy(ToolsProxy.NAME)) {
+      const p = this.retrieveProxy(ToolsProxy.NAME) as ToolsProxy;
+      return p.tools;
     }
   }
 

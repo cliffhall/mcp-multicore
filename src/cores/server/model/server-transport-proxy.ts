@@ -6,7 +6,7 @@ export class ServerTransportProxy extends Proxy {
   static NAME: string = "ServerTransportProxy";
 
   constructor(transport?: Transport) {
-    super(ServerTransportProxy.NAME, transport);
+    super(ServerTransportProxy.NAME, { nextId: 1, transport });
   }
 
   onRegister() {
@@ -19,10 +19,16 @@ export class ServerTransportProxy extends Proxy {
   }
 
   set transport(t: Transport) {
-    this.data = t;
+    this.data.transport = t;
   }
 
   get transport() {
-    return this.data as Transport;
+    return this.data.transport as Transport;
+  }
+
+  get nextId() {
+    const id = this.data.nextId;
+    this.data.nextId++;
+    return id as number;
   }
 }

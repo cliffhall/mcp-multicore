@@ -48,7 +48,7 @@ export class ConnectStdioServerCommand extends AsyncCommand {
       // Extract the outgoing message body and send to the junction mediator
       const cb = transport.onmessage;
       transport.onmessage = (message) => {
-        this.sendNotification(ServerNotifications.SERVER_RESPONSE, {
+        this.sendNotification(ServerNotifications.SERVER_MESSAGE, {
           type: PipeMessageType.NORMAL,
           header: {
             core: this.multitonKey,

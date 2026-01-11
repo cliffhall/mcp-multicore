@@ -60,7 +60,7 @@ export class ManageSseTransportsCommand extends AsyncCommand {
         const clientId = Array.isArray(clientIdHeader)
           ? clientIdHeader[0]
           : clientIdHeader;
-        this.sendNotification(GatewayNotifications.CLIENT_REQUEST, {
+        this.sendNotification(GatewayNotifications.CLIENT_MESSAGE, {
           type: PipeMessageType.NORMAL,
           header: {
             core: CoreNames.GATEWAY,
