@@ -23,7 +23,7 @@ export class CacheServerInfoCommand extends AsyncCommand {
     // Get the transport
     const transport = serverTransportProxy.transport;
     if (!transport) {
-      f.log(`❌ No transport stored ${this.multitonKey}`, 7);
+      f.log(`❌  No transport stored ${this.multitonKey}`, 7);
       return;
     }
 
@@ -42,23 +42,27 @@ export class CacheServerInfoCommand extends AsyncCommand {
         // Set the new error handler
         transport.onerror = (error) => {
           f.log(
-            `❌ Server info cache failed for ${this.multitonKey}: ${error}`,
+            `❌  Server info cache failed for ${this.multitonKey}: ${error}`,
             7,
           );
+          if (oldErrorHandler) oldErrorHandler(error);
           replaceHandlers();
           reject(error);
         };
 
         // Set the new onmessage handler
         transport.onmessage = (message: JSONRPCMessage) => {
+          if (oldMessageHandler) oldMessageHandler(message);
           replaceHandlers();
           resolve(message["result"]);
         };
 
+        const id = serverTransportProxy.nextId;
+
         // Send the initialize request
         transport.send({
           jsonrpc: "2.0",
-          id: 1,
+          id,
           method: "initialize",
           params: ClientInfo,
         });

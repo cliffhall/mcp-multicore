@@ -29,7 +29,7 @@ export class ManageStdioTransportCommand extends AsyncCommand {
       // Extract incoming request body and send to junction mediator
       const cb = transport.onmessage;
       transport.onmessage = (message) => {
-        this.sendNotification(GatewayNotifications.CLIENT_REQUEST, {
+        this.sendNotification(GatewayNotifications.CLIENT_MESSAGE, {
           type: PipeMessageType.NORMAL,
           header: {
             core: CoreNames.GATEWAY,

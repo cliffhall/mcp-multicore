@@ -18,7 +18,7 @@ const config = {
       serverName: "server-everything",
       transport: "stdio",
       command: "npx",
-      args: ["-y", "@modelcontextprotocol/server-everything"],
+      args: ["-y", "@modelcontextprotocol/server-everything@2025.8.18"],
       autoConnect: true,
     },
     {
@@ -26,7 +26,7 @@ const config = {
       transport: "stdio",
       command: "npx",
       args: ["-y", "@modelcontextprotocol/server-filesystem"],
-      autoConnect: false,
+      autoConnect: true,
     },
   ],
 } as GatewayConfig;

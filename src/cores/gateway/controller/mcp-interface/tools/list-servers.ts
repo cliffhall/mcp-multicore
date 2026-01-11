@@ -33,7 +33,6 @@ const config = {
 };
 
 /**
- *
  * Registers the 'list-servers' tool.
  *
  * The registered tool, when invoked, returns a list of servers along with their titles and descriptions.
@@ -60,7 +59,7 @@ export const registerListServersTool = (server: McpServer): void => {
         // Get the server initialization result
         const result = serverFacade.getServerInitializationResult();
 
-        // Create list entry
+        // Create the list entry
         if (result) {
           info.push({
             name: serverConfig.serverName,

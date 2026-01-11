@@ -33,7 +33,7 @@ export class GatewayJunctionMediator extends JunctionMediator {
   listNotificationInterests(): string[] {
     return [
       ...super.listNotificationInterests(),
-      GatewayNotifications.CLIENT_REQUEST,
+      GatewayNotifications.CLIENT_MESSAGE,
     ];
   }
 
@@ -55,7 +55,7 @@ export class GatewayJunctionMediator extends JunctionMediator {
         );
         break;
 
-      case GatewayNotifications.CLIENT_REQUEST:
+      case GatewayNotifications.CLIENT_MESSAGE:
         f.log(
           `📥 GatewayJunctionMediator - Sending client request to dashboard`,
           5,

@@ -4,6 +4,7 @@ import type { ILoggingFacade } from "../../../../common/index.js";
 import { ConnectStdioServerCommand } from "../mcp-server/connect-stdio-server-command.js";
 import { ServerConfigProxy } from "../../model/server-config-proxy.js";
 import { CacheServerInfoCommand } from "../mcp-server/cache-server-info-command.js";
+import { CacheServerToolsCommand } from "../mcp-server/cache-server-tools-command.js";
 
 export class ConnectMcpServerCommand extends AsyncMacroCommand {
   /**
@@ -26,11 +27,11 @@ export class ConnectMcpServerCommand extends AsyncMacroCommand {
 
       // Chose the right command to start this server
       switch (serverConfigProxy.transport) {
-        case "streamable-http":
-          //this.addSubCommand(() => new ConnectStreamableHttpServerCommand());
-          break;
         case "stdio":
           this.addSubCommand(() => new ConnectStdioServerCommand());
+          break;
+        case "streamable-http":
+          //this.addSubCommand(() => new ConnectStreamableHttpServerCommand());
           break;
         case "sse":
           //this.addSubCommand(() => new ConnectSseServerCommand());
@@ -39,6 +40,9 @@ export class ConnectMcpServerCommand extends AsyncMacroCommand {
 
       // Run the cache capabilities subcommand after connecting
       this.addSubCommand(() => new CacheServerInfoCommand());
+
+      // Nex, run the cache server tools subcommand
+      this.addSubCommand(() => new CacheServerToolsCommand());
     }
 
     super.execute(note);

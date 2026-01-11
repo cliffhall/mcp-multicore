@@ -10,13 +10,15 @@ export class CoreNames {
 // Gateway Core notifications
 export class GatewayNotifications {
   static readonly STARTUP = "gateway/startup";
-  static readonly CLIENT_REQUEST = "gateway/request/client";
+  static readonly CLIENT_MESSAGE = "gateway/client/message";
+  static readonly CLIENT_ERROR = "gateway/client/error";
 }
 
 // Server Core notifications
 export class ServerNotifications {
   static readonly STARTUP = "server/startup";
-  static readonly SERVER_RESPONSE = "gateway/response/server";
+  static readonly SERVER_MESSAGE = "server/message";
+  static readonly SERVER_ERROR = "server/error";
 }
 
 // Dashboard Core notifications
