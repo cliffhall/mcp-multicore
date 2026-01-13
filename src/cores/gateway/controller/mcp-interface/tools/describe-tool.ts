@@ -3,7 +3,7 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import {
   CallToolResult,
   type Tool,
-//  ToolSchema,
+  //  ToolSchema,
 } from "@modelcontextprotocol/sdk/types.js";
 import { GatewayFacade } from "../../../gateway-facade.js";
 import { CoreNames } from "../../../../../common/index.js";
@@ -27,7 +27,7 @@ const config = {
   inputSchema: DescribeToolInputSchema,
 };
 
-console.error(config)
+console.error(config);
 /**
  * Registers the 'describe-tool' tool.
  *
