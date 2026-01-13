@@ -52,6 +52,7 @@ An MCP Gateway implemented with PureMVC MultiCore and its Pipes Utility.
 ### Build the MCP Interface's server discovery and calling capabilities
 * [x] List available servers tool
 * [x] List tools on a server
+* [x] Describe tool (full, with schemas)
 * [ ] Invoke a tool
 * [ ] List resources on a server
 * [ ] Retrieve resource from a server

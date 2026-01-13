@@ -15,6 +15,10 @@ export class ToolsProxy extends Proxy {
     f.log(`💾 ToolsProxy - Registered for Core: ${this.multitonKey}`, 7);
   }
 
+  describeTool(name: string): Tool | undefined {
+    return this.tools.find((tool) => tool.name === name) ?? undefined;
+  }
+
   set tools(tools: Tool[]) {
     this.data = tools;
   }
