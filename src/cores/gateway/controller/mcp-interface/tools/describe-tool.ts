@@ -27,7 +27,6 @@ const config = {
   inputSchema: DescribeToolInputSchema,
 };
 
-console.error(config);
 /**
  * Registers the 'describe-tool' tool.
  *
