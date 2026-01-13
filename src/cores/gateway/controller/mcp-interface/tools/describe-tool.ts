@@ -42,7 +42,7 @@ export const registerDescribeToolTool = (server: McpServer): void => {
     const serverName = validatedArgs.serverName;
     const toolName = validatedArgs.toolName;
     let tool: Tool | void = undefined;
-    let response;
+    let response: CallToolResult;
 
     // Get the gateway facade
     const gatewayFacade = GatewayFacade.getInstance(CoreNames.GATEWAY);
@@ -74,7 +74,7 @@ export const registerDescribeToolTool = (server: McpServer): void => {
     } else {
       let message: string;
       if (serverConfig && serverConfig.autoConnect) {
-        message = `Tool ${toolName} not found on server "${serverName}`;
+        message = `Tool ${toolName} not found on server "${serverName}".`;
       } else {
         message = `Server "${serverName}" ${serverConfig ? "not connected" : "not found"}.`;
       }

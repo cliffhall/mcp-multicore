@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
-import { CallToolResult } from "@modelcontextprotocol/sdk/types.js";
+import {CallToolResult, type InitializeResult} from "@modelcontextprotocol/sdk/types.js";
 import { GatewayFacade } from "../../../gateway-facade.js";
 import { CoreNames } from "../../../../../common/index.js";
 import { GatewayConfigProxy } from "../../../model/gateway-config-proxy.js";
@@ -57,14 +57,14 @@ export const registerListServersTool = (server: McpServer): void => {
         const serverFacade = ServerFacade.getInstance(serverConfig.serverName);
 
         // Get the server initialization result
-        const result = serverFacade.getServerInitializationResult();
+        const result: InitializeResult | undefined = serverFacade.getServerInitializationResult();
 
         // Create the list entry
         if (result) {
           info.push({
             name: serverConfig.serverName,
-            title: result.serverInfo?.title,
-            description: result.serverInfo?.description,
+            title: result?.serverInfo?.title,
+            description: result?.serverInfo?.description,
           });
         }
       }

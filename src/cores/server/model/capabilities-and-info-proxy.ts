@@ -18,27 +18,27 @@ export class CapabilitiesAndInfoProxy extends Proxy {
     );
   }
 
-  get result(): InitializeResult {
+  get result(): InitializeResult | undefined {
     return this.data as InitializeResult;
   }
 
   get protocolVersion() {
-    return this.result.protocolVersion;
+    return this.result?.protocolVersion;
   }
 
   get capabilities() {
-    return this.result.capabilities;
+    return this.result?.capabilities;
   }
 
   get serverInfo() {
-    return this.result.serverInfo;
+    return this.result?.serverInfo;
   }
 
   get instructions() {
-    return this.result.instructions;
+    return this.result?.instructions;
   }
 
   get _meta() {
-    return this.result._meta;
+    return this.result?._meta;
   }
 }

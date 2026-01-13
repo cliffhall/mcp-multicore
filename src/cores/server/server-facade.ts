@@ -68,40 +68,46 @@ export class ServerFacade extends LoggingFacade {
   /**
    * Retrieves server information if the CapabilitiesAndInfoProxy exists.
    *
-   * @return {InitializeResult | void} The server information encapsulated in an InitializeResult object if available, otherwise undefined.
+   * @return {InitializeResult | undefined} The server information encapsulated in an InitializeResult object if available, otherwise undefined.
    */
-  public getServerInitializationResult(): InitializeResult | void {
+  public getServerInitializationResult(): InitializeResult | undefined {
+    let result: InitializeResult | undefined;
     if (this.hasProxy(CapabilitiesAndInfoProxy.NAME)) {
       const p = this.retrieveProxy(
         CapabilitiesAndInfoProxy.NAME,
       ) as CapabilitiesAndInfoProxy;
-      return p.result;
+      result = p.result;
     }
+    return result;
   }
 
   /**
    * Retrieves the list of tools from the ToolsProxy if the proxy exists.
    *
-   * @return {Tool[] | void} The list of tools if the proxy is available, otherwise undefined.
+   * @return {Tool[] | undefined} The list of tools if the proxy is available, otherwise undefined.
    */
-  public getToolsList(): Tool[] | void {
+  public getToolsList(): Tool[] | undefined {
+    let tools: Tool[] | undefined;
     if (this.hasProxy(ToolsProxy.NAME)) {
       const p = this.retrieveProxy(ToolsProxy.NAME) as ToolsProxy;
-      return p.tools;
+      tools = p.tools;
     }
+    return tools;
   }
 
   /**
    * Provides a description or details of a specific tool by its name.
    *
    * @param {string} name - The name of the tool to describe.
-   * @return {Tool | void} The tool's full description if found, or void if no description is available.
+   * @return {Tool | undefined} The tool's full description if found, or void if no description is available.
    */
-  public describeTool(name: string): Tool | void {
+  public describeTool(name: string): Tool | undefined {
+    let tool: Tool | undefined;
     if (this.hasProxy(ToolsProxy.NAME)) {
       const p = this.retrieveProxy(ToolsProxy.NAME) as ToolsProxy;
-      return p.describeTool(name);
+      tool = p.describeTool(name);
     }
+    return tool;
   }
 
   protected ready: boolean = false;

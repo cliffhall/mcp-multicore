@@ -50,7 +50,7 @@ export const registerListToolsTool = (server: McpServer): void => {
   server.registerTool(name, config, async (args): Promise<CallToolResult> => {
     const validatedArgs = ListToolsInputSchema.parse(args);
     const serverName = validatedArgs.serverName;
-    let response;
+    let response: CallToolResult;
 
     // Get the gateway facade
     const gatewayFacade = GatewayFacade.getInstance(CoreNames.GATEWAY);
@@ -71,7 +71,7 @@ export const registerListToolsTool = (server: McpServer): void => {
       const serverFacade = ServerFacade.getInstance(serverConfig.serverName);
 
       // Get the tool list
-      const tools: Tool[] | void = serverFacade.getToolsList();
+      const tools: Tool[] | undefined = serverFacade.getToolsList();
 
       // Create the list entries
       if (tools && tools.length > 0) {
