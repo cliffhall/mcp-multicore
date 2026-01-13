@@ -91,5 +91,18 @@ export class ServerFacade extends LoggingFacade {
     }
   }
 
+  /**
+   * Provides a description or details of a specific tool by its name.
+   *
+   * @param {string} name - The name of the tool to describe.
+   * @return {Tool | void} The tool's full description if found, or void if no description is available.
+   */
+  public describeTool(name: string): Tool | void {
+    if (this.hasProxy(ToolsProxy.NAME)) {
+      const p = this.retrieveProxy(ToolsProxy.NAME) as ToolsProxy;
+      return p.describeTool(name);
+    }
+  }
+
   protected ready: boolean = false;
 }

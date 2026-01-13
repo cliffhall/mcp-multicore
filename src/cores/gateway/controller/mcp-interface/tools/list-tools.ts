@@ -42,7 +42,7 @@ const config = {
  * Registers the 'list-tools' tool.
  *
  * The registered tool, when invoked, returns a list of tools for the connected server,
- * along with their titles and descriptions.
+ * including their names, titles, and descriptions.
  *
  * @param {McpServer} server - The server instance to which the tool will be registered.
  */
@@ -50,6 +50,7 @@ export const registerListToolsTool = (server: McpServer): void => {
   server.registerTool(name, config, async (args): Promise<CallToolResult> => {
     const validatedArgs = ListToolsInputSchema.parse(args);
     const serverName = validatedArgs.serverName;
+    let response;
 
     // Get the gateway facade
     const gatewayFacade = GatewayFacade.getInstance(CoreNames.GATEWAY);
@@ -59,13 +60,12 @@ export const registerListToolsTool = (server: McpServer): void => {
       GatewayConfigProxy.NAME,
     ) as GatewayConfigProxy;
 
-    // Build entries for each connected server
-    const list: ToolEntry[] = [];
     const serverConfig = configProxy.servers.find(
       (config) => config.serverName === serverName,
     );
 
-    let response;
+    // Extract a lightweight list of tools from the server core
+    const list: ToolEntry[] = [];
     if (serverConfig && serverConfig.autoConnect) {
       // Get the server facade
       const serverFacade = ServerFacade.getInstance(serverConfig.serverName);
@@ -96,7 +96,7 @@ export const registerListToolsTool = (server: McpServer): void => {
         content: [
           {
             type: "text",
-            text: `Server "${serverName}" not found or not connected.`,
+            text: `Server "${serverName}" ${serverConfig ? "not connected" : "not found"}.`,
           },
         ],
         isError: true,
