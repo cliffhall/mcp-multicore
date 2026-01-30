@@ -46,6 +46,7 @@ An MCP Gateway implemented with PureMVC MultiCore and its Pipes Utility.
 
 ## WIP
 ### Server core
+* [x] Connect to STDIO server
 * [ ] Connect to SSE server
 * [ ] Connect to StreamableHttp server
 

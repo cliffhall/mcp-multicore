@@ -17,6 +17,7 @@ export const DescribeToolInputSchema = z.object({
 });
 
 // Tool output schema
+// Note: there is an SDK issue with using the tool schema as the output schema.
 //const DescribeToolOutputSchema =  z.object(ToolSchema);
 
 // Tool configuration
@@ -60,7 +61,7 @@ export const registerDescribeToolTool = (server: McpServer): void => {
       // Get the server facade
       const serverFacade = ServerFacade.getInstance(serverConfig.serverName);
 
-      // Get the tool list
+      // Get the tool
       tool = serverFacade.describeTool(toolName);
     }
 
