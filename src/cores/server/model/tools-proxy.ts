@@ -15,6 +15,10 @@ export class ToolsProxy extends Proxy {
     f.log(`💾 ToolsProxy - Registered for Core: ${this.multitonKey}`, 7);
   }
 
+  hasTool(name: string): boolean {
+    return !!this.tools.find((tool) => tool.name === name);
+  }
+
   describeTool(name: string): Tool | undefined {
     return this.tools.find((tool) => tool.name === name) ?? undefined;
   }
