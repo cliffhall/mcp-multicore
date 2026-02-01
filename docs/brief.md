@@ -12,7 +12,9 @@ so we'll need to design a system that can:
 
 ### Multicore Architecture
 - PureMVC Cores are self-contained a MVC applications
-- Cores communicate with each other via Pipes (PureMVC's inter-core communication utility)
+- Cores communicate with each other in two ways 
+  - Asynchronously via PipeMessages (PureMVC's inter-core messaging utility) 
+  - Synchronously via methods exposed on each other's Facade implementations
 - A main "Gateway Core" coordinates traffic between Server Cores and client connections
 - Each MCP server connection runs in its own PureMVC Core
 - All traffic between Gateway and Server cores is tee'd into the Dashboard core 
@@ -38,7 +40,7 @@ Client ← Gateway Core ← Pipes ← Server Core ← MCP Server
 
 ## Key TypeScript Considerations
 
-Since you're learning TypeScript, here are some patterns you'll want to use:
+Here are some patterns you'll want to use:
 
 - **Strong typing for MCP protocol messages** (define interfaces for all message types and avoid using `any`)
 - **Generic Proxy classes** for type-safe data handling
