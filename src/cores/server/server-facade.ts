@@ -7,7 +7,7 @@ import type {
   InitializeResult,
   Tool,
 } from "@modelcontextprotocol/sdk/types.js";
-import { CapabilitiesAndInfoProxy } from "./model/capabilities-and-info-proxy.js";
+import { ServerInfoProxy } from "./model/server-info-proxy.js";
 import { ToolsProxy } from "./model/tools-proxy.js";
 
 /**
@@ -72,10 +72,8 @@ export class ServerFacade extends LoggingFacade {
    */
   public getServerInitializationResult(): InitializeResult | undefined {
     let result: InitializeResult | undefined;
-    if (this.hasProxy(CapabilitiesAndInfoProxy.NAME)) {
-      const p = this.retrieveProxy(
-        CapabilitiesAndInfoProxy.NAME,
-      ) as CapabilitiesAndInfoProxy;
+    if (this.hasProxy(ServerInfoProxy.NAME)) {
+      const p = this.retrieveProxy(ServerInfoProxy.NAME) as ServerInfoProxy;
       result = p.result;
     }
     return result;

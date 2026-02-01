@@ -49,7 +49,7 @@ const options: ServerOptions = {
 // MCP Interface Configuration
 export const MCPInterfaceConfig = { implementation, options };
 
-export const ClientInfo = {
+export const ClientIdentity = {
   protocolVersion: "2024-11-05",
   capabilities: {
     roots: {

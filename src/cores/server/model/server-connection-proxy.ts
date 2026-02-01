@@ -1,19 +1,20 @@
 import { Transport } from "@modelcontextprotocol/sdk/shared/transport.js";
 import { Proxy } from "@puremvc/puremvc-typescript-multicore-framework";
 import type { ILoggingFacade } from "../../../common/index.js";
+import type { Client } from "@modelcontextprotocol/sdk/client/index.js";
 
-export class ServerTransportProxy extends Proxy {
-  static NAME: string = "ServerTransportProxy";
+export class ServerConnectionProxy extends Proxy {
+  static NAME: string = "ServerConnectionProxy";
 
-  constructor(transport?: Transport) {
-    super(ServerTransportProxy.NAME, { nextId: 1, transport });
+  constructor(client: Client, transport: Transport) {
+    super(ServerConnectionProxy.NAME, { nextId: 1, client, transport });
   }
 
   onRegister() {
     super.onRegister();
     const f = this.facade as ILoggingFacade;
     f.log(
-      `💾 ServerTransportProxy - Registered for Core: ${this.multitonKey}`,
+      `💾 ServerConnectionProxy - Registered for Core: ${this.multitonKey}`,
       6,
     );
   }
@@ -24,6 +25,10 @@ export class ServerTransportProxy extends Proxy {
 
   get transport() {
     return this.data.transport as Transport;
+  }
+
+  get client() {
+    return this.data.client as Client;
   }
 
   get nextId() {

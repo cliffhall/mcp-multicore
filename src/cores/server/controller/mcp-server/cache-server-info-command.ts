@@ -1,10 +1,13 @@
+import { JSONRPCMessage } from "@modelcontextprotocol/sdk/types.js";
 import { INotification } from "@puremvc/puremvc-typescript-multicore-framework";
 import { AsyncCommand } from "@puremvc/puremvc-typescript-util-async-command";
-import { ClientInfo, type ILoggingFacade } from "../../../../common/index.js";
-import { ServerTransportProxy } from "../../model/server-transport-proxy.js";
-import { CapabilitiesAndInfoProxy } from "../../model/capabilities-and-info-proxy.js";
+import { ServerConnectionProxy } from "../../model/server-connection-proxy.js";
+import { ServerInfoProxy } from "../../model/server-info-proxy.js";
 import type { InitializeResult } from "@modelcontextprotocol/sdk/types.js";
-import { JSONRPCMessage } from "@modelcontextprotocol/sdk/types.js";
+import {
+  ClientIdentity,
+  type ILoggingFacade,
+} from "../../../../common/index.js";
 
 export class CacheServerInfoCommand extends AsyncCommand {
   public execute(_notification: INotification): void {
@@ -16,12 +19,12 @@ export class CacheServerInfoCommand extends AsyncCommand {
     );
 
     // Get the Server Transport Proxy
-    const serverTransportProxy = this.facade.retrieveProxy(
-      ServerTransportProxy.NAME,
-    ) as ServerTransportProxy;
+    const serverConnectionProxy = this.facade.retrieveProxy(
+      ServerConnectionProxy.NAME,
+    ) as ServerConnectionProxy;
 
     // Get the transport
-    const transport = serverTransportProxy.transport;
+    const transport = serverConnectionProxy.transport;
     if (!transport) {
       f.log(`❌  No transport stored ${this.multitonKey}`, 7);
       return;
@@ -57,14 +60,14 @@ export class CacheServerInfoCommand extends AsyncCommand {
           resolve(message["result"]);
         };
 
-        const id = serverTransportProxy.nextId;
+        const id = serverConnectionProxy.nextId;
 
         // Send the initialize request
         transport.send({
           jsonrpc: "2.0",
           id,
           method: "initialize",
-          params: ClientInfo,
+          params: ClientIdentity,
         });
       });
     };
@@ -79,7 +82,7 @@ export class CacheServerInfoCommand extends AsyncCommand {
           );
         } else {
           this.facade.registerProxy(
-            new CapabilitiesAndInfoProxy(message as InitializeResult),
+            new ServerInfoProxy(message as InitializeResult),
           );
           f.log(
             `✔︎ Server capabilities and info cached for ${this.multitonKey}`,

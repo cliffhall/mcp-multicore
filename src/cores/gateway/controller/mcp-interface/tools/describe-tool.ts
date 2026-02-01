@@ -18,7 +18,9 @@ export const DescribeToolInputSchema = z.object({
 
 // Tool output schema
 // Note: there is an SDK issue with using the tool schema as the output schema.
-//const DescribeToolOutputSchema =  z.object(ToolSchema);
+// Error is "Custom types cannot be used in JSON Schema, and is because
+// the SDK uses z.custom. It will be fixed eventually
+// const DescribeToolOutputSchema =  z.object({tool:ToolSchema});
 
 // Tool configuration
 const name = "describe-tool";
@@ -67,9 +69,10 @@ export const registerDescribeToolTool = (server: McpServer): void => {
 
     if (tool) {
       // Compose the response
+      const content = { tool };
       response = {
-        structuredContent: tool,
-        content: [{ type: "text", text: JSON.stringify(tool, null, 2) }],
+        structuredContent: content,
+        content: [{ type: "text", text: JSON.stringify(content, null, 2) }],
       };
     } else {
       let message: string;

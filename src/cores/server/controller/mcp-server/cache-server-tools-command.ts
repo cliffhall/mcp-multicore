@@ -1,13 +1,13 @@
 import { INotification } from "@puremvc/puremvc-typescript-multicore-framework";
 import { AsyncCommand } from "@puremvc/puremvc-typescript-util-async-command";
 import { type ILoggingFacade } from "../../../../common/index.js";
-import { ServerTransportProxy } from "../../model/server-transport-proxy.js";
+import { ServerConnectionProxy } from "../../model/server-connection-proxy.js";
+import { ToolsProxy } from "../../model/tools-proxy.js";
 import type {
   JSONRPCErrorResponse,
   Tool,
 } from "@modelcontextprotocol/sdk/types.js";
 import { JSONRPCMessage } from "@modelcontextprotocol/sdk/types.js";
-import { ToolsProxy } from "../../model/tools-proxy.js";
 
 export class CacheServerToolsCommand extends AsyncCommand {
   public execute(_notification: INotification): void {
@@ -19,12 +19,12 @@ export class CacheServerToolsCommand extends AsyncCommand {
     );
 
     // Get the Server Transport Proxy
-    const serverTransportProxy = this.facade.retrieveProxy(
-      ServerTransportProxy.NAME,
-    ) as ServerTransportProxy;
+    const serverConnectionProxy = this.facade.retrieveProxy(
+      ServerConnectionProxy.NAME,
+    ) as ServerConnectionProxy;
 
     // Get the transport
-    const transport = serverTransportProxy.transport;
+    const transport = serverConnectionProxy.transport;
     if (!transport) {
       f.log(`❌ No transport stored ${this.multitonKey}`, 7);
       return;
@@ -81,7 +81,7 @@ export class CacheServerToolsCommand extends AsyncCommand {
 
         // Function to request tools list starting at cursor, if provided
         const sendToolListRequest = (cursor?: string) => {
-          const id = serverTransportProxy.nextId;
+          const id = serverConnectionProxy.nextId;
 
           // Create the tool list request
           let request: JSONRPCMessage = {

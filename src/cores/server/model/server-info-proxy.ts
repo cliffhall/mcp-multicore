@@ -2,11 +2,11 @@ import type { InitializeResult } from "@modelcontextprotocol/sdk/types.js";
 import { Proxy } from "@puremvc/puremvc-typescript-multicore-framework";
 import type { ILoggingFacade } from "../../../common/index.js";
 
-export class CapabilitiesAndInfoProxy extends Proxy {
+export class ServerInfoProxy extends Proxy {
   static NAME: string = "CapabilitiesAndInfoProxy";
 
   constructor(result?: InitializeResult) {
-    super(CapabilitiesAndInfoProxy.NAME, result);
+    super(ServerInfoProxy.NAME, result);
   }
 
   onRegister() {
